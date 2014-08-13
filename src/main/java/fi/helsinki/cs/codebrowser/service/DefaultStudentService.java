@@ -13,6 +13,7 @@ public class DefaultStudentService implements StudentService {
     @Override
     public Student find(final String studentId) {
 
-        return restTemplate.getForObject("http://localhost:8080/hy/participants/{studentId}", Student.class, studentId);
+        return restTemplate.getForObject("http://localhost:8080/hy/participants/{studentId}",
+                                         Student.class, studentId);
     }
 }

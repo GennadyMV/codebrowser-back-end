@@ -1,33 +1,16 @@
 package fi.helsinki.cs.codebrowser.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import java.util.Date;
 import java.util.List;
 
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.Temporal;
-import javax.persistence.Transient;
+public class Snapshot implements Comparable<Snapshot> {
 
-//@Entity
-public class Snapshot extends AbstractNamedPersistable implements Comparable<Snapshot> {
-
-    @JsonIgnore
-    @ManyToOne
-    private ExerciseAnswer exerciseAnswer;
+    private String id;
     private String type;
 
-    @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Date snapshotTime;
-
-    @OneToMany
     private List<SnapshotFile> files;
-
-    @Transient
     private Exercise exercise;
-
-    @Transient
     private CourseInfo course;
 
     private boolean compiles;
@@ -62,16 +45,6 @@ public class Snapshot extends AbstractNamedPersistable implements Comparable<Sna
         this.files = snapshotFiles;
     }
 
-    public ExerciseAnswer getExerciseAnswer() {
-
-        return exerciseAnswer;
-    }
-
-    public void setExerciseAnswer(final ExerciseAnswer exerciseAnswer) {
-
-        this.exerciseAnswer = exerciseAnswer;
-    }
-
     public Exercise getExercise() {
 
         return exercise;
@@ -100,6 +73,11 @@ public class Snapshot extends AbstractNamedPersistable implements Comparable<Sna
     public void setCompiles(final boolean compiles) {
 
         this.compiles = compiles;
+    }
+
+    public String getId() {
+
+        return id;
     }
 
     @Override

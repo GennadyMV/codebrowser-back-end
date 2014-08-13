@@ -16,12 +16,14 @@ public class DefaultCourseService implements CourseService {
     @Override
     public Collection<Course> findAll(final String studentId) {
 
-        return restTemplate.getForObject("http://localhost:8080/hy/participants/{studentId}/courses", List.class, studentId);
+        return restTemplate.getForObject("http://localhost:8080/hy/participants/{studentId}/courses",
+                                         List.class, studentId);
     }
 
     @Override
     public Course find(final String studentId, final String courseId) {
 
-        return restTemplate.getForObject("http://localhost:8080/hy/participants/{studentId}/courses/{courseId}", Course.class, studentId, courseId);
+        return restTemplate.getForObject("http://localhost:8080/hy/participants/{studentId}/courses/{courseId}",
+                                         Course.class, studentId, courseId);
     }
 }

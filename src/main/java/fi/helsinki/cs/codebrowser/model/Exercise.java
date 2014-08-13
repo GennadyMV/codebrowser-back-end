@@ -2,13 +2,12 @@ package fi.helsinki.cs.codebrowser.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import javax.persistence.ManyToOne;
+public class Exercise {
 
-//@Entity
-public class Exercise extends AbstractNamedPersistable {
+    private String id;
+    private String name;
 
     @JsonIgnore
-    @ManyToOne
     private Course course;
 
     public Course getCourse() {
@@ -19,5 +18,13 @@ public class Exercise extends AbstractNamedPersistable {
     public void setCourse(final Course course) {
 
         this.course = course;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
     }
 }

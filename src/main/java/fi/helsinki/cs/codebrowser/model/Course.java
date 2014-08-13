@@ -5,20 +5,14 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.ManyToMany;
-import javax.persistence.OneToMany;
-
-//@Entity
 public class Course {
 
     private String id;
     private String name;
 
     @JsonIgnore
-    @ManyToMany(mappedBy = "courses")
     private List<Student> students;
 
-    @OneToMany(mappedBy = "course")
     private List<Exercise> exercises;
 
     private int amountOfStudents;
@@ -76,11 +70,6 @@ public class Course {
     public String getName() {
 
         return name;
-    }
-
-    public void setName(final String name) {
-
-        this.name = name;
     }
 
     public String getId() {
