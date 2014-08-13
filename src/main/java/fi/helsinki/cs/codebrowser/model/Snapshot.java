@@ -41,11 +41,7 @@ public class Snapshot extends AbstractNamedPersistable implements Comparable<Sna
     @Transient
     private CourseInfo course;
 
-    @OneToMany
-    private List<Testresult> tests;
-
     private boolean compiles;
-    private Integer percentageOfTestsPassing;
 
     public String getType() {
 
@@ -215,45 +211,5 @@ public class Snapshot extends AbstractNamedPersistable implements Comparable<Sna
         }
 
         return lines;
-    }
-
-    public Integer getPercentageOfTestsPassing() {
-
-        //countPercentage();
-        return percentageOfTestsPassing;
-    }
-
-    public void setPercentageOfTestsPassing(final Integer percentageOfTestsPassing) {
-
-        this.percentageOfTestsPassing = percentageOfTestsPassing;
-    }
-
-    public List<Testresult> getTests() {
-
-        return tests;
-    }
-
-    public void setTests(final List<Testresult> tests) {
-
-        this.tests = tests;
-        countPercentage();
-    }
-
-    private void countPercentage() {
-
-        if (tests.isEmpty()) {
-            this.setPercentageOfTestsPassing(null);
-            return;
-        }
-
-        int count = 0;
-        for (Testresult test : tests) {
-            if (test.isPassed()) {
-                count++;
-            }
-        }
-
-        final double percentage = (count * 1.0 / tests.size()) * 100;
-        this.setPercentageOfTestsPassing((int) percentage);
     }
 }
