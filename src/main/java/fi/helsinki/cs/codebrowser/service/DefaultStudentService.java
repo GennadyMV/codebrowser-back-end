@@ -1,10 +1,11 @@
 package fi.helsinki.cs.codebrowser.service;
 
 import fi.helsinki.cs.codebrowser.model.Student;
+import fi.helsinki.cs.codebrowser.web.client.SnapshotApiRestTemplate;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
 
 @Service
 public class DefaultStudentService implements StudentService {
@@ -12,7 +13,8 @@ public class DefaultStudentService implements StudentService {
     @Value("${snapshot.api.url}")
     private String baseURL;
 
-    private final RestTemplate restTemplate = new RestTemplate();
+    @Autowired
+    private SnapshotApiRestTemplate restTemplate;
 
     @Override
     public Student find(final String studentId) {
