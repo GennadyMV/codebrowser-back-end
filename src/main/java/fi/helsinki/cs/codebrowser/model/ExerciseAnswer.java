@@ -7,13 +7,12 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
 import org.springframework.data.jpa.domain.AbstractPersistable;
 
-@Entity
+//@Entity
 public class ExerciseAnswer extends AbstractPersistable<Long> implements Serializable {
 
     @JsonIgnore

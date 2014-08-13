@@ -5,11 +5,10 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.File;
 import java.io.IOException;
 
-import javax.persistence.Entity;
 
 import org.apache.commons.io.FileUtils;
 
-@Entity
+//@Entity
 public class SnapshotFile extends AbstractNamedPersistable {
 
     @JsonIgnore

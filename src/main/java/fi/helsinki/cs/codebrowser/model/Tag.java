@@ -6,13 +6,12 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
 
-import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
 import org.springframework.data.jpa.domain.AbstractPersistable;
 
-@Entity
+//@Entity
 public class Tag extends AbstractPersistable<Long> implements Comparable<Tag> {
 
     @JoinColumn

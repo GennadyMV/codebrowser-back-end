@@ -9,7 +9,7 @@ import javax.persistence.MappedSuperclass;
 import org.springframework.data.jpa.domain.AbstractPersistable;
 
 @MappedSuperclass
-public abstract class AbstractNamedPersistable extends AbstractPersistable<Long> implements Serializable {
+public abstract class AbstractNamedPersistable extends AbstractPersistable<String> implements Serializable {
 
     private String name;
 

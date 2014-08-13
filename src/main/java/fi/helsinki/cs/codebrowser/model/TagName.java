@@ -3,13 +3,12 @@ package fi.helsinki.cs.codebrowser.model;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 
 /**
  * Text that can be shared by multiple tag instances.
  */
-@Entity
+//@Entity
 public class TagName extends AbstractNamedPersistable implements Comparable<TagName> {
 
     /**

@@ -2,10 +2,9 @@ package fi.helsinki.cs.codebrowser.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 
-@Entity
+//@Entity
 public class Exercise extends AbstractNamedPersistable {
 
     @JsonIgnore

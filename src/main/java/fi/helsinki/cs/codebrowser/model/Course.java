@@ -5,12 +5,14 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 
-@Entity
-public class Course extends AbstractNamedPersistable {
+//@Entity
+public class Course {
+
+    private String id;
+    private String name;
 
     @JsonIgnore
     @ManyToMany(mappedBy = "courses")
@@ -69,5 +71,20 @@ public class Course extends AbstractNamedPersistable {
     public void setAmountOfStudents(final int amountOfStudents) {
 
         this.amountOfStudents = amountOfStudents;
+    }
+
+    public String getName() {
+
+        return name;
+    }
+
+    public void setName(final String name) {
+
+        this.name = name;
+    }
+
+    public String getId() {
+
+        return id;
     }
 }
