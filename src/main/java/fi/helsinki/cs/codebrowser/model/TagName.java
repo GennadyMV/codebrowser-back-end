@@ -1,12 +1,9 @@
 package fi.helsinki.cs.codebrowser.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Entity;
-import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 
 /**
@@ -20,13 +17,6 @@ public class TagName extends AbstractNamedPersistable implements Comparable<TagN
      */
     @OneToMany(mappedBy = "tagName")
     private List<Tag> tags;
-
-    /**
-     * Categories that this tagName is listed in.
-     */
-    @ManyToMany
-    @JsonIgnoreProperties("tagnames")
-    private List<TagCategory> tagCategories;
 
     public List<Tag> getTags() {
 
@@ -57,39 +47,5 @@ public class TagName extends AbstractNamedPersistable implements Comparable<TagN
         }
 
         return getName().compareTo(o.getName());
-    }
-
-    public List<TagCategory> getTagCategories() {
-
-        if (tagCategories == null) {
-            return new ArrayList<>();
-        }
-
-        return tagCategories;
-    }
-
-    public void setTagCategories(final List<TagCategory> tagCategories) {
-
-        this.tagCategories = tagCategories;
-    }
-
-    /**
-     * Adds a category for tagName if category has not been added yet.
-     * @param tagCategory category to be added
-     * @return true if category was added, false otherwise
-     */
-    public boolean addTagCategory(final TagCategory tagCategory) {
-
-        if (!getTagCategories().contains(tagCategory)) {
-            getTagCategories().add(tagCategory);
-            return true;
-        }
-
-        return false;
-    }
-
-    public void removeTagCategory(final TagCategory tagCategory) {
-
-        getTagCategories().remove(tagCategory);
     }
 }
