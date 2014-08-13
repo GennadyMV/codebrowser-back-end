@@ -70,6 +70,7 @@ public class Tag extends AbstractPersistable<Long> implements Comparable<Tag> {
     }
 
     public Snapshot getSnapshot() {
+
         return snapshot;
     }
 

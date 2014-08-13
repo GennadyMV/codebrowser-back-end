@@ -3,10 +3,11 @@ package fi.helsinki.cs.codebrowser.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.util.Scanner;
+import java.io.IOException;
 
 import javax.persistence.Entity;
+
+import org.apache.commons.io.FileUtils;
 
 @Entity
 public class SnapshotFile extends AbstractNamedPersistable {
@@ -27,22 +28,11 @@ public class SnapshotFile extends AbstractNamedPersistable {
     }
 
     @JsonIgnore
-    public String getContent() throws FileNotFoundException {
+    public String getContent() throws IOException {
 
-        final Scanner scanner = new Scanner(new File(getFilepath()));
-        final StringBuilder result = new StringBuilder();
+        final File file = new File(getFilepath());
 
-        while (scanner.hasNextLine()) {
-            final String line = scanner.nextLine();
-
-            if (line.toLowerCase().contains("author")) {
-                continue;
-            }
-
-            result.append(line).append("\n");
-        }
-
-        return result.toString();
+        return FileUtils.readFileToString(file);
     }
 
     public long getFilesize() {
