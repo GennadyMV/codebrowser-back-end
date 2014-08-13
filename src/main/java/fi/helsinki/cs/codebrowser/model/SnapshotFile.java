@@ -2,8 +2,6 @@ package fi.helsinki.cs.codebrowser.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import fi.helsinki.cs.codebrowser.codeanalyzer.model.DiffList;
-
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
@@ -17,7 +15,6 @@ public class SnapshotFile extends AbstractNamedPersistable {
     private String filepath;
 
     private long filesize;
-    private DiffList diffs;
 
     public String getFilepath() {
 
@@ -56,15 +53,5 @@ public class SnapshotFile extends AbstractNamedPersistable {
     public void setFilesize(final long filesize) {
 
         this.filesize = filesize;
-    }
-
-    public DiffList getDiffs() {
-
-        return diffs;
-    }
-
-    public void setDiffs(final DiffList diffs) {
-
-        this.diffs = diffs;
     }
 }
