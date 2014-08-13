@@ -24,7 +24,7 @@ public class Testresult extends AbstractNamedPersistable {
     }
 
     public void setPassed(final boolean passed) {
+
         this.passed = passed;
     }
-
 }
