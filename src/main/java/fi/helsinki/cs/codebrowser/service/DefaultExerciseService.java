@@ -22,14 +22,14 @@ public class DefaultExerciseService implements ExerciseService {
     @Override
     public Collection<Exercise> findAll(final String studentId, final String courseId) {
 
-        return restTemplate.getForObject(baseURL + "{studentId}/courses/{courseId}/exercises",
+        return restTemplate.getForObject("{studentId}/courses/{courseId}/exercises",
                                          List.class, studentId, courseId);
     }
 
     @Override
     public Exercise find(final String studentId, final String courseId, final String exerciseId) {
 
-        return restTemplate.getForObject(baseURL + "{studentId}/courses/{courseId}/exercises/{exerciseId}",
+        return restTemplate.getForObject("{studentId}/courses/{courseId}/exercises/{exerciseId}",
                                          Exercise.class, studentId, courseId, exerciseId);
     }
 }

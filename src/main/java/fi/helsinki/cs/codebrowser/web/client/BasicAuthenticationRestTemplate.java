@@ -1,5 +1,6 @@
 package fi.helsinki.cs.codebrowser.web.client;
 
+import java.net.MalformedURLException;
 import org.apache.http.HttpHost;
 
 import org.springframework.web.client.RestOperations;
@@ -20,5 +21,11 @@ public class BasicAuthenticationRestTemplate extends RestTemplate implements Res
 
         final HttpComponentsClientHttpRequestFactoryPreemptiveAuthentication requestFactory = (HttpComponentsClientHttpRequestFactoryPreemptiveAuthentication) getRequestFactory();
         requestFactory.setCredentials(host, username, password);
+    }
+
+    public void setBaseUrl(final String baseUrl) throws MalformedURLException {
+
+        final HttpComponentsClientHttpRequestFactoryPreemptiveAuthentication requestFactory = (HttpComponentsClientHttpRequestFactoryPreemptiveAuthentication) getRequestFactory();
+        requestFactory.setBaseUrl(baseUrl);
     }
 }

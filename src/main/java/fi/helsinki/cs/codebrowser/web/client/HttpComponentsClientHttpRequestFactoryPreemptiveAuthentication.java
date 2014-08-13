@@ -1,6 +1,11 @@
 package fi.helsinki.cs.codebrowser.web.client;
 
+import java.io.IOException;
+
+import java.net.MalformedURLException;
 import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URL;
 
 import org.apache.http.HttpHost;
 import org.apache.http.auth.AuthScheme;
@@ -17,6 +22,7 @@ import org.apache.http.protocol.BasicHttpContext;
 import org.apache.http.protocol.HttpContext;
 
 import org.springframework.http.HttpMethod;
+import org.springframework.http.client.ClientHttpRequest;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 
 public class HttpComponentsClientHttpRequestFactoryPreemptiveAuthentication extends HttpComponentsClientHttpRequestFactory {
@@ -24,6 +30,7 @@ public class HttpComponentsClientHttpRequestFactoryPreemptiveAuthentication exte
     private final BasicHttpContext context;
     private final AuthCache cache;
     private final CredentialsProvider credentialsProvider;
+    private URL baseUrl;
 
     public HttpComponentsClientHttpRequestFactoryPreemptiveAuthentication() {
 
@@ -50,9 +57,28 @@ public class HttpComponentsClientHttpRequestFactoryPreemptiveAuthentication exte
         setHttpClient(HttpClients.custom().setDefaultCredentialsProvider(credentialsProvider).build());
     }
 
+    public void setBaseUrl(final String baseUrl) throws MalformedURLException {
+
+        this.baseUrl = new URL(baseUrl);
+    }
+
     @Override
     protected HttpContext createHttpContext(final HttpMethod httpMethod, final URI uri) {
 
         return context;
+    }
+
+    @Override
+    public ClientHttpRequest createRequest(final URI uri, final HttpMethod httpMethod) throws IOException {
+
+        final URI resolvedUri;
+
+        try {
+            resolvedUri = new URL(baseUrl, uri.getPath()).toURI();
+        } catch (URISyntaxException exception) {
+            return super.createRequest(uri, httpMethod);
+        }
+
+        return super.createRequest(resolvedUri, httpMethod);
     }
 }

@@ -1,5 +1,6 @@
 package fi.helsinki.cs.codebrowser.web.client;
 
+import java.net.MalformedURLException;
 import javax.annotation.PostConstruct;
 
 import org.apache.http.HttpHost;
@@ -22,9 +23,18 @@ public class SnapshotApiRestTemplate extends BasicAuthenticationRestTemplate {
     @Value("${snapshot.api.password}")
     private String password;
 
+    @Value("${snapshot.api.url}")
+    private String baseUrl;
+
     @PostConstruct
     public void initialise() {
 
         setCredentials(new HttpHost(hostname, port), username, password);
+
+        try {
+            setBaseUrl(baseUrl);
+        } catch (MalformedURLException exception) {
+            return;
+        }
     }
 }
