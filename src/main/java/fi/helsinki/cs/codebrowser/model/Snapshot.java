@@ -8,8 +8,8 @@ public class Snapshot implements Comparable<Snapshot> {
     private String id;
     private String type;
 
-    private Date snapshotTime;
-    private List<SnapshotFile> files;
+    private Date timestamp;
+    private List<String> files;
     private Exercise exercise;
     private CourseInfo course;
 
@@ -25,22 +25,22 @@ public class Snapshot implements Comparable<Snapshot> {
         this.type = type;
     }
 
-    public Date getSnapshotTime() {
+    public Date getTimestamp() {
 
-        return snapshotTime;
+        return timestamp;
     }
 
-    public void setSnapshotTime(final Date snapshotTime) {
+    public void setTimestamp(final Date timestamp) {
 
-        this.snapshotTime = snapshotTime;
+        this.timestamp = timestamp;
     }
 
-    public List<SnapshotFile> getFiles() {
+    public List<String> getFiles() {
 
         return files;
     }
 
-    public void setFiles(final List<SnapshotFile> snapshotFiles) {
+    public void setFiles(final List<String> snapshotFiles) {
 
         this.files = snapshotFiles;
     }
@@ -83,6 +83,6 @@ public class Snapshot implements Comparable<Snapshot> {
     @Override
     public int compareTo(final Snapshot o) {
 
-        return this.snapshotTime.compareTo(o.snapshotTime);
+        return this.timestamp.compareTo(o.timestamp);
     }
 }
