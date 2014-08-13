@@ -1,6 +1,7 @@
 package fi.helsinki.cs.codebrowser.model;
 
 import java.util.List;
+
 import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
 

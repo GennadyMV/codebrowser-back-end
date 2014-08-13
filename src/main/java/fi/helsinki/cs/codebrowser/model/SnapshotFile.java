@@ -1,10 +1,13 @@
 package fi.helsinki.cs.codebrowser.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import fi.helsinki.cs.codebrowser.codeanalyzer.model.DiffList;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
+
 import javax.persistence.Entity;
 
 @Entity
