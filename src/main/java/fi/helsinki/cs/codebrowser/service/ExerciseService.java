@@ -2,11 +2,13 @@ package fi.helsinki.cs.codebrowser.service;
 
 import fi.helsinki.cs.codebrowser.model.Exercise;
 
+import java.io.IOException;
 import java.util.Collection;
 
 public interface ExerciseService {
 
-    Collection<Exercise> findAll(String studentId, String courseId);
-    Exercise find(String studentId, String courseId, String exerciseId);
+    Collection<Exercise> findAllBy(String courseId) throws IOException;
+    Collection<Exercise> findAllBy(String studentId, String courseId);
+    Exercise findBy(String studentId, String courseId, String exerciseId);
 
 }

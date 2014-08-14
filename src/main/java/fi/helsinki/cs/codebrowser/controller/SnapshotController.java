@@ -12,26 +12,28 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping(value = "students/{studentId}/courses/{courseId}/exercises/{exerciseId}/snapshots")
+@RequestMapping(method = RequestMethod.GET,
+                value = "students/{studentId}/courses/{courseId}/exercises/{exerciseId}/snapshots",
+                produces = "application/json")
 public class SnapshotController {
 
     @Autowired
     private SnapshotService snapshotService;
 
-    @RequestMapping(method = RequestMethod.GET)
+    @RequestMapping
     public Collection<Snapshot> list(@PathVariable final String studentId,
                          @PathVariable final String courseId,
                          @PathVariable final String exerciseId) {
 
-        return snapshotService.findAll(studentId, courseId, exerciseId);
+        return snapshotService.findAllBy(studentId, courseId, exerciseId);
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "{snapshotId}")
+    @RequestMapping(value = "{snapshotId}")
     public Snapshot read(@PathVariable final String studentId,
                          @PathVariable final String courseId,
                          @PathVariable final String exerciseId,
                          @PathVariable final String snapshotId) {
 
-        return snapshotService.find(studentId, courseId, exerciseId, snapshotId);
+        return snapshotService.findBy(studentId, courseId, exerciseId, snapshotId);
     }
 }

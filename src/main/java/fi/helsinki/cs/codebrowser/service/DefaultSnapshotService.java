@@ -16,14 +16,14 @@ public class DefaultSnapshotService implements SnapshotService {
     private SnapshotApiRestTemplate restTemplate;
 
     @Override
-    public Collection<Snapshot> findAll(final String studentId, final String courseId, final String exerciseId) {
+    public Collection<Snapshot> findAllBy(final String studentId, final String courseId, final String exerciseId) {
 
         return restTemplate.getForObject("{studentId}/courses/{courseId}/exercises/{exerciseId}/snapshots",
                                          List.class, studentId, courseId, exerciseId);
     }
 
     @Override
-    public Snapshot find(final String studentId, final String courseId, final String exerciseId, final String snapshotId) {
+    public Snapshot findBy(final String studentId, final String courseId, final String exerciseId, final String snapshotId) {
 
         return restTemplate.getForObject("{studentId}/courses/{courseId}/exercises/{exerciseId}/snapshots/{snapshotId}",
                                          Snapshot.class, studentId, courseId, exerciseId, snapshotId);

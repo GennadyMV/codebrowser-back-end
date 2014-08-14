@@ -3,6 +3,8 @@ package fi.helsinki.cs.codebrowser.controller;
 import fi.helsinki.cs.codebrowser.model.Exercise;
 import fi.helsinki.cs.codebrowser.service.ExerciseService;
 
+import java.io.IOException;
+
 import java.util.Collection;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,23 +14,29 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping(value = "students/{studentId}/courses/{courseId}/exercises")
+@RequestMapping(method = RequestMethod.GET, produces = "application/json")
 public class ExerciseController {
 
     @Autowired
     private ExerciseService exerciseService;
 
-    @RequestMapping(method = RequestMethod.GET)
-    public Collection<Exercise> list(@PathVariable final String studentId, @PathVariable final String courseId) {
+    @RequestMapping(value = "courses/{courseId}/exercises")
+    public Collection<Exercise> list(@PathVariable final String courseId) throws IOException {
 
-        return exerciseService.findAll(studentId, courseId);
+        return exerciseService.findAllBy(courseId);
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "{exerciseId}")
+    @RequestMapping(value = "students/{studentId}/courses/{courseId}/exercises")
+    public Collection<Exercise> list(@PathVariable final String studentId, @PathVariable final String courseId) {
+
+        return exerciseService.findAllBy(studentId, courseId);
+    }
+
+    @RequestMapping(value = "students/{studentId}/courses/{courseId}/exercises/{exerciseId}")
     public Exercise read(@PathVariable final String studentId,
                          @PathVariable final String courseId,
                          @PathVariable final String exerciseId) {
 
-        return exerciseService.find(studentId, courseId, exerciseId);
+        return exerciseService.findBy(studentId, courseId, exerciseId);
     }
 }
