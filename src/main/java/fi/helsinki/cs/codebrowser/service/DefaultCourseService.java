@@ -36,30 +36,48 @@ public class DefaultCourseService implements CourseService {
         mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
     }
 
-    @Override
-    public Collection<Course> findAll() throws IOException {
+    private JsonNode fetchJson(final String url, final String... parameters) throws IOException {
 
         final HttpComponentsClientHttpRequestFactoryPreemptiveAuthentication requestFactory =
               (HttpComponentsClientHttpRequestFactoryPreemptiveAuthentication) tmcRestTemplate.getRequestFactory();
 
-        requestFactory.addParameter("api_version", "7");
+        for (String parameter : parameters) {
+            final String[] split = parameter.split("=");
 
-        final String json = tmcRestTemplate.getForObject("courses.json", String.class);
-        final JsonNode rootNode = mapper.readTree(json);
+            requestFactory.addParameter(split[0], split[1]);
+        }
+
+        final String json = tmcRestTemplate.getForObject(url, String.class);
+        return mapper.readTree(json);
+    }
+
+    @Override
+    public Collection<Course> findAll() throws IOException {
+
+        final JsonNode rootNode = fetchJson("courses.json", "api_version=7");
 
         final Course[] courses = mapper.treeToValue(rootNode.path("courses"), Course[].class);
         return Arrays.asList(courses);
     }
 
     @Override
-    public Collection<Course> findAllByStudent(final String studentId) {
+    public Collection<Course> findAllBy(final String studentId) {
 
         return snapshotRestTemplate.getForObject("{studentId}/courses",
                                                  List.class, studentId);
     }
 
     @Override
-    public Course find(final String studentId, final String courseId) {
+    public Course findBy(final String courseId) throws IOException {
+
+        final JsonNode rootNode = fetchJson(String.format("courses/%s.json", courseId), "api_version=7");
+
+        final Course course = mapper.treeToValue(rootNode.path("course"), Course.class);
+        return course;
+    }
+
+    @Override
+    public Course findBy(final String studentId, final String courseId) {
 
         return snapshotRestTemplate.getForObject("{studentId}/courses/{courseId}",
                                                  Course.class, studentId, courseId);

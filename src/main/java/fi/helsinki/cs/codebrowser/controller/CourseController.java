@@ -28,12 +28,18 @@ public class CourseController {
     @RequestMapping(method = RequestMethod.GET, value = "students/{studentId}/courses")
     public Collection<Course> list(@PathVariable final String studentId) {
 
-        return courseService.findAllByStudent(studentId);
+        return courseService.findAllBy(studentId);
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "courses/{courseId}")
+    public Course read(@PathVariable final String courseId) throws IOException {
+
+        return courseService.findBy(courseId);
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "students/{studentId}/courses/{courseId}")
     public Course read(@PathVariable final String studentId, @PathVariable final String courseId) {
 
-        return courseService.find(studentId, courseId);
+        return courseService.findBy(studentId, courseId);
     }
 }
