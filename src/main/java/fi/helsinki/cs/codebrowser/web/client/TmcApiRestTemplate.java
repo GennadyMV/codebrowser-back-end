@@ -10,21 +10,21 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 @Component
-public class SnapshotApiRestTemplate extends BasicAuthenticationRestTemplate {
+public class TmcApiRestTemplate extends BasicAuthenticationRestTemplate {
 
-    @Value("${snapshot.api.host}")
+    @Value("${tmc.api.host}")
     private String hostname;
 
-    @Value("${snapshot.api.port}")
+    @Value("${tmc.api.port}")
     private int port;
 
-    @Value("${snapshot.api.username}")
+    @Value("${tmc.api.username}")
     private String username;
 
-    @Value("${snapshot.api.password}")
+    @Value("${tmc.api.password}")
     private String password;
 
-    @Value("${snapshot.api.url}")
+    @Value("${tmc.api.url}")
     private String baseUrl;
 
     @PostConstruct

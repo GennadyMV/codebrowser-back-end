@@ -1,11 +1,11 @@
 package fi.helsinki.cs.codebrowser.web.client;
 
 import java.io.IOException;
-
-import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.net.URL;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import org.apache.http.HttpHost;
 import org.apache.http.auth.AuthScheme;
@@ -14,6 +14,7 @@ import org.apache.http.auth.UsernamePasswordCredentials;
 import org.apache.http.client.AuthCache;
 import org.apache.http.client.CredentialsProvider;
 import org.apache.http.client.protocol.HttpClientContext;
+import org.apache.http.client.utils.URIBuilder;
 import org.apache.http.impl.auth.BasicScheme;
 import org.apache.http.impl.client.BasicAuthCache;
 import org.apache.http.impl.client.BasicCredentialsProvider;
@@ -30,7 +31,9 @@ public class HttpComponentsClientHttpRequestFactoryPreemptiveAuthentication exte
     private final BasicHttpContext context;
     private final AuthCache cache;
     private final CredentialsProvider credentialsProvider;
-    private URL baseUrl;
+    private final Map<String, String> parameters = new HashMap<>();
+
+    private URI baseUrl;
 
     public HttpComponentsClientHttpRequestFactoryPreemptiveAuthentication() {
 
@@ -57,9 +60,9 @@ public class HttpComponentsClientHttpRequestFactoryPreemptiveAuthentication exte
         setHttpClient(HttpClients.custom().setDefaultCredentialsProvider(credentialsProvider).build());
     }
 
-    public void setBaseUrl(final String baseUrl) throws MalformedURLException {
+    public void setBaseUrl(final String baseUrl) throws URISyntaxException {
 
-        this.baseUrl = new URL(baseUrl);
+        this.baseUrl = new URI(baseUrl);
     }
 
     @Override
@@ -73,12 +76,24 @@ public class HttpComponentsClientHttpRequestFactoryPreemptiveAuthentication exte
 
         final URI resolvedUri;
 
+        final URIBuilder builder = new URIBuilder(baseUrl);
+        builder.setPath(baseUrl.getPath() + uri.getPath());
+
+        for (Entry<String, String> parameter : parameters.entrySet()) {
+            builder.addParameter(parameter.getKey(), parameter.getValue());
+        }
+
         try {
-            resolvedUri = new URL(baseUrl, uri.getPath()).toURI();
+            resolvedUri = builder.build();
         } catch (URISyntaxException exception) {
             return super.createRequest(uri, httpMethod);
         }
 
         return super.createRequest(resolvedUri, httpMethod);
+    }
+
+    public void addParameter(final String key, final String value) {
+
+        parameters.put(key, value);
     }
 }
