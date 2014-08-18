@@ -2,8 +2,8 @@ package fi.helsinki.cs.codebrowser.controller;
 
 import fi.helsinki.cs.codebrowser.model.Student;
 import fi.helsinki.cs.codebrowser.service.StudentService;
-import java.io.IOException;
 
+import java.io.IOException;
 import java.util.Collection;
 
 import org.springframework.beans.factory.annotation.Autowired;
