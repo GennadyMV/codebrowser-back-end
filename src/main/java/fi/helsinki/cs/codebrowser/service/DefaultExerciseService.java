@@ -33,6 +33,20 @@ public class DefaultExerciseService implements ExerciseService {
     }
 
     @Override
+    public Exercise findBy(final String courseId, final String exerciseId) throws IOException {
+
+        final Collection<Exercise> exercises = findAllBy(courseId);
+
+        for (Exercise exercise : exercises) {
+            if (exercise.getId().equals(exerciseId)) {
+                return exercise;
+            }
+        }
+
+        return null;
+    }
+
+    @Override
     public Exercise findBy(final String studentId, final String courseId, final String exerciseId) {
 
         return restTemplate.getForObject("{studentId}/courses/{courseId}/exercises/{exerciseId}",

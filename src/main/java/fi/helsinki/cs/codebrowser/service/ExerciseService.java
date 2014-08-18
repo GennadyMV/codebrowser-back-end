@@ -9,6 +9,7 @@ public interface ExerciseService {
 
     Collection<Exercise> findAllBy(String courseId) throws IOException;
     Collection<Exercise> findAllBy(String studentId, String courseId);
+    Exercise findBy(String courseId, String exerciseId) throws IOException;
     Exercise findBy(String studentId, String courseId, String exerciseId);
 
 }
