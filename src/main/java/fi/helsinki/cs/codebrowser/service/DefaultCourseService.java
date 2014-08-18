@@ -5,7 +5,6 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import fi.helsinki.cs.codebrowser.model.Course;
-import fi.helsinki.cs.codebrowser.web.client.HttpComponentsClientHttpRequestFactoryPreemptiveAuthentication;
 import fi.helsinki.cs.codebrowser.web.client.SnapshotApiRestTemplate;
 import fi.helsinki.cs.codebrowser.web.client.TmcApiRestTemplate;
 
@@ -36,25 +35,11 @@ public class DefaultCourseService implements CourseService {
         mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
     }
 
-    private JsonNode fetchJson(final String url, final String... parameters) throws IOException {
-
-        final HttpComponentsClientHttpRequestFactoryPreemptiveAuthentication requestFactory =
-              (HttpComponentsClientHttpRequestFactoryPreemptiveAuthentication) tmcRestTemplate.getRequestFactory();
-
-        for (String parameter : parameters) {
-            final String[] split = parameter.split("=");
-
-            requestFactory.addParameter(split[0], split[1]);
-        }
-
-        final String json = tmcRestTemplate.getForObject(url, String.class);
-        return mapper.readTree(json);
-    }
-
     @Override
     public Collection<Course> findAll() throws IOException {
 
-        final JsonNode rootNode = fetchJson("courses.json", "api_version=7");
+        final String json = tmcRestTemplate.fetchJson("courses.json", "api_version=7");
+        final JsonNode rootNode = mapper.readTree(json);
 
         final Course[] courses = mapper.treeToValue(rootNode.path("courses"), Course[].class);
         return Arrays.asList(courses);
@@ -70,7 +55,8 @@ public class DefaultCourseService implements CourseService {
     @Override
     public Course findBy(final String courseId) throws IOException {
 
-        final JsonNode rootNode = fetchJson(String.format("courses/%s.json", courseId), "api_version=7");
+        final String json = tmcRestTemplate.fetchJson(String.format("courses/%s.json", courseId), "api_version=7");
+        final JsonNode rootNode = mapper.readTree(json);
 
         final Course course = mapper.treeToValue(rootNode.path("course"), Course.class);
         return course;
