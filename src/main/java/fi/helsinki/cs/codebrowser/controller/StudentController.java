@@ -1,7 +1,6 @@
 package fi.helsinki.cs.codebrowser.controller;
 
 import fi.helsinki.cs.codebrowser.model.Student;
-import fi.helsinki.cs.codebrowser.model.TmcParticipant;
 import fi.helsinki.cs.codebrowser.service.StudentService;
 
 import java.io.IOException;
@@ -21,26 +20,26 @@ public class StudentController {
     private StudentService studentService;
 
     @RequestMapping(value = "students")
-    public Collection<TmcParticipant> list() throws IOException {
+    public Collection<Student> list() throws IOException {
 
         return studentService.findAll();
     }
 
     @RequestMapping(value = "courses/{courseId}/students")
-    public Collection<TmcParticipant> list(@PathVariable final String courseId) throws IOException {
+    public Collection<Student> list(@PathVariable final String courseId) throws IOException {
 
         return studentService.findAllBy(courseId);
     }
 
     @RequestMapping(value = "courses/{courseId}/exercises/{exerciseId}/students")
-    public Collection<TmcParticipant> list(@PathVariable final String courseId,
+    public Collection<Student> list(@PathVariable final String courseId,
                                            @PathVariable final String exerciseId) throws IOException {
 
         return studentService.findAllBy(courseId, exerciseId);
     }
 
     @RequestMapping(value = "courses/{courseId}/exercises/{exerciseId}/students/{studentId}")
-    public TmcParticipant read(@PathVariable final String courseId,
+    public Student read(@PathVariable final String courseId,
                                @PathVariable final String exerciseId,
                                @PathVariable final String studentId) throws IOException {
 
@@ -48,7 +47,7 @@ public class StudentController {
     }
 
     @RequestMapping(value = "courses/{courseId}/students/{studentId}")
-    public TmcParticipant read(@PathVariable final String courseId,
+    public Student read(@PathVariable final String courseId,
                                @PathVariable final String studentId) throws IOException {
 
         return studentService.find(courseId, studentId);

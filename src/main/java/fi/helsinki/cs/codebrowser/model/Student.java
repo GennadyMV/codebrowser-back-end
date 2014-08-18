@@ -2,6 +2,8 @@ package fi.helsinki.cs.codebrowser.model;
 
 import java.util.List;
 
+import org.apache.commons.codec.binary.Base64;
+
 public class Student {
 
     private String id;
@@ -24,6 +26,10 @@ public class Student {
     }
 
     public String getId() {
+        return Base64.encodeBase64URLSafeString(username.getBytes());
+    }
+
+    public String getPlainId() {
 
         return id;
     }
@@ -37,10 +43,5 @@ public class Student {
     public String getName() {
 
         return username;
-    }
-
-    public void setId(final String id) {
-
-        this.id = id;
     }
 }

@@ -8,7 +8,6 @@ import fi.helsinki.cs.codebrowser.model.Course;
 import fi.helsinki.cs.codebrowser.model.Exercise;
 import fi.helsinki.cs.codebrowser.model.Student;
 import fi.helsinki.cs.codebrowser.model.Submission;
-import fi.helsinki.cs.codebrowser.model.TmcParticipant;
 import fi.helsinki.cs.codebrowser.web.client.SnapshotApiRestTemplate;
 import fi.helsinki.cs.codebrowser.web.client.TmcApiRestTemplate;
 
@@ -46,29 +45,29 @@ public class DefaultStudentService implements StudentService {
     }
 
     @Override
-    public Collection<TmcParticipant> findAll() throws IOException {
+    public Collection<Student> findAll() throws IOException {
 
         final String json = tmcRestTemplate.fetchJson("participants.json", "api_version=7");
         final JsonNode rootNode = mapper.readTree(json);
 
-        final TmcParticipant[] participants = mapper.treeToValue(rootNode.path("participants"), TmcParticipant[].class);
+        final Student[] participants = mapper.treeToValue(rootNode.path("participants"), Student[].class);
         return Arrays.asList(participants);
     }
 
     @Override
-    public Collection<TmcParticipant> findAllBy(final String courseId) throws IOException {
+    public Collection<Student> findAllBy(final String courseId) throws IOException {
 
         final Course course = courseService.findBy(courseId);
 
         final String json = tmcRestTemplate.fetchJson(String.format("courses/%s/points.json", course.getPlainId()), "api_version=7");
         final JsonNode rootNode = mapper.readTree(json);
 
-        final TmcParticipant[] participants = mapper.treeToValue(rootNode.path("users"), TmcParticipant[].class);
+        final Student[] participants = mapper.treeToValue(rootNode.path("users"), Student[].class);
         return Arrays.asList(participants);
     }
 
     @Override
-    public Collection<TmcParticipant> findAllBy(final String courseId, final String exerciseId) throws IOException {
+    public Collection<Student> findAllBy(final String courseId, final String exerciseId) throws IOException {
 
         final Collection<Exercise> exercises = exerciseService.findAllBy(courseId);
 
@@ -90,10 +89,10 @@ public class DefaultStudentService implements StudentService {
 
         final Submission[] submissions = mapper.treeToValue(rootNode.path("submissions"), Submission[].class);
 
-        final Collection<TmcParticipant> courseStudents = findAllBy(courseId);
-        final Collection<TmcParticipant> students = new ArrayList<>();
+        final Collection<Student> courseStudents = findAllBy(courseId);
+        final Collection<Student> students = new ArrayList<>();
 
-        for (TmcParticipant stud : courseStudents) {
+        for (Student stud : courseStudents) {
             for (Submission sub : submissions) {
 
                 if (stud.getPlainId().equals(sub.getUserId())) {
@@ -108,11 +107,11 @@ public class DefaultStudentService implements StudentService {
     }
 
     @Override
-    public TmcParticipant find(final String courseId, final String exerciseId, final String studentId) throws IOException {
+    public Student find(final String courseId, final String exerciseId, final String studentId) throws IOException {
 
-        final Collection<TmcParticipant> students = findAllBy(courseId, exerciseId);
+        final Collection<Student> students = findAllBy(courseId, exerciseId);
 
-        for (TmcParticipant student : students) {
+        for (Student student : students) {
             if (student.getId().equals(studentId)) {
                 return student;
             }
@@ -122,11 +121,11 @@ public class DefaultStudentService implements StudentService {
     }
 
     @Override
-    public TmcParticipant find(final String courseId, final String studentId) throws IOException {
+    public Student find(final String courseId, final String studentId) throws IOException {
 
-        final Collection<TmcParticipant> students = findAllBy(courseId);
+        final Collection<Student> students = findAllBy(courseId);
 
-        for (TmcParticipant student : students) {
+        for (Student student : students) {
             if (student.getId().equals(studentId)) {
                 return student;
             }
