@@ -3,6 +3,7 @@ package fi.helsinki.cs.codebrowser.controller;
 import fi.helsinki.cs.codebrowser.model.Snapshot;
 import fi.helsinki.cs.codebrowser.service.SnapshotService;
 
+import java.io.IOException;
 import java.util.Collection;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +25,7 @@ public class SnapshotController {
     @RequestMapping
     public Collection<Snapshot> list(@PathVariable final String studentId,
                                      @PathVariable final String courseId,
-                                     @PathVariable final String exerciseId) {
+                                     @PathVariable final String exerciseId) throws IOException {
 
         return snapshotService.findAllBy(studentId, courseId, exerciseId);
     }
@@ -33,7 +34,7 @@ public class SnapshotController {
     public Snapshot read(@PathVariable final String studentId,
                          @PathVariable final String courseId,
                          @PathVariable final String exerciseId,
-                         @PathVariable final String snapshotId) {
+                         @PathVariable final String snapshotId) throws IOException {
 
         return snapshotService.findBy(studentId, courseId, exerciseId, snapshotId);
     }

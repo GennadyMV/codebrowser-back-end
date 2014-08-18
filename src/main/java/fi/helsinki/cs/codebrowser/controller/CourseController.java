@@ -26,7 +26,7 @@ public class CourseController {
     }
 
     @RequestMapping(value = "students/{studentId}/courses")
-    public Collection<Course> list(@PathVariable final String studentId) {
+    public Collection<Course> list(@PathVariable final String studentId) throws IOException {
 
         return courseService.findAllBy(studentId);
     }

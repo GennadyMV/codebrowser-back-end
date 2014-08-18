@@ -8,7 +8,7 @@ import java.util.Collection;
 public interface CourseService {
 
     Collection<Course> findAll() throws IOException;
-    Collection<Course> findAllBy(String studentId);
+    Collection<Course> findAllBy(String studentId) throws IOException;
 
     Course findBy(String courseId) throws IOException;
     Course findBy(String studentId, String courseId);

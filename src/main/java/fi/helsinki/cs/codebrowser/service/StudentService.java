@@ -13,6 +13,6 @@ public interface StudentService {
 
     Student find(String courseId, String exerciseId, String studentId) throws IOException;
     Student find(String courseId, String studentId) throws IOException;
-    Student find(String studentId);
+    Student find(String studentId) throws IOException;
 
 }

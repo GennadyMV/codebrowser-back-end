@@ -52,7 +52,7 @@ public class StudentController {
     }
 
     @RequestMapping(value = "students/{studentId}")
-    public Student read(@PathVariable final String studentId) {
+    public Student read(@PathVariable final String studentId) throws IOException {
 
         return studentService.find(studentId);
     }

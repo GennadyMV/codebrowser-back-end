@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import fi.helsinki.cs.codebrowser.model.Course;
+import fi.helsinki.cs.codebrowser.model.Student;
 import fi.helsinki.cs.codebrowser.web.client.SnapshotApiRestTemplate;
 import fi.helsinki.cs.codebrowser.web.client.TmcApiRestTemplate;
 
@@ -15,6 +16,7 @@ import java.util.List;
 
 import javax.annotation.PostConstruct;
 
+import org.apache.commons.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,6 +28,9 @@ public class DefaultCourseService implements CourseService {
 
     @Autowired
     private TmcApiRestTemplate tmcRestTemplate;
+
+    @Autowired
+    private StudentService studentService;
 
     private final ObjectMapper mapper = new ObjectMapper();
 
@@ -46,19 +51,37 @@ public class DefaultCourseService implements CourseService {
     }
 
     @Override
-    public Collection<Course> findAllBy(final String studentId) {
+    public Collection<Course> findAllBy(final String studentId) throws IOException {
 
-        return snapshotRestTemplate.getForObject("{studentId}/courses",
-                                                 List.class, studentId);
+        final Student student = studentService.find(studentId);
+        final String username = Base64.encodeBase64URLSafeString(student.getName().getBytes());
+
+        return snapshotRestTemplate.getForObject("{username}/courses",
+                                                 List.class, username);
     }
 
     @Override
     public Course findBy(final String courseId) throws IOException {
 
-        final String json = tmcRestTemplate.fetchJson(String.format("courses/%s.json", courseId), "api_version=7");
+        final String courseName = new String(Base64.decodeBase64(courseId));
+
+        final Collection<Course> courses = findAll();
+        Course course = null;
+
+        for (Course c : courses) {
+            if (c.getName().equals(courseName)) {
+                course = c;
+            }
+        }
+
+        if (course == null) {
+            return null;
+        }
+
+        final String json = tmcRestTemplate.fetchJson(String.format("courses/%s.json", course.getId()), "api_version=7");
         final JsonNode rootNode = mapper.readTree(json);
 
-        final Course course = mapper.treeToValue(rootNode.path("course"), Course.class);
+        course = mapper.treeToValue(rootNode.path("course"), Course.class);
         return course;
     }
 

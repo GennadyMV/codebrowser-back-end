@@ -16,6 +16,8 @@ import java.util.Collection;
 
 import javax.annotation.PostConstruct;
 
+import org.apache.commons.codec.binary.Base64;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -112,8 +114,18 @@ public class DefaultStudentService implements StudentService {
     }
 
     @Override
-    public Student find(final String studentId) {
+    public Student find(final String studentId) throws IOException {
 
-        return snapshotRestTemplate.getForObject("{studentId}", Student.class, studentId);
+        final Collection<Student> students = findAll();
+
+        for (Student student : students) {
+            if (student.getId().equals(studentId)) {
+
+                final String username = Base64.encodeBase64URLSafeString(student.getName().getBytes());
+                return snapshotRestTemplate.getForObject("{username}", Student.class, username);
+            }
+        }
+
+        return null;
     }
 }

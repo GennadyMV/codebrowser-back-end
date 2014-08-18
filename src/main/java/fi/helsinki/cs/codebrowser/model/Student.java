@@ -33,4 +33,9 @@ public class Student {
 
         username = login;
     }
+
+    public String getName() {
+
+        return username;
+    }
 }
