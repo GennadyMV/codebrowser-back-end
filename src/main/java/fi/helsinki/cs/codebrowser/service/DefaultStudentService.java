@@ -44,6 +44,16 @@ public class DefaultStudentService implements StudentService {
     }
 
     @Override
+    public Collection<Student> findAllBy(final String courseId) throws IOException {
+
+        final String json = tmcRestTemplate.fetchJson(String.format("courses/%s/points.json", courseId), "api_version=7");
+        final JsonNode rootNode = mapper.readTree(json);
+
+        final Student[] students = mapper.treeToValue(rootNode.path("users"), Student[].class);
+        return Arrays.asList(students);
+    }
+
+    @Override
     public Student find(final String studentId) {
 
         return snapshotRestTemplate.getForObject("{studentId}", Student.class, studentId);

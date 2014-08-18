@@ -6,7 +6,6 @@ public class Student {
 
     private String id;
     private String username;
-
     private List<Course> courses;
 
     public List<Course> getCourses() {
@@ -27,5 +26,11 @@ public class Student {
     public String getId() {
 
         return id;
+    }
+
+    // For Jackson deserialisation
+    public void setLogin(final String login) {
+
+        username = login;
     }
 }

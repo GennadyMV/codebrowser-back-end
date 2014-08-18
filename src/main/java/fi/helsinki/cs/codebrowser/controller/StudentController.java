@@ -13,19 +13,25 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping(method = RequestMethod.GET, value = "students", produces = "application/json")
+@RequestMapping(method = RequestMethod.GET, produces = "application/json")
 public class StudentController {
 
     @Autowired
     private StudentService studentService;
 
-    @RequestMapping
+    @RequestMapping(value = "students")
     public Collection<Student> list() throws IOException {
 
         return studentService.findAll();
     }
 
-    @RequestMapping(value = "{studentId}")
+    @RequestMapping(value = "courses/{courseId}/students")
+    public Collection<Student> list(@PathVariable final String courseId) throws IOException {
+
+        return studentService.findAllBy(courseId);
+    }
+
+    @RequestMapping(value = "students/{studentId}")
     public Student read(@PathVariable final String studentId) {
 
         return studentService.find(studentId);
