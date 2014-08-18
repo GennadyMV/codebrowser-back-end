@@ -33,21 +33,23 @@ public class StudentController {
     }
 
     @RequestMapping(value = "courses/{courseId}/exercises/{exerciseId}/students")
-    public Collection<TmcParticipant> list(@PathVariable final String courseId, @PathVariable final String exerciseId) throws IOException {
+    public Collection<TmcParticipant> list(@PathVariable final String courseId,
+                                           @PathVariable final String exerciseId) throws IOException {
 
         return studentService.findAllBy(courseId, exerciseId);
     }
 
     @RequestMapping(value = "courses/{courseId}/exercises/{exerciseId}/students/{studentId}")
     public TmcParticipant read(@PathVariable final String courseId,
-                        @PathVariable final String exerciseId,
-                        @PathVariable final String studentId) throws IOException {
+                               @PathVariable final String exerciseId,
+                               @PathVariable final String studentId) throws IOException {
 
         return studentService.find(courseId, exerciseId, studentId);
     }
 
     @RequestMapping(value = "courses/{courseId}/students/{studentId}")
-    public TmcParticipant read(@PathVariable final String courseId, @PathVariable final String studentId) throws IOException {
+    public TmcParticipant read(@PathVariable final String courseId,
+                               @PathVariable final String studentId) throws IOException {
 
         return studentService.find(courseId, studentId);
     }

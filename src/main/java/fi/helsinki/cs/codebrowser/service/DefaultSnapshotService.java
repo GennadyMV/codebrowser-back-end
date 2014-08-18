@@ -17,14 +17,19 @@ public class DefaultSnapshotService implements SnapshotService {
     private SnapshotApiRestTemplate restTemplate;
 
     @Override
-    public Collection<Snapshot> findAllBy(final String studentId, final String courseId, final String exerciseId) throws IOException {
+    public Collection<Snapshot> findAllBy(final String studentId,
+                                          final String courseId,
+                                          final String exerciseId) throws IOException {
 
         return restTemplate.getForObject("{studentId}/courses/{courseId}/exercises/{exerciseId}/snapshots",
                                          List.class, studentId, courseId, exerciseId);
     }
 
     @Override
-    public Snapshot findBy(final String studentId, final String courseId, final String exerciseId, final String snapshotId) throws IOException {
+    public Snapshot findBy(final String studentId,
+                           final String courseId,
+                           final String exerciseId,
+                           final String snapshotId) throws IOException {
 
         return restTemplate.getForObject("{studentId}/courses/{courseId}/exercises/{exerciseId}/snapshots/{snapshotId}",
                                          Snapshot.class, studentId, courseId, exerciseId, snapshotId);

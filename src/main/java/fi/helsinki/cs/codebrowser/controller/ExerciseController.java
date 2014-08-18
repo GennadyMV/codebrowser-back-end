@@ -26,13 +26,15 @@ public class ExerciseController {
     }
 
     @RequestMapping(value = "students/{studentId}/courses/{courseId}/exercises")
-    public Collection<Exercise> list(@PathVariable final String studentId, @PathVariable final String courseId) throws IOException {
+    public Collection<Exercise> list(@PathVariable final String studentId,
+                                     @PathVariable final String courseId) throws IOException {
 
         return exerciseService.findAllBy(studentId, courseId);
     }
 
     @RequestMapping(value = "courses/{courseId}/exercises/{exerciseId}")
-    public Exercise read(@PathVariable final String courseId, @PathVariable final String exerciseId) throws IOException {
+    public Exercise read(@PathVariable final String courseId,
+                         @PathVariable final String exerciseId) throws IOException {
 
         return exerciseService.findBy(courseId, exerciseId);
     }
