@@ -2,6 +2,8 @@ package fi.helsinki.cs.codebrowser.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import org.apache.tomcat.util.codec.binary.Base64;
+
 public class Exercise {
 
     private String id;
@@ -21,10 +23,17 @@ public class Exercise {
     }
 
     public String getId() {
+
+        return Base64.encodeBase64URLSafeString(name.getBytes());
+    }
+
+    public String getPlainId() {
+
         return id;
     }
 
     public String getName() {
+
         return name;
     }
 }

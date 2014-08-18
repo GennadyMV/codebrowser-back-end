@@ -5,6 +5,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.codec.binary.Base64;
+
 public class Course {
 
     private String id;
@@ -73,6 +75,11 @@ public class Course {
     }
 
     public String getId() {
+
+        return Base64.encodeBase64URLSafeString(name.getBytes());
+    }
+
+    public String getPlainId() {
 
         return id;
     }

@@ -1,7 +1,6 @@
 package fi.helsinki.cs.codebrowser.service;
 
 import fi.helsinki.cs.codebrowser.model.Exercise;
-import fi.helsinki.cs.codebrowser.model.Student;
 import fi.helsinki.cs.codebrowser.web.client.SnapshotApiRestTemplate;
 
 import java.io.IOException;
@@ -20,9 +19,6 @@ public class DefaultExerciseService implements ExerciseService {
     @Autowired
     private CourseService courseService;
 
-    @Autowired
-    private StudentService studentService;
-
     @Override
     public Collection<Exercise> findAllBy(final String courseId) throws IOException {
 
@@ -32,10 +28,8 @@ public class DefaultExerciseService implements ExerciseService {
     @Override
     public Collection<Exercise> findAllBy(final String studentId, final String courseId) throws IOException {
 
-        final Student student = studentService.find(studentId);
-
         return restTemplate.getForObject("{studentId}/courses/{courseId}/exercises",
-                                         List.class, student.getId(), courseId);
+                                         List.class, studentId, courseId);
     }
 
     @Override

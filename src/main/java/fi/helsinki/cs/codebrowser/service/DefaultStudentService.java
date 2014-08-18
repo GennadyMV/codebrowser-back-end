@@ -4,8 +4,11 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import fi.helsinki.cs.codebrowser.model.Course;
+import fi.helsinki.cs.codebrowser.model.Exercise;
 import fi.helsinki.cs.codebrowser.model.Student;
 import fi.helsinki.cs.codebrowser.model.Submission;
+import fi.helsinki.cs.codebrowser.model.TmcParticipant;
 import fi.helsinki.cs.codebrowser.web.client.SnapshotApiRestTemplate;
 import fi.helsinki.cs.codebrowser.web.client.TmcApiRestTemplate;
 
@@ -15,8 +18,6 @@ import java.util.Arrays;
 import java.util.Collection;
 
 import javax.annotation.PostConstruct;
-
-import org.apache.commons.codec.binary.Base64;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -33,6 +34,9 @@ public class DefaultStudentService implements StudentService {
     @Autowired
     private ExerciseService exerciseService;
 
+    @Autowired
+    private CourseService courseService;
+
     private final ObjectMapper mapper = new ObjectMapper();
 
     @PostConstruct
@@ -42,40 +46,58 @@ public class DefaultStudentService implements StudentService {
     }
 
     @Override
-    public Collection<Student> findAll() throws IOException {
+    public Collection<TmcParticipant> findAll() throws IOException {
 
         final String json = tmcRestTemplate.fetchJson("participants.json", "api_version=7");
         final JsonNode rootNode = mapper.readTree(json);
 
-        final Student[] students = mapper.treeToValue(rootNode.path("participants"), Student[].class);
-        return Arrays.asList(students);
+        final TmcParticipant[] participants = mapper.treeToValue(rootNode.path("participants"), TmcParticipant[].class);
+        return Arrays.asList(participants);
     }
 
     @Override
-    public Collection<Student> findAllBy(final String courseId) throws IOException {
+    public Collection<TmcParticipant> findAllBy(final String courseId) throws IOException {
 
-        final String json = tmcRestTemplate.fetchJson(String.format("courses/%s/points.json", courseId), "api_version=7");
+        final Course course = courseService.findBy(courseId);
+
+        final String json = tmcRestTemplate.fetchJson(String.format("courses/%s/points.json", course.getPlainId()), "api_version=7");
         final JsonNode rootNode = mapper.readTree(json);
 
-        final Student[] students = mapper.treeToValue(rootNode.path("users"), Student[].class);
-        return Arrays.asList(students);
+        final TmcParticipant[] participants = mapper.treeToValue(rootNode.path("users"), TmcParticipant[].class);
+        return Arrays.asList(participants);
     }
 
     @Override
-    public Collection<Student> findAllBy(final String courseId, final String exerciseId) throws IOException {
+    public Collection<TmcParticipant> findAllBy(final String courseId, final String exerciseId) throws IOException {
 
-        final String json = tmcRestTemplate.fetchJson(String.format("exercises/%s.json", exerciseId), "api_version=7");
+        final Collection<Exercise> exercises = exerciseService.findAllBy(courseId);
+
+        Exercise exercise = null;
+
+        for (Exercise ex : exercises) {
+            if (ex.getId().equals(exerciseId)) {
+                exercise = ex;
+            }
+        }
+
+        if (exercise == null) {
+            return null;
+        }
+
+        final String json = tmcRestTemplate.fetchJson(String.format("exercises/%s.json", exercise.getPlainId()), "api_version=7");
+
         final JsonNode rootNode = mapper.readTree(json);
 
         final Submission[] submissions = mapper.treeToValue(rootNode.path("submissions"), Submission[].class);
 
-        final Collection<Student> courseStudents = findAllBy(courseId);
-        final Collection<Student> students = new ArrayList<>();
+        final Collection<TmcParticipant> courseStudents = findAllBy(courseId);
+        final Collection<TmcParticipant> students = new ArrayList<>();
 
-        for (Student stud : courseStudents) {
+        for (TmcParticipant stud : courseStudents) {
             for (Submission sub : submissions) {
 
-                if (stud.getId().equals(sub.getUserId())) {
+                if (stud.getPlainId().equals(sub.getUserId())) {
+
                     students.add(stud);
                     break;
                 }
@@ -86,11 +108,11 @@ public class DefaultStudentService implements StudentService {
     }
 
     @Override
-    public Student find(final String courseId, final String exerciseId, final String studentId) throws IOException {
+    public TmcParticipant find(final String courseId, final String exerciseId, final String studentId) throws IOException {
 
-        final Collection<Student> students = findAllBy(courseId, exerciseId);
+        final Collection<TmcParticipant> students = findAllBy(courseId, exerciseId);
 
-        for (Student student : students) {
+        for (TmcParticipant student : students) {
             if (student.getId().equals(studentId)) {
                 return student;
             }
@@ -100,11 +122,11 @@ public class DefaultStudentService implements StudentService {
     }
 
     @Override
-    public Student find(final String courseId, final String studentId) throws IOException {
+    public TmcParticipant find(final String courseId, final String studentId) throws IOException {
 
-        final Collection<Student> students = findAllBy(courseId);
+        final Collection<TmcParticipant> students = findAllBy(courseId);
 
-        for (Student student : students) {
+        for (TmcParticipant student : students) {
             if (student.getId().equals(studentId)) {
                 return student;
             }
@@ -116,16 +138,6 @@ public class DefaultStudentService implements StudentService {
     @Override
     public Student find(final String studentId) throws IOException {
 
-        final Collection<Student> students = findAll();
-
-        for (Student student : students) {
-            if (student.getId().equals(studentId)) {
-
-                final String username = Base64.encodeBase64URLSafeString(student.getName().getBytes());
-                return snapshotRestTemplate.getForObject("{username}", Student.class, username);
-            }
-        }
-
-        return null;
+        return snapshotRestTemplate.getForObject("{studentId}", Student.class, studentId);
     }
 }

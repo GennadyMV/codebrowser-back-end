@@ -38,4 +38,9 @@ public class Student {
 
         return username;
     }
+
+    public void setId(final String id) {
+
+        this.id = id;
+    }
 }

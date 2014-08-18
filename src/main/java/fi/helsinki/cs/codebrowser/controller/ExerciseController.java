@@ -4,7 +4,6 @@ import fi.helsinki.cs.codebrowser.model.Exercise;
 import fi.helsinki.cs.codebrowser.service.ExerciseService;
 
 import java.io.IOException;
-
 import java.util.Collection;
 
 import org.springframework.beans.factory.annotation.Autowired;

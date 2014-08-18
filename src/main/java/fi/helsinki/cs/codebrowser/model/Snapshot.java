@@ -11,7 +11,7 @@ public class Snapshot implements Comparable<Snapshot> {
     private Date timestamp;
     private List<String> files;
     private Exercise exercise;
-    private CourseInfo course;
+    private Course course;
 
     private boolean compiles;
 
@@ -55,12 +55,12 @@ public class Snapshot implements Comparable<Snapshot> {
         this.exercise = exercise;
     }
 
-    public CourseInfo getCourse() {
+    public Course getCourse() {
 
         return course;
     }
 
-    public void setCourse(final CourseInfo course) {
+    public void setCourse(final Course course) {
 
         this.course = course;
     }
