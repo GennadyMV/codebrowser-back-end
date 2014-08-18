@@ -13,7 +13,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping(method = RequestMethod.GET,
-                value = "students/{studentId}/courses/{courseId}/exercises/{exerciseId}/snapshots",
+                value = { "students/{studentId}/courses/{courseId}/exercises/{exerciseId}/snapshots",
+                          "courses/{courseId}/exercises/{exerciseId}/students/{studentId}/snapshots" },
                 produces = "application/json")
 public class SnapshotController {
 
@@ -22,8 +23,8 @@ public class SnapshotController {
 
     @RequestMapping
     public Collection<Snapshot> list(@PathVariable final String studentId,
-                         @PathVariable final String courseId,
-                         @PathVariable final String exerciseId) {
+                                     @PathVariable final String courseId,
+                                     @PathVariable final String exerciseId) {
 
         return snapshotService.findAllBy(studentId, courseId, exerciseId);
     }
