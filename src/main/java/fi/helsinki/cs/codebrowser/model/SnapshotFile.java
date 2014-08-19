@@ -9,10 +9,17 @@ import org.apache.commons.io.FileUtils;
 
 public class SnapshotFile {
 
-    @JsonIgnore
+    private String id = "1";
+    private String name = "ex";
     private String filepath;
 
+    @JsonIgnore
     private long filesize;
+
+    public SnapshotFile(final String filepath) {
+
+        this.filepath = filepath;
+    }
 
     public String getFilepath() {
 
@@ -40,5 +47,15 @@ public class SnapshotFile {
     public void setFilesize(final long filesize) {
 
         this.filesize = filesize;
+    }
+
+    public String getId() {
+
+        return id;
+    }
+
+    public String getName() {
+
+        return name;
     }
 }
