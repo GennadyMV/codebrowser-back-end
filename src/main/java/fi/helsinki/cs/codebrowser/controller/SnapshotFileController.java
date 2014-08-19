@@ -40,4 +40,14 @@ public class SnapshotFileController {
 
         return snapshotFileService.findBy(studentId, courseId, exerciseId, snapshotId, fileId);
     }
+
+    @RequestMapping(value = "{fileId}/content", produces = "text/plain")
+    public String readContent(@PathVariable final String studentId,
+                              @PathVariable final String courseId,
+                              @PathVariable final String exerciseId,
+                              @PathVariable final String snapshotId,
+                              @PathVariable final String fileId) throws IOException {
+
+        return snapshotFileService.findContentBy(studentId, courseId, exerciseId, snapshotId, fileId);
+    }
 }
