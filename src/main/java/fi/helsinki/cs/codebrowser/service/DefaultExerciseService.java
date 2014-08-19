@@ -1,9 +1,9 @@
 package fi.helsinki.cs.codebrowser.service;
 
 import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 import fi.helsinki.cs.codebrowser.model.Exercise;
+import fi.helsinki.cs.codebrowser.util.JsonMapper;
 import fi.helsinki.cs.codebrowser.web.client.SnapshotApiRestTemplate;
 
 import java.io.IOException;
@@ -22,6 +22,8 @@ public class DefaultExerciseService implements ExerciseService {
     @Autowired
     private CourseService courseService;
 
+    private final JsonMapper mapper = new JsonMapper();
+
     @Override
     public Collection<Exercise> findAllBy(final String courseId) throws IOException {
 
@@ -34,7 +36,7 @@ public class DefaultExerciseService implements ExerciseService {
         final String json = restTemplate.getForObject("{studentId}/courses/{courseId}/exercises",
                                                       String.class, studentId, courseId);
 
-        return new ObjectMapper().readValue(json, new TypeReference<List<Exercise>>() { });
+        return mapper.readValue(json, new TypeReference<List<Exercise>>() { });
     }
 
     @Override

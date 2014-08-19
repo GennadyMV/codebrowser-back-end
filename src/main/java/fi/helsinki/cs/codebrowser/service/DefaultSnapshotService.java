@@ -1,9 +1,9 @@
 package fi.helsinki.cs.codebrowser.service;
 
 import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 import fi.helsinki.cs.codebrowser.model.Snapshot;
+import fi.helsinki.cs.codebrowser.util.JsonMapper;
 import fi.helsinki.cs.codebrowser.web.client.SnapshotApiRestTemplate;
 
 import java.io.IOException;
@@ -19,6 +19,8 @@ public class DefaultSnapshotService implements SnapshotService {
     @Autowired
     private SnapshotApiRestTemplate restTemplate;
 
+    private final JsonMapper mapper = new JsonMapper();
+
     @Override
     public Collection<Snapshot> findAllBy(final String studentId,
                                           final String courseId,
@@ -27,7 +29,7 @@ public class DefaultSnapshotService implements SnapshotService {
         final String json =  restTemplate.getForObject("{studentId}/courses/{courseId}/exercises/{exerciseId}/snapshots",
                                                        String.class, studentId, courseId, exerciseId);
 
-        return new ObjectMapper().readValue(json, new TypeReference<List<Snapshot>>() { });
+        return mapper.readValue(json, new TypeReference<List<Snapshot>>() { });
     }
 
     @Override

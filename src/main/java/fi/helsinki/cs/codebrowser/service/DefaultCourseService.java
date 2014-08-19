@@ -1,10 +1,9 @@
 package fi.helsinki.cs.codebrowser.service;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 import fi.helsinki.cs.codebrowser.model.Course;
+import fi.helsinki.cs.codebrowser.util.JsonMapper;
 import fi.helsinki.cs.codebrowser.web.client.SnapshotApiRestTemplate;
 import fi.helsinki.cs.codebrowser.web.client.TmcApiRestTemplate;
 
@@ -28,7 +27,7 @@ public class DefaultCourseService implements CourseService {
     @Autowired
     private TmcApiRestTemplate tmcRestTemplate;
 
-    private final ObjectMapper mapper = new ObjectMapper();
+    private final JsonMapper mapper = new JsonMapper();
 
     @PostConstruct
     private void initialise() {
@@ -40,9 +39,8 @@ public class DefaultCourseService implements CourseService {
     public Collection<Course> findAll() throws IOException {
 
         final String json = tmcRestTemplate.fetchJson("courses.json", "api_version=7");
-        final JsonNode rootNode = mapper.readTree(json);
+        final Course[] courses = mapper.mapSubElement(json, Course[].class, "courses");
 
-        final Course[] courses = mapper.treeToValue(rootNode.path("courses"), Course[].class);
         return Arrays.asList(courses);
     }
 
@@ -72,9 +70,8 @@ public class DefaultCourseService implements CourseService {
         }
 
         final String json = tmcRestTemplate.fetchJson(String.format("courses/%s.json", course.getPlainId()), "api_version=7");
-        final JsonNode rootNode = mapper.readTree(json);
+        course = mapper.mapSubElement(json, Course.class, "course");
 
-        course = mapper.treeToValue(rootNode.path("course"), Course.class);
         return course;
     }
 

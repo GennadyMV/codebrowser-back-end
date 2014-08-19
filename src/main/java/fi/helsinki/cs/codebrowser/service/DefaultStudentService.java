@@ -1,13 +1,12 @@
 package fi.helsinki.cs.codebrowser.service;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 import fi.helsinki.cs.codebrowser.model.Course;
 import fi.helsinki.cs.codebrowser.model.Exercise;
 import fi.helsinki.cs.codebrowser.model.Student;
 import fi.helsinki.cs.codebrowser.model.Submission;
+import fi.helsinki.cs.codebrowser.util.JsonMapper;
 import fi.helsinki.cs.codebrowser.web.client.SnapshotApiRestTemplate;
 import fi.helsinki.cs.codebrowser.web.client.TmcApiRestTemplate;
 
@@ -15,6 +14,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.annotation.PostConstruct;
 
@@ -36,7 +37,7 @@ public class DefaultStudentService implements StudentService {
     @Autowired
     private CourseService courseService;
 
-    private final ObjectMapper mapper = new ObjectMapper();
+    private final JsonMapper mapper = new JsonMapper();
 
     @PostConstruct
     private void initialise() {
@@ -44,66 +45,72 @@ public class DefaultStudentService implements StudentService {
         mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
     }
 
-    @Override
-    public Collection<Student> findAll() throws IOException {
-
-        final String json = tmcRestTemplate.fetchJson("participants.json", "api_version=7");
-        final JsonNode rootNode = mapper.readTree(json);
-
-        final Student[] participants = mapper.treeToValue(rootNode.path("participants"), Student[].class);
-        return Arrays.asList(participants);
-    }
-
-    @Override
-    public Collection<Student> findAllBy(final String courseId) throws IOException {
-
-        final Course course = courseService.findBy(courseId);
-
-        final String json = tmcRestTemplate.fetchJson(String.format("courses/%s/points.json", course.getPlainId()), "api_version=7");
-        final JsonNode rootNode = mapper.readTree(json);
-
-        final Student[] participants = mapper.treeToValue(rootNode.path("users"), Student[].class);
-        return Arrays.asList(participants);
-    }
-
-    @Override
-    public Collection<Student> findAllBy(final String courseId, final String exerciseId) throws IOException {
+    private Exercise getCourseExerciseById(final String courseId, final String exerciseId) throws IOException {
 
         final Collection<Exercise> exercises = exerciseService.findAllBy(courseId);
 
         Exercise exercise = null;
-
         for (Exercise ex : exercises) {
             if (ex.getId().equals(exerciseId)) {
                 exercise = ex;
             }
         }
 
+        return exercise;
+    }
+
+    private Collection<Student> studentsWithSubmissions(final Collection<Student> courseStudents, final Submission[] submissions) {
+
+        final Set<String> submitters = new HashSet<>();
+        for (Submission submission : submissions) {
+            submitters.add(submission.getUserId());
+        }
+
+        final Collection<Student> students = new ArrayList<>();
+
+        for (Student student : courseStudents) {
+            if (submitters.contains(student.getPlainId())) {
+                students.add(student);
+            }
+        }
+
+        return students;
+    }
+
+    @Override
+    public Collection<Student> findAll() throws IOException {
+
+        final String json = tmcRestTemplate.fetchJson("participants.json", "api_version=7");
+        final Student[] students = mapper.mapSubElement(json, Student[].class, "participants");
+
+        return Arrays.asList(students);
+    }
+
+    @Override
+    public Collection<Student> findAllBy(final String courseId) throws IOException {
+
+        final Course course = courseService.findBy(courseId);
+        final String json = tmcRestTemplate.fetchJson(String.format("courses/%s/points.json", course.getPlainId()), "api_version=7");
+        final Student[] students = mapper.mapSubElement(json, Student[].class, "users");
+
+        return Arrays.asList(students);
+    }
+
+    @Override
+    public Collection<Student> findAllBy(final String courseId, final String exerciseId) throws IOException {
+
+        final Exercise exercise = getCourseExerciseById(courseId, exerciseId);
+
         if (exercise == null) {
             return null;
         }
 
         final String json = tmcRestTemplate.fetchJson(String.format("exercises/%s.json", exercise.getPlainId()), "api_version=7");
-
-        final JsonNode rootNode = mapper.readTree(json);
-
-        final Submission[] submissions = mapper.treeToValue(rootNode.path("submissions"), Submission[].class);
+        final Submission[] submissions = mapper.mapSubElement(json, Submission[].class, "submissions");
 
         final Collection<Student> courseStudents = findAllBy(courseId);
-        final Collection<Student> students = new ArrayList<>();
 
-        for (Student stud : courseStudents) {
-            for (Submission sub : submissions) {
-
-                if (stud.getPlainId().equals(sub.getUserId())) {
-
-                    students.add(stud);
-                    break;
-                }
-            }
-        }
-
-        return students;
+        return studentsWithSubmissions(courseStudents, submissions);
     }
 
     @Override
