@@ -27,8 +27,6 @@ public class DefaultSnapshotService implements SnapshotService {
         final String json =  restTemplate.getForObject("{studentId}/courses/{courseId}/exercises/{exerciseId}/snapshots",
                                                        String.class, studentId, courseId, exerciseId);
 
-        System.out.println(json);
-
         return new ObjectMapper().readValue(json, new TypeReference<List<Snapshot>>() { });
     }
 
