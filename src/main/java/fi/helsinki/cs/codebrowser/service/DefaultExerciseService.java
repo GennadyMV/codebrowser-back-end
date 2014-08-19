@@ -1,6 +1,5 @@
 package fi.helsinki.cs.codebrowser.service;
 
-import com.fasterxml.jackson.core.type.TypeReference;
 
 import fi.helsinki.cs.codebrowser.model.Exercise;
 import fi.helsinki.cs.codebrowser.util.JsonMapper;
@@ -8,7 +7,6 @@ import fi.helsinki.cs.codebrowser.web.client.SnapshotApiRestTemplate;
 
 import java.io.IOException;
 import java.util.Collection;
-import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -36,7 +34,7 @@ public class DefaultExerciseService implements ExerciseService {
         final String json = restTemplate.getForObject("{studentId}/courses/{courseId}/exercises",
                                                       String.class, studentId, courseId);
 
-        return mapper.readValue(json, new TypeReference<List<Exercise>>() { });
+        return mapper.readValueToList(json, Exercise.class);
     }
 
     @Override

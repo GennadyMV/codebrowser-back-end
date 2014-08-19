@@ -8,13 +8,13 @@ import fi.helsinki.cs.codebrowser.web.client.SnapshotApiRestTemplate;
 import fi.helsinki.cs.codebrowser.web.client.TmcApiRestTemplate;
 
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
 
 import org.apache.commons.codec.binary.Base64;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -39,9 +39,7 @@ public class DefaultCourseService implements CourseService {
     public Collection<Course> findAll() throws IOException {
 
         final String json = tmcRestTemplate.fetchJson("courses.json", "api_version=7");
-        final Course[] courses = mapper.mapSubElement(json, Course[].class, "courses");
-
-        return Arrays.asList(courses);
+        return mapper.readSubElementValueToList(json, Course.class, "courses");
     }
 
     @Override
@@ -70,9 +68,8 @@ public class DefaultCourseService implements CourseService {
         }
 
         final String json = tmcRestTemplate.fetchJson(String.format("courses/%s.json", course.getPlainId()), "api_version=7");
-        course = mapper.mapSubElement(json, Course.class, "course");
 
-        return course;
+        return mapper.readSubElementValue(json, Course.class, "course");
     }
 
     @Override

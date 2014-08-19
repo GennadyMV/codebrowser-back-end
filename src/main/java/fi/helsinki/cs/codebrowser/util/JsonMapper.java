@@ -4,27 +4,49 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.IOException;
+import java.lang.reflect.Array;
+import java.util.Arrays;
+import java.util.List;
 
 public class JsonMapper extends ObjectMapper {
 
     private JsonNode traverseParseTree(final String json, final String[] path) throws IOException {
 
-        System.out.println("JSON: " + json);
-
         JsonNode currentNode = readTree(json);
         for (String pathElement : path) {
-            System.out.println("CurrentNode: " + currentNode);
             currentNode = currentNode.path(pathElement);
         }
 
-        System.out.println("Last node: " + currentNode);
         return currentNode;
     }
 
-    public <T> T mapSubElement(final String json, final Class<T> type, final String... path) throws IOException {
+    /**
+     * Returns T[].class for any T.
+     * This is a workaround for Java's lackluster support of generic arrays.
+     */
+    private <T> Class getArrayType(final Class<T> type) {
+
+        final T[] arrayType = (T[]) Array.newInstance(type, 0);
+
+        return arrayType.getClass();
+    }
+
+    public <T> T readSubElementValue(final String json, final Class<T> type, final String... path) throws IOException {
 
         final JsonNode node = traverseParseTree(json, path);
 
         return treeToValue(node, type);
+    }
+
+    public <T> List<T> readSubElementValueToList(final String json, final Class<T> type, final String... path) throws IOException {
+
+        final T[] array = (T[]) readSubElementValue(json, getArrayType(type), path);
+
+        return Arrays.asList(array);
+    }
+
+    public <T> List<T> readValueToList(final String json, final Class<T> type) throws IOException {
+
+        return readSubElementValueToList(json, type);
     }
 }

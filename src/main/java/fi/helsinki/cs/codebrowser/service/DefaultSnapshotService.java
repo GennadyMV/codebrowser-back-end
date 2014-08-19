@@ -1,6 +1,5 @@
 package fi.helsinki.cs.codebrowser.service;
 
-import com.fasterxml.jackson.core.type.TypeReference;
 
 import fi.helsinki.cs.codebrowser.model.Snapshot;
 import fi.helsinki.cs.codebrowser.util.JsonMapper;
@@ -8,7 +7,6 @@ import fi.helsinki.cs.codebrowser.web.client.SnapshotApiRestTemplate;
 
 import java.io.IOException;
 import java.util.Collection;
-import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -29,7 +27,7 @@ public class DefaultSnapshotService implements SnapshotService {
         final String json =  restTemplate.getForObject("{studentId}/courses/{courseId}/exercises/{exerciseId}/snapshots",
                                                        String.class, studentId, courseId, exerciseId);
 
-        return mapper.readValue(json, new TypeReference<List<Snapshot>>() { });
+        return mapper.readValueToList(json, Snapshot.class);
     }
 
     @Override

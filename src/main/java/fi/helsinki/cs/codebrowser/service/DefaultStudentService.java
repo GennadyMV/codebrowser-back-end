@@ -12,9 +12,9 @@ import fi.helsinki.cs.codebrowser.web.client.TmcApiRestTemplate;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.annotation.PostConstruct;
@@ -59,7 +59,7 @@ public class DefaultStudentService implements StudentService {
         return exercise;
     }
 
-    private Collection<Student> studentsWithSubmissions(final Collection<Student> courseStudents, final Submission[] submissions) {
+    private Collection<Student> studentsWithSubmissions(final Collection<Student> courseStudents, final List<Submission> submissions) {
 
         final Set<String> submitters = new HashSet<>();
         for (Submission submission : submissions) {
@@ -81,9 +81,8 @@ public class DefaultStudentService implements StudentService {
     public Collection<Student> findAll() throws IOException {
 
         final String json = tmcRestTemplate.fetchJson("participants.json", "api_version=7");
-        final Student[] students = mapper.mapSubElement(json, Student[].class, "participants");
 
-        return Arrays.asList(students);
+        return mapper.readSubElementValueToList(json, Student.class, "participants");
     }
 
     @Override
@@ -91,9 +90,8 @@ public class DefaultStudentService implements StudentService {
 
         final Course course = courseService.findBy(courseId);
         final String json = tmcRestTemplate.fetchJson(String.format("courses/%s/points.json", course.getPlainId()), "api_version=7");
-        final Student[] students = mapper.mapSubElement(json, Student[].class, "users");
 
-        return Arrays.asList(students);
+        return mapper.readSubElementValueToList(json, Student.class, "users");
     }
 
     @Override
@@ -106,7 +104,7 @@ public class DefaultStudentService implements StudentService {
         }
 
         final String json = tmcRestTemplate.fetchJson(String.format("exercises/%s.json", exercise.getPlainId()), "api_version=7");
-        final Submission[] submissions = mapper.mapSubElement(json, Submission[].class, "submissions");
+        final List<Submission> submissions = mapper.readSubElementValueToList(json, Submission.class, "submissions");
 
         final Collection<Student> courseStudents = findAllBy(courseId);
 
