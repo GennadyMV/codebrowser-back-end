@@ -32,7 +32,7 @@ public class SnapshotFileController {
     }
 
     @RequestMapping(value = "{fileId}")
-    public SnapshotFile read(@PathVariable final String studentId,
+    public String read(@PathVariable final String studentId,
                              @PathVariable final String courseId,
                              @PathVariable final String exerciseId,
                              @PathVariable final String snapshotId,

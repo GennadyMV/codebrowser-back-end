@@ -32,9 +32,9 @@ public class DefaultSnapshotFileService implements SnapshotFileService {
     }
 
     @Override
-    public SnapshotFile findBy(final String studentId, final String courseId, final String exerciseId, final String snapshotId, final String fileId) {
+    public String findBy(final String studentId, final String courseId, final String exerciseId, final String snapshotId, final String fileId) {
 
         return restTemplate.getForObject("{studentId}/courses/{courseId}/exercises/{exerciseId}/snapshots/{snapshotId}/files/{fileId}",
-                                         SnapshotFile.class, studentId, courseId, exerciseId, snapshotId, fileId);
+                                         String.class, studentId, courseId, exerciseId, snapshotId, fileId);
     }
 }
