@@ -19,15 +19,31 @@ public class Submission {
         return exerciseName;
     }
 
+    public void setExerciseName(final String exerciseName) {
+        this.exerciseName = exerciseName;
+    }
+
     public String getId() {
         return id;
+    }
+
+    public void setId(final String id) {
+        this.id = id;
     }
 
     public String getCourseId() {
         return courseId;
     }
 
+    public void setCourseId(final String courseId) {
+        this.courseId = courseId;
+    }
+
     public String getUserId() {
         return userId;
+    }
+
+    public void setUserId(final String userId) {
+        this.userId = userId;
     }
 }

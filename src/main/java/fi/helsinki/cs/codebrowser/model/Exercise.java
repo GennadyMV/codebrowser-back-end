@@ -32,8 +32,18 @@ public class Exercise {
         return id;
     }
 
+    public void setPlainId(final String id) {
+
+        this.id = id;
+    }
+
     public String getName() {
 
         return name;
+    }
+
+    public void setName(final String name) {
+
+        this.name = name;
     }
 }

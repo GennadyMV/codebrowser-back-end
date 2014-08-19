@@ -80,6 +80,11 @@ public class Snapshot implements Comparable<Snapshot> {
         return id;
     }
 
+    public void setId(final String id) {
+
+        this.id = id;
+    }
+
     @Override
     public int compareTo(final Snapshot o) {
 

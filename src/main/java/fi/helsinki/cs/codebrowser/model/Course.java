@@ -17,8 +17,6 @@ public class Course {
 
     private List<Exercise> exercises;
 
-    private int amountOfStudents;
-
     public void addExercise(final Exercise exercise) {
 
         if (getExercises().contains(exercise)) {
@@ -50,28 +48,20 @@ public class Course {
     public void setStudents(final List<Student> students) {
 
         this.students = students;
-        this.setAmountOfStudents(students.size());
     }
 
-    public int getAmountOfStudents() {
+    public void setName(final String name) {
 
-        if (students != null && !students.isEmpty()) {
-            amountOfStudents = students.size();
-        } else {
-            amountOfStudents = 0;
-        }
-
-        return amountOfStudents;
-    }
-
-    public void setAmountOfStudents(final int amountOfStudents) {
-
-        this.amountOfStudents = amountOfStudents;
+        this.name = name;
     }
 
     public String getName() {
 
         return name;
+    }
+
+    public void setPlainId(final String id) {
+        this.id = id;
     }
 
     public String getId() {

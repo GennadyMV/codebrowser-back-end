@@ -25,6 +25,11 @@ public class Student {
         return username;
     }
 
+    public void setUsername(final String username) {
+
+        this.username = username;
+    }
+
     public String getId() {
         return Base64.encodeBase64URLSafeString(username.getBytes());
     }
@@ -32,6 +37,11 @@ public class Student {
     public String getPlainId() {
 
         return id;
+    }
+
+    public void setPlainId(final String id) {
+
+        this.id = id;
     }
 
     // For Jackson deserialisation
