@@ -1,18 +1,27 @@
 package fi.helsinki.cs.codebrowser.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.util.Date;
 import java.util.List;
 
 public class Snapshot implements Comparable<Snapshot> {
 
     private String id;
+
+    @JsonIgnore
     private String type;
 
     private Date timestamp;
     private List<SnapshotFile> files;
+
+    @JsonIgnore
     private Exercise exercise;
+
+    @JsonIgnore
     private Course course;
 
+    @JsonIgnore
     private boolean compiles;
 
     public String getType() {

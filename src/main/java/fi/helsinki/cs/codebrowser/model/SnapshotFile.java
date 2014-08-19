@@ -4,15 +4,10 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import java.io.File;
-import java.io.IOException;
-
-import org.apache.commons.io.FileUtils;
-
 public class SnapshotFile {
 
-    private String id;
-    private String name;
+    private final String id;
+    private final String name;
     private String filepath;
 
     @JsonIgnore
@@ -34,14 +29,6 @@ public class SnapshotFile {
     public void setFilepath(final String filepath) {
 
         this.filepath = filepath;
-    }
-
-    @JsonIgnore
-    public String getContent() throws IOException {
-
-        final File file = new File(getFilepath());
-
-        return FileUtils.readFileToString(file);
     }
 
     public long getFilesize() {
