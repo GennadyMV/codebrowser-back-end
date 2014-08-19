@@ -9,6 +9,6 @@ public interface SnapshotFileService {
 
     Collection<SnapshotFile> findAllBy(String studentId, String courseId, String exerciseId, String snapshotId) throws IOException;
 
-    String findBy(String studentId, String courseId, String exerciseId, String snapshotId, String fileId);
+    SnapshotFile findBy(String studentId, String courseId, String exerciseId, String snapshotId, String fileId);
 
 }
