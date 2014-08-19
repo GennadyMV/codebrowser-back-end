@@ -1,6 +1,8 @@
 package fi.helsinki.cs.codebrowser.model;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.io.File;
 import java.io.IOException;
@@ -9,10 +11,20 @@ import org.apache.commons.io.FileUtils;
 
 public class SnapshotFile {
 
-    @JsonIgnore
+    private String id;
+    private String name;
     private String filepath;
 
+    @JsonIgnore
     private long filesize;
+
+    @JsonCreator
+    public SnapshotFile(@JsonProperty("id") final String id, @JsonProperty("name") final String name, @JsonProperty("path") final String filepath) {
+
+        this.id = id;
+        this.name = name;
+        this.filepath = filepath;
+    }
 
     public String getFilepath() {
 
@@ -40,5 +52,15 @@ public class SnapshotFile {
     public void setFilesize(final long filesize) {
 
         this.filesize = filesize;
+    }
+
+    public String getId() {
+
+        return id;
+    }
+
+    public String getName() {
+
+        return name;
     }
 }

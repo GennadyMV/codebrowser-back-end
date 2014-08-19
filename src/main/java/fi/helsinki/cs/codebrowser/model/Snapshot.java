@@ -9,7 +9,7 @@ public class Snapshot implements Comparable<Snapshot> {
     private String type;
 
     private Date timestamp;
-    private List<String> files;
+    private List<SnapshotFile> files;
     private Exercise exercise;
     private Course course;
 
@@ -35,12 +35,12 @@ public class Snapshot implements Comparable<Snapshot> {
         this.timestamp = timestamp;
     }
 
-    public List<String> getFiles() {
+    public List<SnapshotFile> getFiles() {
 
         return files;
     }
 
-    public void setFiles(final List<String> snapshotFiles) {
+    public void setFiles(final List<SnapshotFile> snapshotFiles) {
 
         this.files = snapshotFiles;
     }
