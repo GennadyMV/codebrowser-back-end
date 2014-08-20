@@ -154,7 +154,4 @@ public class SnapshotControllerTest {
         verify(snapshotService, times(1)).findBy(STUDENT, COURSE, EXERCISE, SNAPSHOT);
         verifyNoMoreInteractions(snapshotService);
     }
-
-
-
 }
