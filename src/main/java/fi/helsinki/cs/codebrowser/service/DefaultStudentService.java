@@ -80,9 +80,9 @@ public class DefaultStudentService implements StudentService {
     @Override
     public Collection<Student> findAll() throws IOException {
 
-        final String json = tmcRestTemplate.fetchJson("participants.json", "api_version=7");
+        final String json = snapshotRestTemplate.getForObject("#", String.class);
 
-        return mapper.readSubElementValueToList(json, Student.class, "participants");
+        return mapper.readValueToList(json, Student.class);
     }
 
     @Override
