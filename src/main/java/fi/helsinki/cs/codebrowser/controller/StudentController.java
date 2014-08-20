@@ -33,7 +33,7 @@ public class StudentController {
 
     @RequestMapping(value = "courses/{courseId}/exercises/{exerciseId}/students")
     public Collection<Student> list(@PathVariable final String courseId,
-                                           @PathVariable final String exerciseId) throws IOException {
+                                    @PathVariable final String exerciseId) throws IOException {
 
         return studentService.findAllBy(courseId, exerciseId);
     }
