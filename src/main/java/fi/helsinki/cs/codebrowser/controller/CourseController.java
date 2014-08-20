@@ -38,7 +38,7 @@ public class CourseController {
     }
 
     @RequestMapping(value = "students/{studentId}/courses/{courseId}")
-    public Course read(@PathVariable final String studentId, @PathVariable final String courseId) {
+    public Course read(@PathVariable final String studentId, @PathVariable final String courseId) throws IOException {
 
         return courseService.findBy(studentId, courseId);
     }

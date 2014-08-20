@@ -1,6 +1,5 @@
 package fi.helsinki.cs.codebrowser.web.client;
 
-import java.io.IOException;
 import java.net.URISyntaxException;
 
 import javax.annotation.PostConstruct;
@@ -38,20 +37,5 @@ public class TmcApiRestTemplate extends BasicAuthenticationRestTemplate {
         } catch (URISyntaxException exception) {
             return;
         }
-    }
-
-    public String fetchJson(final String url, final String... parameters) throws IOException {
-
-        final HttpComponentsClientHttpRequestFactoryPreemptiveAuthentication requestFactory =
-              (HttpComponentsClientHttpRequestFactoryPreemptiveAuthentication) getRequestFactory();
-
-        for (String parameter : parameters) {
-            final String[] split = parameter.split("=");
-
-            requestFactory.addParameter(split[0], split[1]);
-        }
-
-        final String json = getForObject(url, String.class);
-        return json;
     }
 }

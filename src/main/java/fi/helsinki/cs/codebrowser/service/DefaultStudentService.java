@@ -142,6 +142,8 @@ public class DefaultStudentService implements StudentService {
     @Override
     public Student find(final String studentId) throws IOException {
 
-        return snapshotRestTemplate.getForObject("{studentId}", Student.class, studentId);
+        final String json = snapshotRestTemplate.getForObject("{studentId}", String.class, studentId);
+
+        return mapper.readValue(json, Student.class);
     }
 }

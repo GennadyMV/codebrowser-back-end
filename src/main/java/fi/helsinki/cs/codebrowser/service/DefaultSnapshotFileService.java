@@ -14,7 +14,7 @@ import org.springframework.stereotype.Service;
 public class DefaultSnapshotFileService implements SnapshotFileService {
 
     @Autowired
-    private SnapshotApiRestTemplate restTemplate;
+    private SnapshotApiRestTemplate snapshotRestTemplate;
 
     private final JsonMapper mapper = new JsonMapper();
 
@@ -24,7 +24,7 @@ public class DefaultSnapshotFileService implements SnapshotFileService {
                                               final String exerciseId,
                                               final String snapshotId) throws IOException {
 
-        final String json =  restTemplate.getForObject("{studentId}/courses/{courseId}/exercises/{exerciseId}/snapshots/{snapshotId}/files",
+        final String json =  snapshotRestTemplate.getForObject("{studentId}/courses/{courseId}/exercises/{exerciseId}/snapshots/{snapshotId}/files",
                                                        String.class, studentId, courseId, exerciseId, snapshotId);
 
         return mapper.readValueToList(json, SnapshotFile.class);
@@ -35,10 +35,12 @@ public class DefaultSnapshotFileService implements SnapshotFileService {
                                final String courseId,
                                final String exerciseId,
                                final String snapshotId,
-                               final String fileId) {
+                               final String fileId) throws IOException {
 
-        return restTemplate.getForObject("{studentId}/courses/{courseId}/exercises/{exerciseId}/snapshots/{snapshotId}/files/{fileId}",
-                                         SnapshotFile.class, studentId, courseId, exerciseId, snapshotId, fileId);
+        final String json = snapshotRestTemplate.getForObject("{studentId}/courses/{courseId}/exercises/{exerciseId}/snapshots/{snapshotId}/files/{fileId}",
+                                         String.class, studentId, courseId, exerciseId, snapshotId, fileId);
+
+        return mapper.readValue(json, SnapshotFile.class);
     }
 
     @Override
@@ -48,7 +50,7 @@ public class DefaultSnapshotFileService implements SnapshotFileService {
                                 final String snapshotId,
                                 final String fileId) {
 
-        return restTemplate.getForObject("{studentId}/courses/{courseId}/exercises/{exerciseId}/snapshots/{snapshotId}/files/{fileId}/content",
+        return snapshotRestTemplate.getForObject("{studentId}/courses/{courseId}/exercises/{exerciseId}/snapshots/{snapshotId}/files/{fileId}/content",
                                          String.class, studentId, courseId, exerciseId, snapshotId, fileId);
     }
 }

@@ -9,7 +9,7 @@ public interface SnapshotFileService {
 
     Collection<SnapshotFile> findAllBy(String studentId, String courseId, String exerciseId, String snapshotId) throws IOException;
 
-    SnapshotFile findBy(String studentId, String courseId, String exerciseId, String snapshotId, String fileId);
+    SnapshotFile findBy(String studentId, String courseId, String exerciseId, String snapshotId, String fileId) throws IOException;
     String findContentBy(String studentId, String courseId, String exerciseId, String snapshotId, String fileId);
 
 }

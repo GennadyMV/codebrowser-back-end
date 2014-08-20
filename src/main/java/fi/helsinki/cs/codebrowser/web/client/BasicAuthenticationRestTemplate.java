@@ -1,5 +1,6 @@
 package fi.helsinki.cs.codebrowser.web.client;
 
+import java.io.IOException;
 import java.net.URISyntaxException;
 
 import org.apache.http.HttpHost;
@@ -28,5 +29,20 @@ public class BasicAuthenticationRestTemplate extends RestTemplate implements Res
 
         final HttpComponentsClientHttpRequestFactoryPreemptiveAuthentication requestFactory = (HttpComponentsClientHttpRequestFactoryPreemptiveAuthentication) getRequestFactory();
         requestFactory.setBaseUrl(baseUrl);
+    }
+
+    public String fetchJson(final String url, final String... parameters) throws IOException {
+
+        final HttpComponentsClientHttpRequestFactoryPreemptiveAuthentication requestFactory =
+              (HttpComponentsClientHttpRequestFactoryPreemptiveAuthentication) getRequestFactory();
+
+        for (String parameter : parameters) {
+            final String[] split = parameter.split("=");
+
+            requestFactory.addParameter(split[0], split[1]);
+        }
+
+        final String json = getForObject(url, String.class);
+        return json;
     }
 }

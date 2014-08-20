@@ -15,7 +15,7 @@ import org.springframework.stereotype.Service;
 public class DefaultSnapshotService implements SnapshotService {
 
     @Autowired
-    private SnapshotApiRestTemplate restTemplate;
+    private SnapshotApiRestTemplate snapshotRestTemplate;
 
     private final JsonMapper mapper = new JsonMapper();
 
@@ -24,7 +24,7 @@ public class DefaultSnapshotService implements SnapshotService {
                                           final String courseId,
                                           final String exerciseId) throws IOException {
 
-        final String json =  restTemplate.getForObject("{studentId}/courses/{courseId}/exercises/{exerciseId}/snapshots",
+        final String json =  snapshotRestTemplate.getForObject("{studentId}/courses/{courseId}/exercises/{exerciseId}/snapshots",
                                                        String.class, studentId, courseId, exerciseId);
 
         return mapper.readValueToList(json, Snapshot.class);
@@ -36,7 +36,9 @@ public class DefaultSnapshotService implements SnapshotService {
                            final String exerciseId,
                            final String snapshotId) throws IOException {
 
-        return restTemplate.getForObject("{studentId}/courses/{courseId}/exercises/{exerciseId}/snapshots/{snapshotId}",
-                                         Snapshot.class, studentId, courseId, exerciseId, snapshotId);
+        final String json = snapshotRestTemplate.getForObject("{studentId}/courses/{courseId}/exercises/{exerciseId}/snapshots/{snapshotId}",
+                                         String.class, studentId, courseId, exerciseId, snapshotId);
+
+        return mapper.readValue(json, Snapshot.class);
     }
 }

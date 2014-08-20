@@ -52,9 +52,11 @@ public class DefaultExerciseService implements ExerciseService {
     }
 
     @Override
-    public Exercise findBy(final String studentId, final String courseId, final String exerciseId) {
+    public Exercise findBy(final String studentId, final String courseId, final String exerciseId) throws IOException {
 
-        return restTemplate.getForObject("{studentId}/courses/{courseId}/exercises/{exerciseId}",
-                                         Exercise.class, studentId, courseId, exerciseId);
+        final String json = restTemplate.getForObject("{studentId}/courses/{courseId}/exercises/{exerciseId}",
+                                         String.class, studentId, courseId, exerciseId);
+
+        return mapper.readValue(json, Exercise.class);
     }
 }
