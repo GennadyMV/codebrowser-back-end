@@ -3,14 +3,18 @@ package fi.helsinki.cs.codebrowser.controller;
 import fi.helsinki.cs.codebrowser.app.App;
 import fi.helsinki.cs.codebrowser.model.SnapshotFile;
 import fi.helsinki.cs.codebrowser.service.SnapshotFileService;
+
 import java.util.ArrayList;
 import java.util.List;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+
 import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
@@ -22,6 +26,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import static com.jayway.jsonassert.impl.matcher.IsCollectionWithSize.hasSize;
 
 import static org.hamcrest.CoreMatchers.is;
+
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
@@ -74,6 +79,7 @@ public class SnapshotFileControllerTest {
     }
 
     public List<SnapshotFile> buildSnapshotFiles() {
+        
         final List<SnapshotFile> snapshotFiles = new ArrayList<>();
 
         snapshotFiles.add(new SnapshotFile(SNAPSHOTFILE_1_ID, SNAPSHOTFILE_1_NAME, SNAPSHOTFILE_1_PATH));
