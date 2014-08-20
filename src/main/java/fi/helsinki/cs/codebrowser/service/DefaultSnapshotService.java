@@ -1,6 +1,5 @@
 package fi.helsinki.cs.codebrowser.service;
 
-
 import fi.helsinki.cs.codebrowser.model.Snapshot;
 import fi.helsinki.cs.codebrowser.util.JsonMapper;
 import fi.helsinki.cs.codebrowser.web.client.SnapshotApiRestTemplate;
@@ -25,7 +24,7 @@ public class DefaultSnapshotService implements SnapshotService {
                                           final String exerciseId) throws IOException {
 
         final String json =  snapshotRestTemplate.getForObject("{studentId}/courses/{courseId}/exercises/{exerciseId}/snapshots",
-                                                       String.class, studentId, courseId, exerciseId);
+                                                               String.class, studentId, courseId, exerciseId);
 
         return mapper.readValueToList(json, Snapshot.class);
     }
@@ -37,7 +36,7 @@ public class DefaultSnapshotService implements SnapshotService {
                            final String snapshotId) throws IOException {
 
         final String json = snapshotRestTemplate.getForObject("{studentId}/courses/{courseId}/exercises/{exerciseId}/snapshots/{snapshotId}",
-                                         String.class, studentId, courseId, exerciseId, snapshotId);
+                                                              String.class, studentId, courseId, exerciseId, snapshotId);
 
         return mapper.readValue(json, Snapshot.class);
     }

@@ -1,6 +1,5 @@
 package fi.helsinki.cs.codebrowser.service;
 
-
 import fi.helsinki.cs.codebrowser.model.Exercise;
 import fi.helsinki.cs.codebrowser.util.JsonMapper;
 import fi.helsinki.cs.codebrowser.web.client.SnapshotApiRestTemplate;
@@ -55,7 +54,7 @@ public class DefaultExerciseService implements ExerciseService {
     public Exercise findBy(final String studentId, final String courseId, final String exerciseId) throws IOException {
 
         final String json = restTemplate.getForObject("{studentId}/courses/{courseId}/exercises/{exerciseId}",
-                                         String.class, studentId, courseId, exerciseId);
+                                                      String.class, studentId, courseId, exerciseId);
 
         return mapper.readValue(json, Exercise.class);
     }

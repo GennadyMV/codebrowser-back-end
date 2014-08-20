@@ -38,6 +38,7 @@ public class DefaultCourseService implements CourseService {
     public Collection<Course> findAll() throws IOException {
 
         final String json = tmcRestTemplate.fetchJson("courses.json", "api_version=7");
+
         return mapper.readSubElementValueToList(json, Course.class, "courses");
     }
 
@@ -45,7 +46,7 @@ public class DefaultCourseService implements CourseService {
     public Collection<Course> findAllBy(final String studentId) throws IOException {
 
         final String json = snapshotRestTemplate.getForObject("{studentId}/courses",
-                                                 String.class, studentId);
+                                                              String.class, studentId);
 
         return mapper.readValueToList(json, Course.class);
     }
