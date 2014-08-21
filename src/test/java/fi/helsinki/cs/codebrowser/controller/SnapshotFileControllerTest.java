@@ -79,7 +79,7 @@ public class SnapshotFileControllerTest {
     }
 
     public List<SnapshotFile> buildSnapshotFiles() {
-        
+
         final List<SnapshotFile> snapshotFiles = new ArrayList<>();
 
         snapshotFiles.add(new SnapshotFile(SNAPSHOTFILE_1_ID, SNAPSHOTFILE_1_NAME, SNAPSHOTFILE_1_PATH));
