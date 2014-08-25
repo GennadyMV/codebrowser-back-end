@@ -2,6 +2,7 @@ package fi.helsinki.cs.codebrowser.service;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 
+import fi.helsinki.cs.codebrowser.exception.NotFoundException;
 import fi.helsinki.cs.codebrowser.model.Course;
 import fi.helsinki.cs.codebrowser.util.JsonMapper;
 import fi.helsinki.cs.codebrowser.web.client.SnapshotApiRestTemplate;
@@ -66,7 +67,7 @@ public class DefaultCourseService implements CourseService {
         }
 
         if (course == null) {
-            return null;
+            throw new NotFoundException();
         }
 
         final String json = tmcRestTemplate.fetchJson(String.format("courses/%s.json", course.getPlainId()), "api_version=7");

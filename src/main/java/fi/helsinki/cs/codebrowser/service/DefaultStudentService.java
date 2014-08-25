@@ -2,6 +2,7 @@ package fi.helsinki.cs.codebrowser.service;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 
+import fi.helsinki.cs.codebrowser.exception.NotFoundException;
 import fi.helsinki.cs.codebrowser.model.Course;
 import fi.helsinki.cs.codebrowser.model.Exercise;
 import fi.helsinki.cs.codebrowser.model.Student;
@@ -49,14 +50,13 @@ public class DefaultStudentService implements StudentService {
 
         final Collection<Exercise> exercises = exerciseService.findAllBy(courseId);
 
-        Exercise exercise = null;
-        for (Exercise ex : exercises) {
-            if (ex.getId().equals(exerciseId)) {
-                exercise = ex;
+        for (Exercise exercise : exercises) {
+            if (exercise.getId().equals(exerciseId)) {
+                return exercise;
             }
         }
 
-        return exercise;
+        throw new NotFoundException();
     }
 
     private Collection<Student> studentsWithSubmissions(final Collection<Student> courseStudents, final List<Submission> submissions) {
@@ -99,10 +99,6 @@ public class DefaultStudentService implements StudentService {
 
         final Exercise exercise = getCourseExerciseById(courseId, exerciseId);
 
-        if (exercise == null) {
-            return null;
-        }
-
         final String json = tmcRestTemplate.fetchJson(String.format("exercises/%s.json", exercise.getPlainId()), "api_version=7");
         final List<Submission> submissions = mapper.readSubElementValueToList(json, Submission.class, "submissions");
 
@@ -122,7 +118,7 @@ public class DefaultStudentService implements StudentService {
             }
         }
 
-        return null;
+        throw new NotFoundException();
     }
 
     @Override
@@ -136,7 +132,7 @@ public class DefaultStudentService implements StudentService {
             }
         }
 
-        return null;
+        throw new NotFoundException();
     }
 
     @Override

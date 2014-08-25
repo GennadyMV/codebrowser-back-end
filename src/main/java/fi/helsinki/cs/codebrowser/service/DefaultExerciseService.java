@@ -1,5 +1,6 @@
 package fi.helsinki.cs.codebrowser.service;
 
+import fi.helsinki.cs.codebrowser.exception.NotFoundException;
 import fi.helsinki.cs.codebrowser.model.Exercise;
 import fi.helsinki.cs.codebrowser.util.JsonMapper;
 import fi.helsinki.cs.codebrowser.web.client.SnapshotApiRestTemplate;
@@ -47,7 +48,7 @@ public class DefaultExerciseService implements ExerciseService {
             }
         }
 
-        return null;
+        throw new NotFoundException();
     }
 
     @Override
