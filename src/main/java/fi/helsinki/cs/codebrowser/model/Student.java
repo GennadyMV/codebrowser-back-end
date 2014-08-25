@@ -1,5 +1,7 @@
 package fi.helsinki.cs.codebrowser.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.util.List;
 
 import org.apache.commons.codec.binary.Base64;
@@ -35,6 +37,7 @@ public class Student {
         return Base64.encodeBase64URLSafeString(username.getBytes());
     }
 
+    @JsonIgnore
     public String getPlainId() {
 
         return id;

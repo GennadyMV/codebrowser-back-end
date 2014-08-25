@@ -27,6 +27,7 @@ public class Exercise {
         return Base64.encodeBase64URLSafeString(name.getBytes());
     }
 
+    @JsonIgnore
     public String getPlainId() {
 
         return id;
