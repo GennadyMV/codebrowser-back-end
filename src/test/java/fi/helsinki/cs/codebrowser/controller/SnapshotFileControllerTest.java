@@ -134,8 +134,7 @@ public class SnapshotFileControllerTest {
         mockMvc.perform(get(BASE_URL_1 + "/" + FILE))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$.id", is(SNAPSHOTFILE_1_ID)))
-                .andExpect(jsonPath("$.filepath", is(SNAPSHOTFILE_1_PATH)));
+                .andExpect(jsonPath("$.id", is(SNAPSHOTFILE_1_ID)));
 
         verify(snapshotFileService, times(1)).findBy(STUDENT, COURSE, EXERCISE, SNAPSHOT, FILE);
         verifyNoMoreInteractions(snapshotFileService);
@@ -151,8 +150,7 @@ public class SnapshotFileControllerTest {
         mockMvc.perform(get(BASE_URL_2 + "/" + FILE))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$.id", is(SNAPSHOTFILE_1_ID)))
-                .andExpect(jsonPath("$.filepath", is(SNAPSHOTFILE_1_PATH)));
+                .andExpect(jsonPath("$.id", is(SNAPSHOTFILE_1_ID)));
 
         verify(snapshotFileService, times(1)).findBy(STUDENT, COURSE, EXERCISE, SNAPSHOT, FILE);
         verifyNoMoreInteractions(snapshotFileService);
