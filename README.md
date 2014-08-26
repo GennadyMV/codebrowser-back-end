@@ -1,10 +1,10 @@
-codebrowser-backend
+codebrowser-back-end
 ================
 
-[![Build Status](https://travis-ci.org/kesapojat/codebrowser-backend.svg?branch=master)](https://travis-ci.org/kesapojat/codebrowser-backend/)
-[![Coverage Status](https://img.shields.io/coveralls/kesapojat/codebrowser-backend.svg)](https://coveralls.io/r/kesapojat/codebrowser-backend/)
+[![Build Status](https://travis-ci.org/kesapojat/codebrowser-back-end.svg?branch=master)](https://travis-ci.org/kesapojat/codebrowser-back-end/)
+[![Coverage Status](https://img.shields.io/coveralls/kesapojat/codebrowser-back-end.svg)](https://coveralls.io/r/kesapojat/codebrowser-back-end/)
 
-A Spring Boot backend for Codebrowser (Java 7 + Java EE 7 + Spring Boot 1.1.4.RELEASE).
+A Spring Boot back-end for Code Browser (Java 7 + Java EE 7 + Spring Boot 1.1.4.RELEASE).
 
 ## Start Server
 
