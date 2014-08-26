@@ -7,11 +7,11 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>fi.helsinki.cs</groupId>
-    <artifactId>codebrowser-backend</artifactId>
+    <artifactId>codebrowser-back-end</artifactId>
     <version>1.0</version>
     <packaging>war</packaging>
 
-    <name>codebrowser-backend</name>
+    <name>codebrowser-back-end</name>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -64,7 +64,7 @@
             <groupId>org.apache.httpcomponents</groupId>
             <artifactId>httpclient</artifactId>
         </dependency>
-        
+
         <!-- JSONPath -->
         <dependency>
             <groupId>com.jayway.jsonpath</groupId>
