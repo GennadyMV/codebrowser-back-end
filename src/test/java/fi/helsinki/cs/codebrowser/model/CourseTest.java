@@ -10,13 +10,11 @@ import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
 
-
-public class CourseTest {
+public final class CourseTest {
 
     private static final String NAME = "courseName";
-    private static final String PLAIN_ID = "coursePlainId";
+    private static final String PLAIN_ID = "coursePlainID";
     private static final String ID = Base64.encodeBase64URLSafeString(NAME.getBytes());
 
     private Course course;
@@ -49,24 +47,6 @@ public class CourseTest {
         course.setName(NAME);
 
         assertEquals(ID, course.getId());
-    }
-
-    @Test
-    public void canSetStudents() {
-
-
-        final List<Student> students = new ArrayList<>();
-        students.add(new Student());
-
-        course.setStudents(students);
-
-        assertEquals(students, course.getStudents());
-    }
-
-    @Test
-    public void studentsInitiliseAsNull() {
-
-        assertNull(course.getStudents());
     }
 
     @Test
@@ -106,7 +86,4 @@ public class CourseTest {
 
         assertEquals(1, course.getExercises().size());
     }
-
-
-
 }

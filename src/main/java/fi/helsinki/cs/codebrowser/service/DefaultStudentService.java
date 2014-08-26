@@ -6,7 +6,7 @@ import fi.helsinki.cs.codebrowser.exception.NotFoundException;
 import fi.helsinki.cs.codebrowser.model.Course;
 import fi.helsinki.cs.codebrowser.model.Exercise;
 import fi.helsinki.cs.codebrowser.model.Student;
-import fi.helsinki.cs.codebrowser.model.Submission;
+import fi.helsinki.cs.codebrowser.model.TmcSubmission;
 import fi.helsinki.cs.codebrowser.util.JsonMapper;
 import fi.helsinki.cs.codebrowser.web.client.SnapshotApiRestTemplate;
 import fi.helsinki.cs.codebrowser.web.client.TmcApiRestTemplate;
@@ -24,13 +24,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class DefaultStudentService implements StudentService {
-
-    @Autowired
-    private SnapshotApiRestTemplate snapshotRestTemplate;
+public final class DefaultStudentService implements StudentService {
 
     @Autowired
     private TmcApiRestTemplate tmcRestTemplate;
+
+    @Autowired
+    private SnapshotApiRestTemplate snapshotRestTemplate;
 
     @Autowired
     private ExerciseService exerciseService;
@@ -50,6 +50,7 @@ public class DefaultStudentService implements StudentService {
 
         final Collection<Exercise> exercises = exerciseService.findAllBy(courseId);
 
+        // Find exercise with ID
         for (Exercise exercise : exercises) {
             if (exercise.getId().equals(exerciseId)) {
                 return exercise;
@@ -59,10 +60,12 @@ public class DefaultStudentService implements StudentService {
         throw new NotFoundException();
     }
 
-    private Collection<Student> studentsWithSubmissions(final Collection<Student> courseStudents, final List<Submission> submissions) {
+    private Collection<Student> studentsWithSubmissions(final Collection<Student> courseStudents,
+                                                        final List<TmcSubmission> submissions) {
 
         final Set<String> submitters = new HashSet<>();
-        for (Submission submission : submissions) {
+
+        for (TmcSubmission submission : submissions) {
             submitters.add(submission.getUserId());
         }
 
@@ -89,7 +92,8 @@ public class DefaultStudentService implements StudentService {
     public Collection<Student> findAllBy(final String courseId) throws IOException {
 
         final Course course = courseService.findBy(courseId);
-        final String json = tmcRestTemplate.fetchJson(String.format("courses/%s/points.json", course.getPlainId()), "api_version=7");
+        final String json = tmcRestTemplate.fetchJson(String.format("courses/%s/points.json", course.getPlainId()),
+                                                      "api_version=7");
 
         return mapper.readSubElementValueToList(json, Student.class, "users");
     }
@@ -99,8 +103,9 @@ public class DefaultStudentService implements StudentService {
 
         final Exercise exercise = getCourseExerciseById(courseId, exerciseId);
 
-        final String json = tmcRestTemplate.fetchJson(String.format("exercises/%s.json", exercise.getPlainId()), "api_version=7");
-        final List<Submission> submissions = mapper.readSubElementValueToList(json, Submission.class, "submissions");
+        final String json = tmcRestTemplate.fetchJson(String.format("exercises/%s.json", exercise.getPlainId()),
+                                                      "api_version=7");
+        final List<TmcSubmission> submissions = mapper.readSubElementValueToList(json, TmcSubmission.class, "submissions");
 
         final Collection<Student> courseStudents = findAllBy(courseId);
 
@@ -112,6 +117,7 @@ public class DefaultStudentService implements StudentService {
 
         final Collection<Student> students = findAllBy(courseId, exerciseId);
 
+        // Find student by ID
         for (Student student : students) {
             if (student.getId().equals(studentId)) {
                 return student;
@@ -126,6 +132,7 @@ public class DefaultStudentService implements StudentService {
 
         final Collection<Student> students = findAllBy(courseId);
 
+        // Find student by ID
         for (Student student : students) {
             if (student.getId().equals(studentId)) {
                 return student;

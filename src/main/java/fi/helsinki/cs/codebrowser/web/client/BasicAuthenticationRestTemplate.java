@@ -13,7 +13,6 @@ public class BasicAuthenticationRestTemplate extends RestTemplate implements Res
     public BasicAuthenticationRestTemplate() {
 
         super();
-
         setRequestFactory(new HttpComponentsClientHttpRequestFactoryPreemptiveAuthentication());
     }
 
@@ -33,16 +32,13 @@ public class BasicAuthenticationRestTemplate extends RestTemplate implements Res
 
     public String fetchJson(final String url, final String... parameters) throws IOException {
 
-        final HttpComponentsClientHttpRequestFactoryPreemptiveAuthentication requestFactory =
-              (HttpComponentsClientHttpRequestFactoryPreemptiveAuthentication) getRequestFactory();
+        final HttpComponentsClientHttpRequestFactoryPreemptiveAuthentication requestFactory = (HttpComponentsClientHttpRequestFactoryPreemptiveAuthentication) getRequestFactory();
 
         for (String parameter : parameters) {
             final String[] split = parameter.split("=");
-
             requestFactory.addParameter(split[0], split[1]);
         }
 
-        final String json = getForObject(url, String.class);
-        return json;
+        return getForObject(url, String.class);
     }
 }

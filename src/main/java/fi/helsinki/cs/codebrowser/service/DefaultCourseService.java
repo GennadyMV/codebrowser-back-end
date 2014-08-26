@@ -19,13 +19,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class DefaultCourseService implements CourseService {
-
-    @Autowired
-    private SnapshotApiRestTemplate snapshotRestTemplate;
+public final class DefaultCourseService implements CourseService {
 
     @Autowired
     private TmcApiRestTemplate tmcRestTemplate;
+
+    @Autowired
+    private SnapshotApiRestTemplate snapshotRestTemplate;
 
     private final JsonMapper mapper = new JsonMapper();
 
@@ -47,7 +47,8 @@ public class DefaultCourseService implements CourseService {
     public Collection<Course> findAllBy(final String studentId) throws IOException {
 
         final String json = snapshotRestTemplate.getForObject("{studentId}/courses",
-                                                              String.class, studentId);
+                                                              String.class,
+                                                              studentId);
 
         return mapper.readValueToList(json, Course.class);
     }
@@ -56,21 +57,23 @@ public class DefaultCourseService implements CourseService {
     public Course findBy(final String courseId) throws IOException {
 
         final String courseName = new String(Base64.decodeBase64(courseId));
+        final Collection<Course> tmcCourses = findAll();
 
-        final Collection<Course> courses = findAll();
-        Course course = null;
+        Course tmcCourse = null;
 
-        for (Course c : courses) {
-            if (c.getName().equals(courseName)) {
-                course = c;
+        // Find course with course name
+        for (Course course : tmcCourses) {
+            if (course.getName().equals(courseName)) {
+                tmcCourse = course;
             }
         }
 
-        if (course == null) {
+        if (tmcCourse == null) {
             throw new NotFoundException();
         }
 
-        final String json = tmcRestTemplate.fetchJson(String.format("courses/%s.json", course.getPlainId()), "api_version=7");
+        final String json = tmcRestTemplate.fetchJson(String.format("courses/%s.json", tmcCourse.getPlainId()),
+                                                      "api_version=7");
 
         return mapper.readSubElementValue(json, Course.class, "course");
     }
@@ -79,7 +82,9 @@ public class DefaultCourseService implements CourseService {
     public Course findBy(final String studentId, final String courseId) throws IOException {
 
         final String json = snapshotRestTemplate.getForObject("{studentId}/courses/{courseId}",
-                                                              String.class, studentId, courseId);
+                                                              String.class,
+                                                              studentId,
+                                                              courseId);
 
         return mapper.readValue(json, Course.class);
     }

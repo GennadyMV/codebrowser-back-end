@@ -4,43 +4,22 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class SnapshotFile {
+public final class SnapshotFile {
 
     private final String id;
     private final String name;
 
     @JsonIgnore
-    private String filepath;
-
-    @JsonIgnore
-    private long filesize;
+    private final String path;
 
     @JsonCreator
-    public SnapshotFile(@JsonProperty("id") final String id, @JsonProperty("name") final String name, @JsonProperty("path") final String filepath) {
+    public SnapshotFile(@JsonProperty("id") final String id,
+                        @JsonProperty("name") final String name,
+                        @JsonProperty("path") final String path) {
 
         this.id = id;
         this.name = name;
-        this.filepath = filepath;
-    }
-
-    public String getFilepath() {
-
-        return filepath;
-    }
-
-    public void setFilepath(final String filepath) {
-
-        this.filepath = filepath;
-    }
-
-    public long getFilesize() {
-
-        return filesize;
-    }
-
-    public void setFilesize(final long filesize) {
-
-        this.filesize = filesize;
+        this.path = path;
     }
 
     public String getId() {

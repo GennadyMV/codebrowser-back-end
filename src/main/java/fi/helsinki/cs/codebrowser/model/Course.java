@@ -7,47 +7,26 @@ import java.util.List;
 
 import org.apache.commons.codec.binary.Base64;
 
-public class Course {
+public final class Course {
 
     private String id;
     private String name;
-
-    @JsonIgnore
-    private List<Student> students;
-
     private List<Exercise> exercises;
 
-    public void addExercise(final Exercise exercise) {
+    public void setPlainId(final String id) {
 
-        if (getExercises().contains(exercise)) {
-            return;
-        }
-
-        getExercises().add(exercise);
+        this.id = id;
     }
 
-    public List<Exercise> getExercises() {
+    @JsonIgnore
+    public String getPlainId() {
 
-        if (exercises == null) {
-            exercises = new ArrayList<>();
-        }
-
-        return exercises;
+        return id;
     }
 
-    public void setExercises(final List<Exercise> exercises) {
+    public String getId() {
 
-        this.exercises = exercises;
-    }
-
-    public List<Student> getStudents() {
-
-        return students;
-    }
-
-    public void setStudents(final List<Student> students) {
-
-        this.students = students;
+        return Base64.encodeBase64URLSafeString(name.getBytes());
     }
 
     public void setName(final String name) {
@@ -60,18 +39,26 @@ public class Course {
         return name;
     }
 
-    public void setPlainId(final String id) {
-        this.id = id;
+    public void setExercises(final List<Exercise> exercises) {
+
+        this.exercises = exercises;
     }
 
-    public String getId() {
+    public List<Exercise> getExercises() {
 
-        return Base64.encodeBase64URLSafeString(name.getBytes());
+        if (exercises == null) {
+            exercises = new ArrayList<>();
+        }
+
+        return exercises;
     }
 
-    @JsonIgnore
-    public String getPlainId() {
+    public void addExercise(final Exercise exercise) {
 
-        return id;
+        if (getExercises().contains(exercise)) {
+            return;
+        }
+
+        getExercises().add(exercise);
     }
 }

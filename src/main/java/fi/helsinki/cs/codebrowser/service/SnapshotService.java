@@ -8,9 +8,7 @@ import java.util.Collection;
 public interface SnapshotService {
 
     Collection<Snapshot> findAllBy(String studentId, String courseId, String exerciseId) throws IOException;
-
     Snapshot findBy(String studentId, String courseId, String exerciseId, String snapshotId) throws IOException;
-
     byte[] findAllFilesAsZip(String studentId, String courseId, String exerciseId) throws IOException;
 
 }

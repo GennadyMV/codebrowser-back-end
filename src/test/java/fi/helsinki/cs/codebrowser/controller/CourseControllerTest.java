@@ -41,12 +41,12 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringApplicationConfiguration(classes = App.class)
 @WebAppConfiguration
 @ActiveProfiles("test")
-public class CourseControllerTest {
+public final class CourseControllerTest {
 
-    private static final String COURSE = "courseId";
-    private static final String USER = "mockUserId";
-    private static final String COURSE_1_NAME = "course1Name";
-    private static final String COURSE_2_NAME = "course2Name";
+    private static final String COURSE = "courseID";
+    private static final String USER = "userID";
+    private static final String COURSE_A_NAME = "Course A";
+    private static final String COURSE_B_NAME = "Course B";
 
     @Mock
     private CourseService courseService;
@@ -68,13 +68,13 @@ public class CourseControllerTest {
 
         final List<Course> courses = new ArrayList<>();
 
-        final Course c1 = new Course();
-        c1.setName(COURSE_1_NAME);
-        courses.add(c1);
+        final Course courseA = new Course();
+        courseA.setName(COURSE_A_NAME);
+        courses.add(courseA);
 
-        final Course c2 = new Course();
-        c2.setName(COURSE_2_NAME);
-        courses.add(c2);
+        final Course courseB = new Course();
+        courseB.setName(COURSE_B_NAME);
+        courses.add(courseB);
 
         return courses;
     }
@@ -87,11 +87,11 @@ public class CourseControllerTest {
         when(courseService.findAll()).thenReturn(courses);
 
         mockMvc.perform(get("/courses"))
-                .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$", hasSize(2)))
-                .andExpect(jsonPath("$[0].name", is(COURSE_1_NAME)))
-                .andExpect(jsonPath("$[1].name", is(COURSE_2_NAME)));
+               .andExpect(status().isOk())
+               .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+               .andExpect(jsonPath("$", hasSize(2)))
+               .andExpect(jsonPath("$[0].name", is(COURSE_A_NAME)))
+               .andExpect(jsonPath("$[1].name", is(COURSE_B_NAME)));
 
         verify(courseService, times(1)).findAll();
         verifyNoMoreInteractions(courseService);
@@ -105,11 +105,11 @@ public class CourseControllerTest {
         when(courseService.findAllBy(USER)).thenReturn(courses);
 
         mockMvc.perform(get("/students/" + USER + "/courses"))
-                .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$", hasSize(2)))
-                .andExpect(jsonPath("$[0].name", is(COURSE_1_NAME)))
-                .andExpect(jsonPath("$[1].name", is(COURSE_2_NAME)));
+               .andExpect(status().isOk())
+               .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+               .andExpect(jsonPath("$", hasSize(2)))
+               .andExpect(jsonPath("$[0].name", is(COURSE_A_NAME)))
+               .andExpect(jsonPath("$[1].name", is(COURSE_B_NAME)));
 
         verify(courseService, times(1)).findAllBy(USER);
         verifyNoMoreInteractions(courseService);
@@ -119,14 +119,14 @@ public class CourseControllerTest {
     public void readShouldReturnCourse() throws Exception {
 
         final Course course = new Course();
-        course.setName(COURSE_1_NAME);
+        course.setName(COURSE_A_NAME);
 
         when(courseService.findBy(COURSE)).thenReturn(course);
 
         mockMvc.perform(get("/courses/" + COURSE))
-                .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$.name", is(COURSE_1_NAME)));
+               .andExpect(status().isOk())
+               .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+               .andExpect(jsonPath("$.name", is(COURSE_A_NAME)));
 
         verify(courseService, times(1)).findBy(COURSE);
         verifyNoMoreInteractions(courseService);
@@ -136,14 +136,14 @@ public class CourseControllerTest {
     public void readByStudentShouldReturnCourse() throws Exception {
 
         final Course course = new Course();
-        course.setName(COURSE_1_NAME);
+        course.setName(COURSE_A_NAME);
 
         when(courseService.findBy(USER, COURSE)).thenReturn(course);
 
         mockMvc.perform(get("/students/" + USER + "/courses/" + COURSE))
-                .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$.name", is(COURSE_1_NAME)));
+               .andExpect(status().isOk())
+               .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+               .andExpect(jsonPath("$.name", is(COURSE_A_NAME)));
 
         verify(courseService, times(1)).findBy(USER, COURSE);
         verifyNoMoreInteractions(courseService);

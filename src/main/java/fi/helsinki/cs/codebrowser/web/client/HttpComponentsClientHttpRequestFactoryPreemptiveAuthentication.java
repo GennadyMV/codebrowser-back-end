@@ -26,7 +26,7 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.client.ClientHttpRequest;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 
-public class HttpComponentsClientHttpRequestFactoryPreemptiveAuthentication extends HttpComponentsClientHttpRequestFactory {
+public final class HttpComponentsClientHttpRequestFactoryPreemptiveAuthentication extends HttpComponentsClientHttpRequestFactory {
 
     private final BasicHttpContext context;
     private final AuthCache cache;
@@ -44,6 +44,12 @@ public class HttpComponentsClientHttpRequestFactoryPreemptiveAuthentication exte
         credentialsProvider = new BasicCredentialsProvider();
 
         context.setAttribute(HttpClientContext.AUTH_CACHE, cache);
+    }
+
+    @Override
+    protected HttpContext createHttpContext(final HttpMethod httpMethod, final URI uri) {
+
+        return context;
     }
 
     public void setCredentials(final HttpHost host,
@@ -65,10 +71,9 @@ public class HttpComponentsClientHttpRequestFactoryPreemptiveAuthentication exte
         this.baseUrl = new URI(baseUrl);
     }
 
-    @Override
-    protected HttpContext createHttpContext(final HttpMethod httpMethod, final URI uri) {
+    public void addParameter(final String key, final String value) {
 
-        return context;
+        parameters.put(key, value);
     }
 
     @Override
@@ -90,10 +95,5 @@ public class HttpComponentsClientHttpRequestFactoryPreemptiveAuthentication exte
         }
 
         return super.createRequest(resolvedUri, httpMethod);
-    }
-
-    public void addParameter(final String key, final String value) {
-
-        parameters.put(key, value);
     }
 }

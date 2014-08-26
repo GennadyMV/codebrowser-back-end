@@ -10,7 +10,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 @Component
-public class SnapshotApiRestTemplate extends BasicAuthenticationRestTemplate {
+public final class SnapshotApiRestTemplate extends BasicAuthenticationRestTemplate {
 
     @Value("${snapshot.api.host}")
     private String hostname;

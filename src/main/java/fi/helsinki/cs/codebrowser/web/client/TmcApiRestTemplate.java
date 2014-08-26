@@ -10,7 +10,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 @Component
-public class TmcApiRestTemplate extends BasicAuthenticationRestTemplate {
+public final class TmcApiRestTemplate extends BasicAuthenticationRestTemplate {
 
     @Value("${tmc.api.host}")
     private String hostname;

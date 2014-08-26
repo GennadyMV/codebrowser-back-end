@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping(method = RequestMethod.GET, produces = "application/json")
-public class ExerciseController {
+public final class ExerciseController {
 
     @Autowired
     private ExerciseService exerciseService;

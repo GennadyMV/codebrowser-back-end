@@ -4,27 +4,14 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import org.apache.tomcat.util.codec.binary.Base64;
 
-public class Exercise {
+public final class Exercise {
 
     private String id;
     private String name;
 
-    @JsonIgnore
-    private Course course;
+    public void setPlainId(final String id) {
 
-    public Course getCourse() {
-
-        return course;
-    }
-
-    public void setCourse(final Course course) {
-
-        this.course = course;
-    }
-
-    public String getId() {
-
-        return Base64.encodeBase64URLSafeString(name.getBytes());
+        this.id = id;
     }
 
     @JsonIgnore
@@ -33,18 +20,18 @@ public class Exercise {
         return id;
     }
 
-    public void setPlainId(final String id) {
+    public String getId() {
 
-        this.id = id;
-    }
-
-    public String getName() {
-
-        return name;
+        return Base64.encodeBase64URLSafeString(name.getBytes());
     }
 
     public void setName(final String name) {
 
         this.name = name;
+    }
+
+    public String getName() {
+
+        return name;
     }
 }

@@ -41,15 +41,14 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringApplicationConfiguration(classes = App.class)
 @WebAppConfiguration
 @ActiveProfiles("test")
-public class ExerciseControllerTest {
+public final class ExerciseControllerTest {
 
+    private static final String STUDENT = "studentID";
+    private static final String COURSE = "courseID";
+    private static final String EXERCISE = "exerciseID";
 
-    private static final String STUDENT = "testStudentId";
-    private static final String COURSE = "testCourseId";
-    private static final String EXERCISE = "testExerciseId";
-
-    private static final String EX_1_NAME = "Exercise1Name";
-    private static final String EX_2_NAME = "Exercise2Name";
+    private static final String EXERCISE_A_NAME = "Exercise A";
+    private static final String EXERCISE_B_NAME = "Exercise B";
 
     @Mock
     private ExerciseService exerciseService;
@@ -71,13 +70,13 @@ public class ExerciseControllerTest {
 
         final List<Exercise> exercises = new ArrayList<>();
 
-        final Exercise e1 = new Exercise();
-        e1.setName(EX_1_NAME);
-        exercises.add(e1);
+        final Exercise exerciseA = new Exercise();
+        exerciseA.setName(EXERCISE_A_NAME);
+        exercises.add(exerciseA);
 
-        final Exercise e2 = new Exercise();
-        e2.setName(EX_2_NAME);
-        exercises.add(e2);
+        final Exercise exerciseB = new Exercise();
+        exerciseB.setName(EXERCISE_B_NAME);
+        exercises.add(exerciseB);
 
         return exercises;
     }
@@ -90,11 +89,11 @@ public class ExerciseControllerTest {
         when(exerciseService.findAllBy(COURSE)).thenReturn(exercises);
 
         mockMvc.perform(get("/courses/" + COURSE + "/exercises"))
-                .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$", hasSize(2)))
-                .andExpect(jsonPath("$[0].name", is(EX_1_NAME)))
-                .andExpect(jsonPath("$[1].name", is(EX_2_NAME)));
+               .andExpect(status().isOk())
+               .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+               .andExpect(jsonPath("$", hasSize(2)))
+               .andExpect(jsonPath("$[0].name", is(EXERCISE_A_NAME)))
+               .andExpect(jsonPath("$[1].name", is(EXERCISE_B_NAME)));
 
         verify(exerciseService, times(1)).findAllBy(COURSE);
         verifyNoMoreInteractions(exerciseService);
@@ -108,11 +107,11 @@ public class ExerciseControllerTest {
         when(exerciseService.findAllBy(STUDENT, COURSE)).thenReturn(exercises);
 
         mockMvc.perform(get("/students/" + STUDENT + "/courses/" + COURSE + "/exercises"))
-                .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$", hasSize(2)))
-                .andExpect(jsonPath("$[0].name", is(EX_1_NAME)))
-                .andExpect(jsonPath("$[1].name", is(EX_2_NAME)));
+               .andExpect(status().isOk())
+               .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+               .andExpect(jsonPath("$", hasSize(2)))
+               .andExpect(jsonPath("$[0].name", is(EXERCISE_A_NAME)))
+               .andExpect(jsonPath("$[1].name", is(EXERCISE_B_NAME)));
 
         verify(exerciseService, times(1)).findAllBy(STUDENT, COURSE);
         verifyNoMoreInteractions(exerciseService);
@@ -122,14 +121,14 @@ public class ExerciseControllerTest {
     public void readByExerciseAndCourseShouldReturnExercise() throws Exception {
 
         final Exercise exercise = new Exercise();
-        exercise.setName(EX_1_NAME);
+        exercise.setName(EXERCISE_A_NAME);
 
         when(exerciseService.findBy(COURSE, EXERCISE)).thenReturn(exercise);
 
         mockMvc.perform(get("/courses/" + COURSE + "/exercises/" + EXERCISE))
-                .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$.name", is(EX_1_NAME)));
+               .andExpect(status().isOk())
+               .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+               .andExpect(jsonPath("$.name", is(EXERCISE_A_NAME)));
 
         verify(exerciseService, times(1)).findBy(COURSE, EXERCISE);
         verifyNoMoreInteractions(exerciseService);
@@ -139,14 +138,14 @@ public class ExerciseControllerTest {
     public void readByExerciseAndCourseAndUserShouldReturnExercise() throws Exception {
 
         final Exercise exercise = new Exercise();
-        exercise.setName(EX_1_NAME);
+        exercise.setName(EXERCISE_A_NAME);
 
         when(exerciseService.findBy(STUDENT, COURSE, EXERCISE)).thenReturn(exercise);
 
         mockMvc.perform(get("/students/" + STUDENT + "/courses/" + COURSE + "/exercises/" + EXERCISE))
-                .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$.name", is(EX_1_NAME)));
+               .andExpect(status().isOk())
+               .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+               .andExpect(jsonPath("$.name", is(EXERCISE_A_NAME)));
 
         verify(exerciseService, times(1)).findBy(STUDENT, COURSE, EXERCISE);
         verifyNoMoreInteractions(exerciseService);

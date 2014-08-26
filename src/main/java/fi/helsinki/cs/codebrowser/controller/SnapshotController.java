@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
                 value = { "students/{studentId}/courses/{courseId}/exercises/{exerciseId}/snapshots",
                           "courses/{courseId}/exercises/{exerciseId}/students/{studentId}/snapshots" },
                 produces = "application/json")
-public class SnapshotController {
+public final class SnapshotController {
 
     @Autowired
     private SnapshotService snapshotService;

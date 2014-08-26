@@ -11,7 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class DefaultSnapshotFileService implements SnapshotFileService {
+public final class DefaultSnapshotFileService implements SnapshotFileService {
 
     @Autowired
     private SnapshotApiRestTemplate snapshotRestTemplate;
@@ -25,7 +25,11 @@ public class DefaultSnapshotFileService implements SnapshotFileService {
                                               final String snapshotId) throws IOException {
 
         final String json =  snapshotRestTemplate.getForObject("{studentId}/courses/{courseId}/exercises/{exerciseId}/snapshots/{snapshotId}/files",
-                                                               String.class, studentId, courseId, exerciseId, snapshotId);
+                                                               String.class,
+                                                               studentId,
+                                                               courseId,
+                                                               exerciseId,
+                                                               snapshotId);
 
         return mapper.readValueToList(json, SnapshotFile.class);
     }
@@ -38,7 +42,12 @@ public class DefaultSnapshotFileService implements SnapshotFileService {
                                final String fileId) throws IOException {
 
         final String json = snapshotRestTemplate.getForObject("{studentId}/courses/{courseId}/exercises/{exerciseId}/snapshots/{snapshotId}/files/{fileId}",
-                                                              String.class, studentId, courseId, exerciseId, snapshotId, fileId);
+                                                              String.class,
+                                                              studentId,
+                                                              courseId,
+                                                              exerciseId,
+                                                              snapshotId,
+                                                              fileId);
 
         return mapper.readValue(json, SnapshotFile.class);
     }
@@ -51,6 +60,11 @@ public class DefaultSnapshotFileService implements SnapshotFileService {
                                 final String fileId) {
 
         return snapshotRestTemplate.getForObject("{studentId}/courses/{courseId}/exercises/{exerciseId}/snapshots/{snapshotId}/files/{fileId}/content",
-                                                 String.class, studentId, courseId, exerciseId, snapshotId, fileId);
+                                                 String.class,
+                                                 studentId,
+                                                 courseId,
+                                                 exerciseId,
+                                                 snapshotId,
+                                                 fileId);
     }
 }

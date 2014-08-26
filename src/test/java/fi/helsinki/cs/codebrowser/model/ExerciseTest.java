@@ -1,13 +1,13 @@
-
 package fi.helsinki.cs.codebrowser.model;
 
 import org.apache.tomcat.util.codec.binary.Base64;
+
 import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 
-public class ExerciseTest {
+public final class ExerciseTest {
 
     private static final String NAME = "exerciseName";
     private static final String PLAIN_ID = "exerciseID";
@@ -44,15 +44,4 @@ public class ExerciseTest {
 
         assertEquals(id, exercise.getId());
     }
-
-    @Test
-    public void canSetCourse() {
-
-        final Course course = new Course();
-        exercise.setCourse(course);
-
-        assertEquals(course, exercise.getCourse());
-    }
-
-
 }

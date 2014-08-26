@@ -8,11 +8,12 @@ import java.lang.reflect.Array;
 import java.util.Arrays;
 import java.util.List;
 
-public class JsonMapper extends ObjectMapper {
+public final class JsonMapper extends ObjectMapper {
 
     private JsonNode traverseParseTree(final String json, final String[] path) throws IOException {
 
         JsonNode currentNode = readTree(json);
+
         for (String pathElement : path) {
             currentNode = currentNode.path(pathElement);
         }
@@ -22,7 +23,7 @@ public class JsonMapper extends ObjectMapper {
 
     /**
      * Returns T[].class for any T.
-     * This is a workaround for Java's lackluster support of generic arrays.
+     * This is a workaround for Java’s lackluster support of generic arrays.
      */
     private <T> Class getArrayType(final Class<T> type) {
 

@@ -5,20 +5,19 @@ import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 
-
-public class SubmissionTest {
+public final class TmcSubmissionTest {
 
     private static final String EXERCISE = "submissionExerciseName";
     private static final String ID = "submissionID";
     private static final String COURSE = "submissionCourseID";
     private static final String USER = "submissionUserID";
 
-    private Submission submission;
+    private TmcSubmission submission;
 
     @Before
     public void setUp() {
 
-        submission = new Submission();
+        submission = new TmcSubmission();
     }
 
     @Test
@@ -52,5 +51,4 @@ public class SubmissionTest {
 
         assertEquals(USER, submission.getUserId());
     }
-
 }

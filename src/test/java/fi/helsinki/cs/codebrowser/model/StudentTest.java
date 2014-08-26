@@ -2,13 +2,15 @@ package fi.helsinki.cs.codebrowser.model;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import org.apache.commons.codec.binary.Base64;
+
 import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 
-public class StudentTest {
+public final class StudentTest {
 
     private static final String USERNAME = "studentUsername";
     private static final String PLAIN_ID = "studentID";
@@ -70,6 +72,4 @@ public class StudentTest {
 
         assertEquals(PLAIN_ID, student.getPlainId());
     }
-
-
 }

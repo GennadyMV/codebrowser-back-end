@@ -12,7 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class DefaultExerciseService implements ExerciseService {
+public final class DefaultExerciseService implements ExerciseService {
 
     @Autowired
     private SnapshotApiRestTemplate restTemplate;
@@ -32,7 +32,9 @@ public class DefaultExerciseService implements ExerciseService {
     public Collection<Exercise> findAllBy(final String studentId, final String courseId) throws IOException {
 
         final String json = restTemplate.getForObject("{studentId}/courses/{courseId}/exercises",
-                                                      String.class, studentId, courseId);
+                                                      String.class,
+                                                      studentId,
+                                                      courseId);
 
         return mapper.readValueToList(json, Exercise.class);
     }
@@ -42,6 +44,7 @@ public class DefaultExerciseService implements ExerciseService {
 
         final Collection<Exercise> exercises = findAllBy(courseId);
 
+        // Find exercise with ID
         for (Exercise exercise : exercises) {
             if (exercise.getId().equals(exerciseId)) {
                 return exercise;
@@ -55,7 +58,10 @@ public class DefaultExerciseService implements ExerciseService {
     public Exercise findBy(final String studentId, final String courseId, final String exerciseId) throws IOException {
 
         final String json = restTemplate.getForObject("{studentId}/courses/{courseId}/exercises/{exerciseId}",
-                                                      String.class, studentId, courseId, exerciseId);
+                                                      String.class,
+                                                      studentId,
+                                                      courseId,
+                                                      exerciseId);
 
         return mapper.readValue(json, Exercise.class);
     }
