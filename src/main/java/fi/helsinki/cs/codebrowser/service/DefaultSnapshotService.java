@@ -40,4 +40,13 @@ public class DefaultSnapshotService implements SnapshotService {
 
         return mapper.readValue(json, Snapshot.class);
     }
+
+    @Override
+    public byte[] findAllFilesAsZip(final String studentId,
+                                    final String courseId,
+                                    final String exerciseId) throws IOException {
+
+        return snapshotRestTemplate.getForObject("{studentId}/courses/{courseId}/exercises/{exerciseId}/snapshots/files.zip",
+                                                 byte[].class, studentId, courseId, exerciseId);
+    }
 }

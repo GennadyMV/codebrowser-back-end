@@ -11,4 +11,6 @@ public interface SnapshotService {
 
     Snapshot findBy(String studentId, String courseId, String exerciseId, String snapshotId) throws IOException;
 
+    byte[] findAllFilesAsZip(String studentId, String courseId, String exerciseId) throws IOException;
+
 }

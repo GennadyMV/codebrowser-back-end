@@ -8,6 +8,8 @@ public class SnapshotFile {
 
     private final String id;
     private final String name;
+
+    @JsonIgnore
     private String filepath;
 
     @JsonIgnore
