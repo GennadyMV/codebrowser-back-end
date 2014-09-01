@@ -1,10 +1,10 @@
 package fi.helsinki.cs.codebrowser.service;
 
 import fi.helsinki.cs.codebrowser.model.SnapshotFile;
-import fi.helsinki.cs.codebrowser.util.JsonMapper;
 import fi.helsinki.cs.codebrowser.web.client.SnapshotApiRestTemplate;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Collection;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,22 +16,18 @@ public final class DefaultSnapshotFileService implements SnapshotFileService {
     @Autowired
     private SnapshotApiRestTemplate snapshotRestTemplate;
 
-    private final JsonMapper mapper = new JsonMapper();
-
     @Override
     public Collection<SnapshotFile> findAllBy(final String studentId,
                                               final String courseId,
                                               final String exerciseId,
                                               final String snapshotId) throws IOException {
 
-        final String json =  snapshotRestTemplate.getForObject("{studentId}/courses/{courseId}/exercises/{exerciseId}/snapshots/{snapshotId}/files",
-                                                               String.class,
+        return Arrays.asList(snapshotRestTemplate.getForObject("{studentId}/courses/{courseId}/exercises/{exerciseId}/snapshots/{snapshotId}/files",
+                                                               SnapshotFile[].class,
                                                                studentId,
                                                                courseId,
                                                                exerciseId,
-                                                               snapshotId);
-
-        return mapper.readValueToList(json, SnapshotFile.class);
+                                                               snapshotId));
     }
 
     @Override
@@ -41,15 +37,13 @@ public final class DefaultSnapshotFileService implements SnapshotFileService {
                                final String snapshotId,
                                final String fileId) throws IOException {
 
-        final String json = snapshotRestTemplate.getForObject("{studentId}/courses/{courseId}/exercises/{exerciseId}/snapshots/{snapshotId}/files/{fileId}",
-                                                              String.class,
-                                                              studentId,
-                                                              courseId,
-                                                              exerciseId,
-                                                              snapshotId,
-                                                              fileId);
-
-        return mapper.readValue(json, SnapshotFile.class);
+        return snapshotRestTemplate.getForObject("{studentId}/courses/{courseId}/exercises/{exerciseId}/snapshots/{snapshotId}/files/{fileId}",
+                                                 SnapshotFile.class,
+                                                 studentId,
+                                                 courseId,
+                                                 exerciseId,
+                                                 snapshotId,
+                                                 fileId);
     }
 
     @Override

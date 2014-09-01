@@ -2,10 +2,10 @@ package fi.helsinki.cs.codebrowser.service;
 
 import fi.helsinki.cs.codebrowser.exception.NotFoundException;
 import fi.helsinki.cs.codebrowser.model.Exercise;
-import fi.helsinki.cs.codebrowser.util.JsonMapper;
 import fi.helsinki.cs.codebrowser.web.client.SnapshotApiRestTemplate;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Collection;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,8 +20,6 @@ public final class DefaultExerciseService implements ExerciseService {
     @Autowired
     private CourseService courseService;
 
-    private final JsonMapper mapper = new JsonMapper();
-
     @Override
     public Collection<Exercise> findAllBy(final String courseId) throws IOException {
 
@@ -31,12 +29,10 @@ public final class DefaultExerciseService implements ExerciseService {
     @Override
     public Collection<Exercise> findAllBy(final String studentId, final String courseId) throws IOException {
 
-        final String json = restTemplate.getForObject("{studentId}/courses/{courseId}/exercises",
-                                                      String.class,
-                                                      studentId,
-                                                      courseId);
-
-        return mapper.readValueToList(json, Exercise.class);
+        return Arrays.asList(restTemplate.getForObject("{studentId}/courses/{courseId}/exercises",
+                                                       Exercise[].class,
+                                                       studentId,
+                                                       courseId));
     }
 
     @Override
@@ -57,12 +53,10 @@ public final class DefaultExerciseService implements ExerciseService {
     @Override
     public Exercise findBy(final String studentId, final String courseId, final String exerciseId) throws IOException {
 
-        final String json = restTemplate.getForObject("{studentId}/courses/{courseId}/exercises/{exerciseId}",
-                                                      String.class,
-                                                      studentId,
-                                                      courseId,
-                                                      exerciseId);
-
-        return mapper.readValue(json, Exercise.class);
+        return restTemplate.getForObject("{studentId}/courses/{courseId}/exercises/{exerciseId}",
+                                         Exercise.class,
+                                         studentId,
+                                         courseId,
+                                         exerciseId);
     }
 }

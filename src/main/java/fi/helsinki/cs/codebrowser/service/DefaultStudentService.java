@@ -13,6 +13,7 @@ import fi.helsinki.cs.codebrowser.web.client.TmcApiRestTemplate;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
@@ -83,9 +84,7 @@ public final class DefaultStudentService implements StudentService {
     @Override
     public Collection<Student> findAll() throws IOException {
 
-        final String json = snapshotRestTemplate.getForObject("#", String.class);
-
-        return mapper.readValueToList(json, Student.class);
+        return Arrays.asList(snapshotRestTemplate.getForObject("#", Student[].class));
     }
 
     @Override
@@ -105,6 +104,7 @@ public final class DefaultStudentService implements StudentService {
 
         final String json = tmcRestTemplate.fetchJson(String.format("exercises/%s.json", exercise.getPlainId()),
                                                       "api_version=7");
+
         final List<TmcSubmission> submissions = mapper.readSubElementValueToList(json, TmcSubmission.class, "submissions");
 
         final Collection<Student> courseStudents = findAllBy(courseId);
@@ -145,8 +145,6 @@ public final class DefaultStudentService implements StudentService {
     @Override
     public Student find(final String studentId) throws IOException {
 
-        final String json = snapshotRestTemplate.getForObject("{studentId}", String.class, studentId);
-
-        return mapper.readValue(json, Student.class);
+        return snapshotRestTemplate.getForObject("{studentId}", Student.class, studentId);
     }
 }

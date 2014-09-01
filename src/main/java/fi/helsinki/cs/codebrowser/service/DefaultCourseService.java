@@ -9,6 +9,7 @@ import fi.helsinki.cs.codebrowser.web.client.SnapshotApiRestTemplate;
 import fi.helsinki.cs.codebrowser.web.client.TmcApiRestTemplate;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Collection;
 
 import javax.annotation.PostConstruct;
@@ -46,11 +47,9 @@ public final class DefaultCourseService implements CourseService {
     @Override
     public Collection<Course> findAllBy(final String studentId) throws IOException {
 
-        final String json = snapshotRestTemplate.getForObject("{studentId}/courses",
-                                                              String.class,
-                                                              studentId);
-
-        return mapper.readValueToList(json, Course.class);
+        return Arrays.asList(snapshotRestTemplate.getForObject("{studentId}/courses",
+                                                               Course[].class,
+                                                               studentId));
     }
 
     @Override
@@ -81,11 +80,9 @@ public final class DefaultCourseService implements CourseService {
     @Override
     public Course findBy(final String studentId, final String courseId) throws IOException {
 
-        final String json = snapshotRestTemplate.getForObject("{studentId}/courses/{courseId}",
-                                                              String.class,
-                                                              studentId,
-                                                              courseId);
-
-        return mapper.readValue(json, Course.class);
+        return snapshotRestTemplate.getForObject("{studentId}/courses/{courseId}",
+                                                 Course.class,
+                                                 studentId,
+                                                 courseId);
     }
 }
