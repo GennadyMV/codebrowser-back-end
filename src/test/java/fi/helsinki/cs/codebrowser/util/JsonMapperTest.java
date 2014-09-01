@@ -85,15 +85,4 @@ public final class JsonMapperTest {
         assertEquals(STUDENT_A_USERNAME, students.get(0).getUsername());
         assertEquals(STUDENT_B_USERNAME, students.get(1).getUsername());
     }
-
-    @Test
-    public void readValueToListReadsCorrectList() throws IOException {
-
-        final String json = "[{\"username\":\"Student A\"},{\"username\":\"Student B\"}]";
-
-        final List<Student> students = mapper.readValueToList(json, Student.class);
-
-        assertEquals(STUDENT_A_USERNAME, students.get(0).getUsername());
-        assertEquals(STUDENT_B_USERNAME, students.get(1).getUsername());
-    }
 }

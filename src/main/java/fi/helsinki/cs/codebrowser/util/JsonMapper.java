@@ -45,9 +45,4 @@ public final class JsonMapper extends ObjectMapper {
 
         return Arrays.asList(array);
     }
-
-    public <T> List<T> readValueToList(final String json, final Class<T> type) throws IOException {
-
-        return readSubElementValueToList(json, type);
-    }
 }
