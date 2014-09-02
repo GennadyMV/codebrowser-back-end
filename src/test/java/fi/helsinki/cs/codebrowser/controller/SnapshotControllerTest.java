@@ -50,6 +50,7 @@ public final class SnapshotControllerTest {
     private static final String COURSE = "courseID";
     private static final String EXERCISE = "exerciseID";
     private static final String SNAPSHOT = "snapshotID";
+    private static final String LEVEL = "KEY";
 
     private static final String BASE_URL_A = "/students/" + STUDENT + "/courses/" + COURSE + "/exercises/" + EXERCISE + "/snapshots";
     private static final String BASE_URL_B = "/courses/" + COURSE + "/exercises/" + EXERCISE + "/students/" + STUDENT + "/snapshots";
@@ -90,7 +91,7 @@ public final class SnapshotControllerTest {
 
         final List<Snapshot> snapshots = buildSnapshotList();
 
-        when(snapshotService.findAllBy(STUDENT, COURSE, EXERCISE)).thenReturn(snapshots);
+        when(snapshotService.findAllBy(STUDENT, COURSE, EXERCISE, LEVEL)).thenReturn(snapshots);
 
         mockMvc.perform(get(BASE_URL_A))
                .andExpect(status().isOk())
@@ -99,7 +100,7 @@ public final class SnapshotControllerTest {
                .andExpect(jsonPath("$[0].id", is(SNAPSHOT_A_ID)))
                .andExpect(jsonPath("$[1].id", is(SNAPSHOT_B_ID)));
 
-        verify(snapshotService, times(1)).findAllBy(STUDENT, COURSE, EXERCISE);
+        verify(snapshotService, times(1)).findAllBy(STUDENT, COURSE, EXERCISE, LEVEL);
         verifyNoMoreInteractions(snapshotService);
     }
 
@@ -108,7 +109,7 @@ public final class SnapshotControllerTest {
 
         final List<Snapshot> snapshots = buildSnapshotList();
 
-        when(snapshotService.findAllBy(STUDENT, COURSE, EXERCISE)).thenReturn(snapshots);
+        when(snapshotService.findAllBy(STUDENT, COURSE, EXERCISE, LEVEL)).thenReturn(snapshots);
 
         mockMvc.perform(get(BASE_URL_B))
                .andExpect(status().isOk())
@@ -117,7 +118,7 @@ public final class SnapshotControllerTest {
                .andExpect(jsonPath("$[0].id", is(SNAPSHOT_A_ID)))
                .andExpect(jsonPath("$[1].id", is(SNAPSHOT_B_ID)));
 
-        verify(snapshotService, times(1)).findAllBy(STUDENT, COURSE, EXERCISE);
+        verify(snapshotService, times(1)).findAllBy(STUDENT, COURSE, EXERCISE, LEVEL);
         verifyNoMoreInteractions(snapshotService);
     }
 
@@ -127,14 +128,14 @@ public final class SnapshotControllerTest {
         final Snapshot snapshot = new Snapshot();
         snapshot.setId(SNAPSHOT);
 
-        when(snapshotService.findBy(STUDENT, COURSE, EXERCISE, SNAPSHOT)).thenReturn(snapshot);
+        when(snapshotService.findBy(STUDENT, COURSE, EXERCISE, SNAPSHOT, LEVEL)).thenReturn(snapshot);
 
         mockMvc.perform(get(BASE_URL_A + "/" + SNAPSHOT))
                .andExpect(status().isOk())
                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                .andExpect(jsonPath("$.id", is(SNAPSHOT)));
 
-        verify(snapshotService, times(1)).findBy(STUDENT, COURSE, EXERCISE, SNAPSHOT);
+        verify(snapshotService, times(1)).findBy(STUDENT, COURSE, EXERCISE, SNAPSHOT, LEVEL);
         verifyNoMoreInteractions(snapshotService);
     }
 
@@ -144,14 +145,14 @@ public final class SnapshotControllerTest {
         final Snapshot snapshot = new Snapshot();
         snapshot.setId(SNAPSHOT);
 
-        when(snapshotService.findBy(STUDENT, COURSE, EXERCISE, SNAPSHOT)).thenReturn(snapshot);
+        when(snapshotService.findBy(STUDENT, COURSE, EXERCISE, SNAPSHOT, LEVEL)).thenReturn(snapshot);
 
         mockMvc.perform(get(BASE_URL_B + "/" + SNAPSHOT))
                .andExpect(status().isOk())
                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                .andExpect(jsonPath("$.id", is(SNAPSHOT)));
 
-        verify(snapshotService, times(1)).findBy(STUDENT, COURSE, EXERCISE, SNAPSHOT);
+        verify(snapshotService, times(1)).findBy(STUDENT, COURSE, EXERCISE, SNAPSHOT, LEVEL);
         verifyNoMoreInteractions(snapshotService);
     }
 }

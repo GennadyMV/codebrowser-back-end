@@ -19,7 +19,10 @@ public final class DefaultSnapshotService implements SnapshotService {
     @Override
     public Collection<Snapshot> findAllBy(final String studentId,
                                           final String courseId,
-                                          final String exerciseId) throws IOException {
+                                          final String exerciseId,
+                                          final String level) throws IOException {
+
+        snapshotRestTemplate.addParameter("level", level);
 
         return Arrays.asList(snapshotRestTemplate.getForObject("{studentId}/courses/{courseId}/exercises/{exerciseId}/snapshots",
                                                                Snapshot[].class,
@@ -32,7 +35,10 @@ public final class DefaultSnapshotService implements SnapshotService {
     public Snapshot findBy(final String studentId,
                            final String courseId,
                            final String exerciseId,
-                           final String snapshotId) throws IOException {
+                           final String snapshotId,
+                           final String level) throws IOException {
+
+        snapshotRestTemplate.addParameter("level", level);
 
         return snapshotRestTemplate.getForObject("{studentId}/courses/{courseId}/exercises/{exerciseId}/snapshots/{snapshotId}",
                                                  Snapshot.class,
@@ -45,7 +51,10 @@ public final class DefaultSnapshotService implements SnapshotService {
     @Override
     public byte[] findAllFilesAsZip(final String studentId,
                                     final String courseId,
-                                    final String exerciseId) throws IOException {
+                                    final String exerciseId,
+                                    final String level) throws IOException {
+
+        snapshotRestTemplate.addParameter("level", level);
 
         return snapshotRestTemplate.getForObject("{studentId}/courses/{courseId}/exercises/{exerciseId}/snapshots/files.zip",
                                                  byte[].class,
