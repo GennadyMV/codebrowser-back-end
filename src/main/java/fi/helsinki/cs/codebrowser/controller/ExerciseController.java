@@ -19,31 +19,35 @@ public final class ExerciseController {
     @Autowired
     private ExerciseService exerciseService;
 
-    @RequestMapping(value = "courses/{courseId}/exercises")
-    public Collection<Exercise> list(@PathVariable final String courseId) throws IOException {
-
-        return exerciseService.findAllBy(courseId);
-    }
-
-    @RequestMapping(value = "students/{studentId}/courses/{courseId}/exercises")
-    public Collection<Exercise> list(@PathVariable final String studentId,
+    @RequestMapping(value = "{instance}/courses/{courseId}/exercises")
+    public Collection<Exercise> list(@PathVariable final String instance,
                                      @PathVariable final String courseId) throws IOException {
 
-        return exerciseService.findAllBy(studentId, courseId);
+        return exerciseService.findAllBy(instance, courseId);
     }
 
-    @RequestMapping(value = "courses/{courseId}/exercises/{exerciseId}")
-    public Exercise read(@PathVariable final String courseId,
-                         @PathVariable final String exerciseId) throws IOException {
+    @RequestMapping(value = "{instance}/students/{studentId}/courses/{courseId}/exercises")
+    public Collection<Exercise> list(@PathVariable final String instance,
+                                     @PathVariable final String studentId,
+                                     @PathVariable final String courseId) throws IOException {
 
-        return exerciseService.findBy(courseId, exerciseId);
+        return exerciseService.findAllBy(instance, studentId, courseId);
     }
 
-    @RequestMapping(value = "students/{studentId}/courses/{courseId}/exercises/{exerciseId}")
-    public Exercise read(@PathVariable final String studentId,
+    @RequestMapping(value = "{instance}/courses/{courseId}/exercises/{exerciseId}")
+    public Exercise read(@PathVariable final String instance,
                          @PathVariable final String courseId,
                          @PathVariable final String exerciseId) throws IOException {
 
-        return exerciseService.findBy(studentId, courseId, exerciseId);
+        return exerciseService.findBy(instance, courseId, exerciseId);
+    }
+
+    @RequestMapping(value = "{instance}/students/{studentId}/courses/{courseId}/exercises/{exerciseId}")
+    public Exercise read(@PathVariable final String instance,
+                         @PathVariable final String studentId,
+                         @PathVariable final String courseId,
+                         @PathVariable final String exerciseId) throws IOException {
+
+        return exerciseService.findBy(instance, studentId, courseId, exerciseId);
     }
 }

@@ -19,27 +19,31 @@ public final class CourseController {
     @Autowired
     private CourseService courseService;
 
-    @RequestMapping(value = "courses")
-    public Collection<Course> list() throws IOException {
+    @RequestMapping(value = "{instance}/courses")
+    public Collection<Course> list(@PathVariable final String instance) throws IOException {
 
-        return courseService.findAll();
+        return courseService.findAll(instance);
     }
 
-    @RequestMapping(value = "students/{studentId}/courses")
-    public Collection<Course> list(@PathVariable final String studentId) throws IOException {
+    @RequestMapping(value = "{instance}/students/{studentId}/courses")
+    public Collection<Course> list(@PathVariable final String instance,
+                                   @PathVariable final String studentId) throws IOException {
 
-        return courseService.findAllBy(studentId);
+        return courseService.findAllBy(instance, studentId);
     }
 
-    @RequestMapping(value = "courses/{courseId}")
-    public Course read(@PathVariable final String courseId) throws IOException {
+    @RequestMapping(value = "{instance}/courses/{courseId}")
+    public Course read(@PathVariable final String instance,
+                       @PathVariable final String courseId) throws IOException {
 
-        return courseService.findBy(courseId);
+        return courseService.findBy(instance, courseId);
     }
 
-    @RequestMapping(value = "students/{studentId}/courses/{courseId}")
-    public Course read(@PathVariable final String studentId, @PathVariable final String courseId) throws IOException {
+    @RequestMapping(value = "{instance}/students/{studentId}/courses/{courseId}")
+    public Course read(@PathVariable final String instance,
+                       @PathVariable final String studentId,
+                       @PathVariable final String courseId) throws IOException {
 
-        return courseService.findBy(studentId, courseId);
+        return courseService.findBy(instance, studentId, courseId);
     }
 }

@@ -43,8 +43,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @ActiveProfiles("test")
 public final class CourseControllerTest {
 
+    private static final String INSTANCE = "instance";
     private static final String COURSE = "courseID";
     private static final String USER = "userID";
+
     private static final String COURSE_A_NAME = "Course A";
     private static final String COURSE_B_NAME = "Course B";
 
@@ -84,16 +86,16 @@ public final class CourseControllerTest {
 
         final List<Course> courses = buildCourseList();
 
-        when(courseService.findAll()).thenReturn(courses);
+        when(courseService.findAll(INSTANCE)).thenReturn(courses);
 
-        mockMvc.perform(get("/courses"))
+        mockMvc.perform(get("/" + INSTANCE + "/courses"))
                .andExpect(status().isOk())
                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                .andExpect(jsonPath("$", hasSize(2)))
                .andExpect(jsonPath("$[0].name", is(COURSE_A_NAME)))
                .andExpect(jsonPath("$[1].name", is(COURSE_B_NAME)));
 
-        verify(courseService, times(1)).findAll();
+        verify(courseService, times(1)).findAll(INSTANCE);
         verifyNoMoreInteractions(courseService);
     }
 
@@ -102,16 +104,16 @@ public final class CourseControllerTest {
 
         final List<Course> courses = buildCourseList();
 
-        when(courseService.findAllBy(USER)).thenReturn(courses);
+        when(courseService.findAllBy(INSTANCE, USER)).thenReturn(courses);
 
-        mockMvc.perform(get("/students/" + USER + "/courses"))
+        mockMvc.perform(get("/" + INSTANCE + "/students/" + USER + "/courses"))
                .andExpect(status().isOk())
                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                .andExpect(jsonPath("$", hasSize(2)))
                .andExpect(jsonPath("$[0].name", is(COURSE_A_NAME)))
                .andExpect(jsonPath("$[1].name", is(COURSE_B_NAME)));
 
-        verify(courseService, times(1)).findAllBy(USER);
+        verify(courseService, times(1)).findAllBy(INSTANCE, USER);
         verifyNoMoreInteractions(courseService);
     }
 
@@ -121,14 +123,14 @@ public final class CourseControllerTest {
         final Course course = new Course();
         course.setName(COURSE_A_NAME);
 
-        when(courseService.findBy(COURSE)).thenReturn(course);
+        when(courseService.findBy(INSTANCE, COURSE)).thenReturn(course);
 
-        mockMvc.perform(get("/courses/" + COURSE))
+        mockMvc.perform(get("/" + INSTANCE + "/courses/" + COURSE))
                .andExpect(status().isOk())
                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                .andExpect(jsonPath("$.name", is(COURSE_A_NAME)));
 
-        verify(courseService, times(1)).findBy(COURSE);
+        verify(courseService, times(1)).findBy(INSTANCE, COURSE);
         verifyNoMoreInteractions(courseService);
     }
 
@@ -138,14 +140,14 @@ public final class CourseControllerTest {
         final Course course = new Course();
         course.setName(COURSE_A_NAME);
 
-        when(courseService.findBy(USER, COURSE)).thenReturn(course);
+        when(courseService.findBy(INSTANCE, USER, COURSE)).thenReturn(course);
 
-        mockMvc.perform(get("/students/" + USER + "/courses/" + COURSE))
+        mockMvc.perform(get("/" + INSTANCE + "/students/" + USER + "/courses/" + COURSE))
                .andExpect(status().isOk())
                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                .andExpect(jsonPath("$.name", is(COURSE_A_NAME)));
 
-        verify(courseService, times(1)).findBy(USER, COURSE);
+        verify(courseService, times(1)).findBy(INSTANCE, USER, COURSE);
         verifyNoMoreInteractions(courseService);
     }
 }

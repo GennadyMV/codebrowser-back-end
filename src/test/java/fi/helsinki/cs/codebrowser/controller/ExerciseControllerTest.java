@@ -43,6 +43,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @ActiveProfiles("test")
 public final class ExerciseControllerTest {
 
+    private static final String INSTANCE = "instance";
     private static final String STUDENT = "studentID";
     private static final String COURSE = "courseID";
     private static final String EXERCISE = "exerciseID";
@@ -86,16 +87,16 @@ public final class ExerciseControllerTest {
 
         final List<Exercise> exercises = buildExeciseList();
 
-        when(exerciseService.findAllBy(COURSE)).thenReturn(exercises);
+        when(exerciseService.findAllBy(INSTANCE, COURSE)).thenReturn(exercises);
 
-        mockMvc.perform(get("/courses/" + COURSE + "/exercises"))
+        mockMvc.perform(get("/" + INSTANCE + "/courses/" + COURSE + "/exercises"))
                .andExpect(status().isOk())
                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                .andExpect(jsonPath("$", hasSize(2)))
                .andExpect(jsonPath("$[0].name", is(EXERCISE_A_NAME)))
                .andExpect(jsonPath("$[1].name", is(EXERCISE_B_NAME)));
 
-        verify(exerciseService, times(1)).findAllBy(COURSE);
+        verify(exerciseService, times(1)).findAllBy(INSTANCE, COURSE);
         verifyNoMoreInteractions(exerciseService);
     }
 
@@ -104,16 +105,16 @@ public final class ExerciseControllerTest {
 
         final List<Exercise> exercises = buildExeciseList();
 
-        when(exerciseService.findAllBy(STUDENT, COURSE)).thenReturn(exercises);
+        when(exerciseService.findAllBy(INSTANCE, STUDENT, COURSE)).thenReturn(exercises);
 
-        mockMvc.perform(get("/students/" + STUDENT + "/courses/" + COURSE + "/exercises"))
+        mockMvc.perform(get("/" + INSTANCE + "/students/" + STUDENT + "/courses/" + COURSE + "/exercises"))
                .andExpect(status().isOk())
                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                .andExpect(jsonPath("$", hasSize(2)))
                .andExpect(jsonPath("$[0].name", is(EXERCISE_A_NAME)))
                .andExpect(jsonPath("$[1].name", is(EXERCISE_B_NAME)));
 
-        verify(exerciseService, times(1)).findAllBy(STUDENT, COURSE);
+        verify(exerciseService, times(1)).findAllBy(INSTANCE, STUDENT, COURSE);
         verifyNoMoreInteractions(exerciseService);
     }
 
@@ -123,14 +124,14 @@ public final class ExerciseControllerTest {
         final Exercise exercise = new Exercise();
         exercise.setName(EXERCISE_A_NAME);
 
-        when(exerciseService.findBy(COURSE, EXERCISE)).thenReturn(exercise);
+        when(exerciseService.findBy(INSTANCE, COURSE, EXERCISE)).thenReturn(exercise);
 
-        mockMvc.perform(get("/courses/" + COURSE + "/exercises/" + EXERCISE))
+        mockMvc.perform(get("/" + INSTANCE + "/courses/" + COURSE + "/exercises/" + EXERCISE))
                .andExpect(status().isOk())
                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                .andExpect(jsonPath("$.name", is(EXERCISE_A_NAME)));
 
-        verify(exerciseService, times(1)).findBy(COURSE, EXERCISE);
+        verify(exerciseService, times(1)).findBy(INSTANCE, COURSE, EXERCISE);
         verifyNoMoreInteractions(exerciseService);
     }
 
@@ -140,14 +141,14 @@ public final class ExerciseControllerTest {
         final Exercise exercise = new Exercise();
         exercise.setName(EXERCISE_A_NAME);
 
-        when(exerciseService.findBy(STUDENT, COURSE, EXERCISE)).thenReturn(exercise);
+        when(exerciseService.findBy(INSTANCE, STUDENT, COURSE, EXERCISE)).thenReturn(exercise);
 
-        mockMvc.perform(get("/students/" + STUDENT + "/courses/" + COURSE + "/exercises/" + EXERCISE))
+        mockMvc.perform(get("/" + INSTANCE + "/students/" + STUDENT + "/courses/" + COURSE + "/exercises/" + EXERCISE))
                .andExpect(status().isOk())
                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                .andExpect(jsonPath("$.name", is(EXERCISE_A_NAME)));
 
-        verify(exerciseService, times(1)).findBy(STUDENT, COURSE, EXERCISE);
+        verify(exerciseService, times(1)).findBy(INSTANCE, STUDENT, COURSE, EXERCISE);
         verifyNoMoreInteractions(exerciseService);
     }
 }

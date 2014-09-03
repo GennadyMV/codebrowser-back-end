@@ -47,9 +47,9 @@ public final class DefaultStudentService implements StudentService {
         mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
     }
 
-    private Exercise getCourseExerciseById(final String courseId, final String exerciseId) throws IOException {
+    private Exercise getCourseExerciseById(final String instance, final String courseId, final String exerciseId) throws IOException {
 
-        final Collection<Exercise> exercises = exerciseService.findAllBy(courseId);
+        final Collection<Exercise> exercises = exerciseService.findAllBy(instance, courseId);
 
         // Find exercise with ID
         for (Exercise exercise : exercises) {
@@ -82,55 +82,40 @@ public final class DefaultStudentService implements StudentService {
     }
 
     @Override
-    public Collection<Student> findAll() throws IOException {
+    public Collection<Student> findAll(final String instance) throws IOException {
 
-        return Arrays.asList(snapshotRestTemplate.getForObject("#", Student[].class));
+        return Arrays.asList(snapshotRestTemplate.getForObject("{instance}/participants", Student[].class, instance));
     }
 
     @Override
-    public Collection<Student> findAllBy(final String courseId) throws IOException {
+    public Collection<Student> findAllBy(final String instance, final String courseId) throws IOException {
 
-        final Course course = courseService.findBy(courseId);
-        final String json = tmcRestTemplate.fetchJson(String.format("courses/%s/points.json", course.getPlainId()),
+        final Course course = courseService.findBy(instance, courseId);
+        final String json = tmcRestTemplate.fetchJson(String.format("%s/courses/%s/points.json", instance, course.getPlainId()),
                                                       "api_version=7");
 
         return mapper.readSubElementValueToList(json, Student.class, "users");
     }
 
     @Override
-    public Collection<Student> findAllBy(final String courseId, final String exerciseId) throws IOException {
+    public Collection<Student> findAllBy(final String instance, final String courseId, final String exerciseId) throws IOException {
 
-        final Exercise exercise = getCourseExerciseById(courseId, exerciseId);
+        final Exercise exercise = getCourseExerciseById(instance, courseId, exerciseId);
 
-        final String json = tmcRestTemplate.fetchJson(String.format("exercises/%s.json", exercise.getPlainId()),
+        final String json = tmcRestTemplate.fetchJson(String.format("%s/exercises/%s.json", instance, exercise.getPlainId()),
                                                       "api_version=7");
 
         final List<TmcSubmission> submissions = mapper.readSubElementValueToList(json, TmcSubmission.class, "submissions");
 
-        final Collection<Student> courseStudents = findAllBy(courseId);
+        final Collection<Student> courseStudents = findAllBy(instance, courseId);
 
         return studentsWithSubmissions(courseStudents, submissions);
     }
 
     @Override
-    public Student find(final String courseId, final String exerciseId, final String studentId) throws IOException {
+    public Student find(final String instance, final String courseId, final String exerciseId, final String studentId) throws IOException {
 
-        final Collection<Student> students = findAllBy(courseId, exerciseId);
-
-        // Find student by ID
-        for (Student student : students) {
-            if (student.getId().equals(studentId)) {
-                return student;
-            }
-        }
-
-        throw new NotFoundException();
-    }
-
-    @Override
-    public Student find(final String courseId, final String studentId) throws IOException {
-
-        final Collection<Student> students = findAllBy(courseId);
+        final Collection<Student> students = findAllBy(instance, courseId, exerciseId);
 
         // Find student by ID
         for (Student student : students) {
@@ -143,8 +128,23 @@ public final class DefaultStudentService implements StudentService {
     }
 
     @Override
-    public Student find(final String studentId) throws IOException {
+    public Student findByCourse(final String instance, final String courseId, final String studentId) throws IOException {
 
-        return snapshotRestTemplate.getForObject("{studentId}", Student.class, studentId);
+        final Collection<Student> students = findAllBy(instance, courseId);
+
+        // Find student by ID
+        for (Student student : students) {
+            if (student.getId().equals(studentId)) {
+                return student;
+            }
+        }
+
+        throw new NotFoundException();
+    }
+
+    @Override
+    public Student findByInstance(final String instance, final String studentId) throws IOException {
+
+        return snapshotRestTemplate.getForObject("{instance}/participants/{studentId}", Student.class, instance, studentId);
     }
 }

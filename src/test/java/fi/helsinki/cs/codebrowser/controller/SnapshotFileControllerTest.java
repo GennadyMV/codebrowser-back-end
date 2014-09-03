@@ -51,6 +51,8 @@ public final class SnapshotFileControllerTest {
     private static final String SNAPSHOTFILE_B_PATH = "snapshotFileAPath";
     private static final String SNAPSHOTFILE_B_NAME = "snapshotFileBName";
 
+    private static final String SLASH = "/";
+    private static final String INSTANCE = "instance";
     private static final String STUDENT = "studentID";
     private static final String COURSE = "courseID";
     private static final String EXERCISE = "exerciseID";
@@ -58,8 +60,8 @@ public final class SnapshotFileControllerTest {
     private static final String FILE = "fileID";
     private static final String CONTENT = "fileContent";
 
-    private static final String BASE_URL_A = "/students/" + STUDENT + "/courses/" + COURSE + "/exercises/" + EXERCISE + "/snapshots/" + SNAPSHOT + "/files";
-    private static final String BASE_URL_B = "/courses/" + COURSE + "/exercises/" + EXERCISE + "/students/" + STUDENT + "/snapshots/" + SNAPSHOT + "/files";
+    private static final String BASE_URL_A = SLASH + INSTANCE + "/students/" + STUDENT + "/courses/" + COURSE + "/exercises/" + EXERCISE + "/snapshots/" + SNAPSHOT + "/files";
+    private static final String BASE_URL_B = SLASH + INSTANCE + "/courses/" + COURSE + "/exercises/" + EXERCISE + "/students/" + STUDENT + "/snapshots/" + SNAPSHOT + "/files";
 
     @Mock
     private SnapshotFileService snapshotFileService;
@@ -92,7 +94,7 @@ public final class SnapshotFileControllerTest {
 
         final List<SnapshotFile> snapshotFiles = buildSnapshotFiles();
 
-        when(snapshotFileService.findAllBy(STUDENT, COURSE, EXERCISE, SNAPSHOT)).thenReturn(snapshotFiles);
+        when(snapshotFileService.findAllBy(INSTANCE, STUDENT, COURSE, EXERCISE, SNAPSHOT)).thenReturn(snapshotFiles);
 
         mockMvc.perform(get(BASE_URL_A))
                .andExpect(status().isOk())
@@ -101,7 +103,7 @@ public final class SnapshotFileControllerTest {
                .andExpect(jsonPath("$[0].id", is(SNAPSHOTFILE_A_ID)))
                .andExpect(jsonPath("$[1].id", is(SNAPSHOTFILE_B_ID)));
 
-        verify(snapshotFileService, times(1)).findAllBy(STUDENT, COURSE, EXERCISE, SNAPSHOT);
+        verify(snapshotFileService, times(1)).findAllBy(INSTANCE, STUDENT, COURSE, EXERCISE, SNAPSHOT);
         verifyNoMoreInteractions(snapshotFileService);
     }
 
@@ -110,7 +112,7 @@ public final class SnapshotFileControllerTest {
 
         final List<SnapshotFile> snapshotFiles = buildSnapshotFiles();
 
-        when(snapshotFileService.findAllBy(STUDENT, COURSE, EXERCISE, SNAPSHOT)).thenReturn(snapshotFiles);
+        when(snapshotFileService.findAllBy(INSTANCE, STUDENT, COURSE, EXERCISE, SNAPSHOT)).thenReturn(snapshotFiles);
 
         mockMvc.perform(get(BASE_URL_B))
                .andExpect(status().isOk())
@@ -119,7 +121,7 @@ public final class SnapshotFileControllerTest {
                .andExpect(jsonPath("$[0].id", is(SNAPSHOTFILE_A_ID)))
                .andExpect(jsonPath("$[1].id", is(SNAPSHOTFILE_B_ID)));
 
-        verify(snapshotFileService, times(1)).findAllBy(STUDENT, COURSE, EXERCISE, SNAPSHOT);
+        verify(snapshotFileService, times(1)).findAllBy(INSTANCE, STUDENT, COURSE, EXERCISE, SNAPSHOT);
         verifyNoMoreInteractions(snapshotFileService);
     }
 
@@ -128,14 +130,14 @@ public final class SnapshotFileControllerTest {
 
         final SnapshotFile snapshotFile = new SnapshotFile(SNAPSHOTFILE_A_ID, SNAPSHOTFILE_A_NAME, SNAPSHOTFILE_A_PATH);
 
-        when(snapshotFileService.findBy(STUDENT, COURSE, EXERCISE, SNAPSHOT, FILE)).thenReturn(snapshotFile);
+        when(snapshotFileService.findBy(INSTANCE, STUDENT, COURSE, EXERCISE, SNAPSHOT, FILE)).thenReturn(snapshotFile);
 
         mockMvc.perform(get(BASE_URL_A + "/" + FILE))
                .andExpect(status().isOk())
                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                .andExpect(jsonPath("$.id", is(SNAPSHOTFILE_A_ID)));
 
-        verify(snapshotFileService, times(1)).findBy(STUDENT, COURSE, EXERCISE, SNAPSHOT, FILE);
+        verify(snapshotFileService, times(1)).findBy(INSTANCE, STUDENT, COURSE, EXERCISE, SNAPSHOT, FILE);
         verifyNoMoreInteractions(snapshotFileService);
     }
 
@@ -144,42 +146,42 @@ public final class SnapshotFileControllerTest {
 
         final SnapshotFile snapshotFile = new SnapshotFile(SNAPSHOTFILE_A_ID, SNAPSHOTFILE_A_NAME, SNAPSHOTFILE_A_PATH);
 
-        when(snapshotFileService.findBy(STUDENT, COURSE, EXERCISE, SNAPSHOT, FILE)).thenReturn(snapshotFile);
+        when(snapshotFileService.findBy(INSTANCE, STUDENT, COURSE, EXERCISE, SNAPSHOT, FILE)).thenReturn(snapshotFile);
 
         mockMvc.perform(get(BASE_URL_B + "/" + FILE))
                .andExpect(status().isOk())
                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                .andExpect(jsonPath("$.id", is(SNAPSHOTFILE_A_ID)));
 
-        verify(snapshotFileService, times(1)).findBy(STUDENT, COURSE, EXERCISE, SNAPSHOT, FILE);
+        verify(snapshotFileService, times(1)).findBy(INSTANCE, STUDENT, COURSE, EXERCISE, SNAPSHOT, FILE);
         verifyNoMoreInteractions(snapshotFileService);
     }
 
     @Test
     public void readContentReturnsContentForPathStartingWithStudent() throws Exception {
 
-        when(snapshotFileService.findContentBy(STUDENT, COURSE, EXERCISE, SNAPSHOT, FILE)).thenReturn(CONTENT);
+        when(snapshotFileService.findContentBy(INSTANCE, STUDENT, COURSE, EXERCISE, SNAPSHOT, FILE)).thenReturn(CONTENT);
 
         mockMvc.perform(get(BASE_URL_A + "/" + FILE + "/content"))
                .andExpect(status().isOk())
                .andExpect(content().contentType(MediaType.TEXT_PLAIN))
                .andExpect(content().string(CONTENT));
 
-        verify(snapshotFileService, times(1)).findContentBy(STUDENT, COURSE, EXERCISE, SNAPSHOT, FILE);
+        verify(snapshotFileService, times(1)).findContentBy(INSTANCE, STUDENT, COURSE, EXERCISE, SNAPSHOT, FILE);
         verifyNoMoreInteractions(snapshotFileService);
     }
 
     @Test
     public void readContentReturnsContentForPathStartingWithCourse() throws Exception {
 
-        when(snapshotFileService.findContentBy(STUDENT, COURSE, EXERCISE, SNAPSHOT, FILE)).thenReturn(CONTENT);
+        when(snapshotFileService.findContentBy(INSTANCE, STUDENT, COURSE, EXERCISE, SNAPSHOT, FILE)).thenReturn(CONTENT);
 
         mockMvc.perform(get(BASE_URL_B + "/" + FILE + "/content"))
                .andExpect(status().isOk())
                .andExpect(content().contentType(MediaType.TEXT_PLAIN))
                .andExpect(content().string(CONTENT));
 
-        verify(snapshotFileService, times(1)).findContentBy(STUDENT, COURSE, EXERCISE, SNAPSHOT, FILE);
+        verify(snapshotFileService, times(1)).findContentBy(INSTANCE, STUDENT, COURSE, EXERCISE, SNAPSHOT, FILE);
         verifyNoMoreInteractions(snapshotFileService);
     }
 }

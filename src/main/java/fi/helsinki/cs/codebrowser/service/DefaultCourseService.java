@@ -37,26 +37,27 @@ public final class DefaultCourseService implements CourseService {
     }
 
     @Override
-    public Collection<Course> findAll() throws IOException {
+    public Collection<Course> findAll(final String instance) throws IOException {
 
-        final String json = tmcRestTemplate.fetchJson("courses.json", "api_version=7");
+        final String json = tmcRestTemplate.fetchJson(String.format("%s/courses.json", instance), "api_version=7");
 
         return mapper.readSubElementValueToList(json, Course.class, "courses");
     }
 
     @Override
-    public Collection<Course> findAllBy(final String studentId) throws IOException {
+    public Collection<Course> findAllBy(final String instance, final String studentId) throws IOException {
 
-        return Arrays.asList(snapshotRestTemplate.getForObject("{studentId}/courses",
+        return Arrays.asList(snapshotRestTemplate.getForObject("{instance}/participants/{studentId}/courses",
                                                                Course[].class,
+                                                               instance,
                                                                studentId));
     }
 
     @Override
-    public Course findBy(final String courseId) throws IOException {
+    public Course findBy(final String instance, final String courseId) throws IOException {
 
         final String courseName = new String(Base64.decodeBase64(courseId));
-        final Collection<Course> tmcCourses = findAll();
+        final Collection<Course> tmcCourses = findAll(instance);
 
         Course tmcCourse = null;
 
@@ -71,17 +72,18 @@ public final class DefaultCourseService implements CourseService {
             throw new NotFoundException();
         }
 
-        final String json = tmcRestTemplate.fetchJson(String.format("courses/%s.json", tmcCourse.getPlainId()),
+        final String json = tmcRestTemplate.fetchJson(String.format("%s/courses/%s.json", instance, tmcCourse.getPlainId()),
                                                       "api_version=7");
 
         return mapper.readSubElementValue(json, Course.class, "course");
     }
 
     @Override
-    public Course findBy(final String studentId, final String courseId) throws IOException {
+    public Course findBy(final String instance, final String studentId, final String courseId) throws IOException {
 
-        return snapshotRestTemplate.getForObject("{studentId}/courses/{courseId}",
+        return snapshotRestTemplate.getForObject("{instance}/participants/{studentId}/courses/{courseId}",
                                                  Course.class,
+                                                 instance,
                                                  studentId,
                                                  courseId);
     }
