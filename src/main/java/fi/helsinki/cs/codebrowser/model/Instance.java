@@ -1,6 +1,6 @@
 package fi.helsinki.cs.codebrowser.model;
 
-public class Instance {
+public final class Instance {
 
     private final String name;
 

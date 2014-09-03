@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping(method = RequestMethod.GET, produces = "application/json")
-public class InstanceController {
+public final class InstanceController {
 
     @Autowired
     private InstanceService instanceService;
