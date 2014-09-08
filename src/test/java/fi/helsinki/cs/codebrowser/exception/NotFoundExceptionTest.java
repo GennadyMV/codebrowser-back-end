@@ -9,5 +9,4 @@ public class NotFoundExceptionTest {
 
         final NotFoundException nfe = new NotFoundException();
     }
-
 }

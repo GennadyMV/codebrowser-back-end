@@ -58,5 +58,4 @@ public class SimpleCORSFilterTest {
 
         filter.destroy();
     }
-
 }

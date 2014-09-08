@@ -24,5 +24,4 @@ public class InstanceTest {
         assertEquals(NAME, instance.getName());
         assertEquals(ID, instance.getId());
     }
-
 }
