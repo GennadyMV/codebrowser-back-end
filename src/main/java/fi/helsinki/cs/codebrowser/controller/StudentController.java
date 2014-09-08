@@ -58,7 +58,7 @@ public final class StudentController {
     }
 
     @RequestMapping(value = "{instanceId}/students/{studentId}")
-    public Student read2(@PathVariable final String instanceId, @PathVariable final String studentId) throws IOException {
+    public Student read(@PathVariable final String instanceId, @PathVariable final String studentId) throws IOException {
 
         return studentService.findByInstance(instanceId, studentId);
     }

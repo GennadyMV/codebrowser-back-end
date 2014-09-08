@@ -34,7 +34,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-public class StudentControllerTest {
+public final class StudentControllerTest {
 
     private static final String INSTANCE = "TestInstanceId";
     private static final String COURSE = "TestCourseId";

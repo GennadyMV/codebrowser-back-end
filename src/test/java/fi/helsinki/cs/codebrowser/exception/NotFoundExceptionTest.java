@@ -2,7 +2,7 @@ package fi.helsinki.cs.codebrowser.exception;
 
 import org.junit.Test;
 
-public class NotFoundExceptionTest {
+public final class NotFoundExceptionTest {
 
     @Test
     public void canConstruct() {
