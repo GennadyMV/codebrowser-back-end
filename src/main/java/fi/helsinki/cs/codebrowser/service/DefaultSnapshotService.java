@@ -17,7 +17,7 @@ public final class DefaultSnapshotService implements SnapshotService {
     private SnapshotApiRestTemplate snapshotRestTemplate;
 
     @Override
-    public Collection<Snapshot> findAllBy(final String instance,
+    public Collection<Snapshot> findAllBy(final String instanceId,
                                           final String studentId,
                                           final String courseId,
                                           final String exerciseId,
@@ -25,16 +25,16 @@ public final class DefaultSnapshotService implements SnapshotService {
 
         snapshotRestTemplate.addParameter("level", level);
 
-        return Arrays.asList(snapshotRestTemplate.getForObject("{instance}/participants/{studentId}/courses/{courseId}/exercises/{exerciseId}/snapshots",
+        return Arrays.asList(snapshotRestTemplate.getForObject("{instanceId}/participants/{studentId}/courses/{courseId}/exercises/{exerciseId}/snapshots",
                                                                Snapshot[].class,
-                                                               instance,
+                                                               instanceId,
                                                                studentId,
                                                                courseId,
                                                                exerciseId));
     }
 
     @Override
-    public Snapshot findBy(final String instance,
+    public Snapshot findBy(final String instanceId,
                            final String studentId,
                            final String courseId,
                            final String exerciseId,
@@ -43,9 +43,9 @@ public final class DefaultSnapshotService implements SnapshotService {
 
         snapshotRestTemplate.addParameter("level", level);
 
-        return snapshotRestTemplate.getForObject("{instance}/participants/{studentId}/courses/{courseId}/exercises/{exerciseId}/snapshots/{snapshotId}",
+        return snapshotRestTemplate.getForObject("{instanceId}/participants/{studentId}/courses/{courseId}/exercises/{exerciseId}/snapshots/{snapshotId}",
                                                  Snapshot.class,
-                                                 instance,
+                                                 instanceId,
                                                  studentId,
                                                  courseId,
                                                  exerciseId,
@@ -53,7 +53,7 @@ public final class DefaultSnapshotService implements SnapshotService {
     }
 
     @Override
-    public byte[] findAllFilesAsZip(final String instance,
+    public byte[] findAllFilesAsZip(final String instanceId,
                                     final String studentId,
                                     final String courseId,
                                     final String exerciseId,
@@ -61,9 +61,9 @@ public final class DefaultSnapshotService implements SnapshotService {
 
         snapshotRestTemplate.addParameter("level", level);
 
-        return snapshotRestTemplate.getForObject("{instance}/participants/{studentId}/courses/{courseId}/exercises/{exerciseId}/snapshots/files.zip",
+        return snapshotRestTemplate.getForObject("{instanceId}/participants/{studentId}/courses/{courseId}/exercises/{exerciseId}/snapshots/files.zip",
                                                  byte[].class,
-                                                 instance,
+                                                 instanceId,
                                                  studentId,
                                                  courseId,
                                                  exerciseId);

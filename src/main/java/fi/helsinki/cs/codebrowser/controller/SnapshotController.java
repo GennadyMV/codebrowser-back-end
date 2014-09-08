@@ -16,8 +16,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping(method = RequestMethod.GET,
-                value = { "{instance}/students/{studentId}/courses/{courseId}/exercises/{exerciseId}/snapshots",
-                          "{instance}/courses/{courseId}/exercises/{exerciseId}/students/{studentId}/snapshots" },
+                value = { "{instanceId}/students/{studentId}/courses/{courseId}/exercises/{exerciseId}/snapshots",
+                          "{instanceId}/courses/{courseId}/exercises/{exerciseId}/students/{studentId}/snapshots" },
                 produces = "application/json")
 public final class SnapshotController {
 
@@ -25,35 +25,35 @@ public final class SnapshotController {
     private SnapshotService snapshotService;
 
     @RequestMapping
-    public Collection<Snapshot> list(@PathVariable final String instance,
+    public Collection<Snapshot> list(@PathVariable final String instanceId,
                                      @PathVariable final String studentId,
                                      @PathVariable final String courseId,
                                      @PathVariable final String exerciseId,
                                      @RequestParam(value = "level", defaultValue = "KEY", required = false) final String level) throws IOException {
 
-        return snapshotService.findAllBy(instance, studentId, courseId, exerciseId, level);
+        return snapshotService.findAllBy(instanceId, studentId, courseId, exerciseId, level);
     }
 
     @RequestMapping(value = "{snapshotId}")
-    public Snapshot read(@PathVariable final String instance,
+    public Snapshot read(@PathVariable final String instanceId,
                          @PathVariable final String studentId,
                          @PathVariable final String courseId,
                          @PathVariable final String exerciseId,
                          @PathVariable final String snapshotId,
                          @RequestParam(value = "level", defaultValue = "KEY", required = false) final String level) throws IOException {
 
-        return snapshotService.findBy(instance, studentId, courseId, exerciseId, snapshotId, level);
+        return snapshotService.findBy(instanceId, studentId, courseId, exerciseId, snapshotId, level);
     }
 
     @RequestMapping(method = RequestMethod.GET,
                     value = "files.zip",
                     produces = "application/zip")
-    public HttpEntity<byte[]> readFiles(@PathVariable final String instance,
+    public HttpEntity<byte[]> readFiles(@PathVariable final String instanceId,
                                         @PathVariable final String studentId,
                                         @PathVariable final String courseId,
                                         @PathVariable final String exerciseId,
                                         @RequestParam(value = "level", defaultValue = "KEY", required = false) final String level) throws IOException {
 
-        return new HttpEntity<>(snapshotService.findAllFilesAsZip(instance, studentId, courseId, exerciseId, level));
+        return new HttpEntity<>(snapshotService.findAllFilesAsZip(instanceId, studentId, courseId, exerciseId, level));
     }
 }

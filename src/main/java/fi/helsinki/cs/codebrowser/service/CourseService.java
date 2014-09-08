@@ -7,10 +7,10 @@ import java.util.Collection;
 
 public interface CourseService {
 
-    Collection<Course> findAll(String instance) throws IOException;
-    Collection<Course> findAllBy(String instance, String studentId) throws IOException;
+    Collection<Course> findAll(String instanceId) throws IOException;
+    Collection<Course> findAllBy(String instanceId, String studentId) throws IOException;
 
-    Course findBy(String instance, String courseId) throws IOException;
-    Course findBy(String instance, String studentId, String courseId) throws IOException;
+    Course findBy(String instanceId, String courseId) throws IOException;
+    Course findBy(String instanceId, String studentId, String courseId) throws IOException;
 
 }

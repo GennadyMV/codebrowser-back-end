@@ -14,8 +14,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping(method = RequestMethod.GET,
-                value = { "{instance}/students/{studentId}/courses/{courseId}/exercises/{exerciseId}/snapshots/{snapshotId}/files",
-                          "{instance}/courses/{courseId}/exercises/{exerciseId}/students/{studentId}/snapshots/{snapshotId}/files" },
+                value = { "{instanceId}/students/{studentId}/courses/{courseId}/exercises/{exerciseId}/snapshots/{snapshotId}/files",
+                          "{instanceId}/courses/{courseId}/exercises/{exerciseId}/students/{studentId}/snapshots/{snapshotId}/files" },
                 produces = "application/json")
 public final class SnapshotFileController {
 
@@ -23,34 +23,34 @@ public final class SnapshotFileController {
     private SnapshotFileService snapshotFileService;
 
     @RequestMapping
-    public Collection<SnapshotFile> list(@PathVariable final String instance,
+    public Collection<SnapshotFile> list(@PathVariable final String instanceId,
                                          @PathVariable final String studentId,
                                          @PathVariable final String courseId,
                                          @PathVariable final String exerciseId,
                                          @PathVariable final String snapshotId) throws IOException {
 
-        return snapshotFileService.findAllBy(instance, studentId, courseId, exerciseId, snapshotId);
+        return snapshotFileService.findAllBy(instanceId, studentId, courseId, exerciseId, snapshotId);
     }
 
     @RequestMapping(value = "{fileId}")
-    public SnapshotFile read(@PathVariable final String instance,
+    public SnapshotFile read(@PathVariable final String instanceId,
                              @PathVariable final String studentId,
                              @PathVariable final String courseId,
                              @PathVariable final String exerciseId,
                              @PathVariable final String snapshotId,
                              @PathVariable final String fileId) throws IOException {
 
-        return snapshotFileService.findBy(instance, studentId, courseId, exerciseId, snapshotId, fileId);
+        return snapshotFileService.findBy(instanceId, studentId, courseId, exerciseId, snapshotId, fileId);
     }
 
     @RequestMapping(value = "{fileId}/content", produces = "text/plain")
-    public String readContent(@PathVariable final String instance,
+    public String readContent(@PathVariable final String instanceId,
                               @PathVariable final String studentId,
                               @PathVariable final String courseId,
                               @PathVariable final String exerciseId,
                               @PathVariable final String snapshotId,
                               @PathVariable final String fileId) throws IOException {
 
-        return snapshotFileService.findContentBy(instance, studentId, courseId, exerciseId, snapshotId, fileId);
+        return snapshotFileService.findContentBy(instanceId, studentId, courseId, exerciseId, snapshotId, fileId);
     }
 }

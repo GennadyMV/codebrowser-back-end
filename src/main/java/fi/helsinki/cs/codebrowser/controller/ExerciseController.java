@@ -19,35 +19,35 @@ public final class ExerciseController {
     @Autowired
     private ExerciseService exerciseService;
 
-    @RequestMapping(value = "{instance}/courses/{courseId}/exercises")
-    public Collection<Exercise> list(@PathVariable final String instance,
+    @RequestMapping(value = "{instanceId}/courses/{courseId}/exercises")
+    public Collection<Exercise> list(@PathVariable final String instanceId,
                                      @PathVariable final String courseId) throws IOException {
 
-        return exerciseService.findAllBy(instance, courseId);
+        return exerciseService.findAllBy(instanceId, courseId);
     }
 
-    @RequestMapping(value = "{instance}/students/{studentId}/courses/{courseId}/exercises")
-    public Collection<Exercise> list(@PathVariable final String instance,
+    @RequestMapping(value = "{instanceId}/students/{studentId}/courses/{courseId}/exercises")
+    public Collection<Exercise> list(@PathVariable final String instanceId,
                                      @PathVariable final String studentId,
                                      @PathVariable final String courseId) throws IOException {
 
-        return exerciseService.findAllBy(instance, studentId, courseId);
+        return exerciseService.findAllBy(instanceId, studentId, courseId);
     }
 
-    @RequestMapping(value = "{instance}/courses/{courseId}/exercises/{exerciseId}")
-    public Exercise read(@PathVariable final String instance,
+    @RequestMapping(value = "{instanceId}/courses/{courseId}/exercises/{exerciseId}")
+    public Exercise read(@PathVariable final String instanceId,
                          @PathVariable final String courseId,
                          @PathVariable final String exerciseId) throws IOException {
 
-        return exerciseService.findBy(instance, courseId, exerciseId);
+        return exerciseService.findBy(instanceId, courseId, exerciseId);
     }
 
-    @RequestMapping(value = "{instance}/students/{studentId}/courses/{courseId}/exercises/{exerciseId}")
-    public Exercise read(@PathVariable final String instance,
+    @RequestMapping(value = "{instanceId}/students/{studentId}/courses/{courseId}/exercises/{exerciseId}")
+    public Exercise read(@PathVariable final String instanceId,
                          @PathVariable final String studentId,
                          @PathVariable final String courseId,
                          @PathVariable final String exerciseId) throws IOException {
 
-        return exerciseService.findBy(instance, studentId, courseId, exerciseId);
+        return exerciseService.findBy(instanceId, studentId, courseId, exerciseId);
     }
 }

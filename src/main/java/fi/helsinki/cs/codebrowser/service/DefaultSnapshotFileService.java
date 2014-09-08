@@ -17,15 +17,15 @@ public final class DefaultSnapshotFileService implements SnapshotFileService {
     private SnapshotApiRestTemplate snapshotRestTemplate;
 
     @Override
-    public Collection<SnapshotFile> findAllBy(final String instance,
+    public Collection<SnapshotFile> findAllBy(final String instanceId,
                                               final String studentId,
                                               final String courseId,
                                               final String exerciseId,
                                               final String snapshotId) throws IOException {
 
-        return Arrays.asList(snapshotRestTemplate.getForObject("{instance}/participants/{studentId}/courses/{courseId}/exercises/{exerciseId}/snapshots/{snapshotId}/files",
+        return Arrays.asList(snapshotRestTemplate.getForObject("{instanceId}/participants/{studentId}/courses/{courseId}/exercises/{exerciseId}/snapshots/{snapshotId}/files",
                                                                SnapshotFile[].class,
-                                                               instance,
+                                                               instanceId,
                                                                studentId,
                                                                courseId,
                                                                exerciseId,
@@ -33,16 +33,16 @@ public final class DefaultSnapshotFileService implements SnapshotFileService {
     }
 
     @Override
-    public SnapshotFile findBy(final String instance,
+    public SnapshotFile findBy(final String instanceId,
                                final String studentId,
                                final String courseId,
                                final String exerciseId,
                                final String snapshotId,
                                final String fileId) throws IOException {
 
-        return snapshotRestTemplate.getForObject("{instance}/participants/{studentId}/courses/{courseId}/exercises/{exerciseId}/snapshots/{snapshotId}/files/{fileId}",
+        return snapshotRestTemplate.getForObject("{instanceId}/participants/{studentId}/courses/{courseId}/exercises/{exerciseId}/snapshots/{snapshotId}/files/{fileId}",
                                                  SnapshotFile.class,
-                                                 instance,
+                                                 instanceId,
                                                  studentId,
                                                  courseId,
                                                  exerciseId,
@@ -51,16 +51,16 @@ public final class DefaultSnapshotFileService implements SnapshotFileService {
     }
 
     @Override
-    public String findContentBy(final String instance,
+    public String findContentBy(final String instanceId,
                                 final String studentId,
                                 final String courseId,
                                 final String exerciseId,
                                 final String snapshotId,
                                 final String fileId) {
 
-        return snapshotRestTemplate.getForObject("{instance}/participants/{studentId}/courses/{courseId}/exercises/{exerciseId}/snapshots/{snapshotId}/files/{fileId}/content",
+        return snapshotRestTemplate.getForObject("{instanceId}/participants/{studentId}/courses/{courseId}/exercises/{exerciseId}/snapshots/{snapshotId}/files/{fileId}/content",
                                                  String.class,
-                                                 instance,
+                                                 instanceId,
                                                  studentId,
                                                  courseId,
                                                  exerciseId,

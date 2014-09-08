@@ -19,31 +19,31 @@ public final class CourseController {
     @Autowired
     private CourseService courseService;
 
-    @RequestMapping(value = "{instance}/courses")
-    public Collection<Course> list(@PathVariable final String instance) throws IOException {
+    @RequestMapping(value = "{instanceId}/courses")
+    public Collection<Course> list(@PathVariable final String instanceId) throws IOException {
 
-        return courseService.findAll(instance);
+        return courseService.findAll(instanceId);
     }
 
-    @RequestMapping(value = "{instance}/students/{studentId}/courses")
-    public Collection<Course> list(@PathVariable final String instance,
+    @RequestMapping(value = "{instanceId}/students/{studentId}/courses")
+    public Collection<Course> list(@PathVariable final String instanceId,
                                    @PathVariable final String studentId) throws IOException {
 
-        return courseService.findAllBy(instance, studentId);
+        return courseService.findAllBy(instanceId, studentId);
     }
 
-    @RequestMapping(value = "{instance}/courses/{courseId}")
-    public Course read(@PathVariable final String instance,
+    @RequestMapping(value = "{instanceId}/courses/{courseId}")
+    public Course read(@PathVariable final String instanceId,
                        @PathVariable final String courseId) throws IOException {
 
-        return courseService.findBy(instance, courseId);
+        return courseService.findBy(instanceId, courseId);
     }
 
-    @RequestMapping(value = "{instance}/students/{studentId}/courses/{courseId}")
-    public Course read(@PathVariable final String instance,
+    @RequestMapping(value = "{instanceId}/students/{studentId}/courses/{courseId}")
+    public Course read(@PathVariable final String instanceId,
                        @PathVariable final String studentId,
                        @PathVariable final String courseId) throws IOException {
 
-        return courseService.findBy(instance, studentId, courseId);
+        return courseService.findBy(instanceId, studentId, courseId);
     }
 }
