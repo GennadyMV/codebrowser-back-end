@@ -1,15 +1,12 @@
 package fi.helsinki.cs.codebrowser.model;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public final class SnapshotFile {
 
     private final String id;
     private final String name;
-
-    @JsonIgnore
     private final String path;
 
     @JsonCreator
@@ -30,5 +27,10 @@ public final class SnapshotFile {
     public String getName() {
 
         return name;
+    }
+
+    public String getPath() {
+
+        return path;
     }
 }
