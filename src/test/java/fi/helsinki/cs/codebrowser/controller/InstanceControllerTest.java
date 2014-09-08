@@ -53,7 +53,6 @@ public final class InstanceControllerTest {
     @InjectMocks
     private InstanceController instanceController;
 
-
     private MockMvc mockMvc;
 
     @Before

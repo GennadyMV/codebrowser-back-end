@@ -13,7 +13,7 @@ import org.junit.Test;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
-public class SimpleCORSFilterTest {
+public final class SimpleCORSFilterTest {
 
     private ServletRequest servletRequest;
     private HttpServletResponse servletResponse;
@@ -58,5 +58,4 @@ public class SimpleCORSFilterTest {
 
         filter.destroy();
     }
-
 }

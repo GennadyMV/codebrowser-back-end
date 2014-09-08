@@ -5,7 +5,7 @@ import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 
-public class InstanceTest {
+public final class InstanceTest {
 
     private static final String NAME = "TestInstanceName";
     private static final String ID = "TestInstanceID";
@@ -24,5 +24,4 @@ public class InstanceTest {
         assertEquals(NAME, instance.getName());
         assertEquals(ID, instance.getId());
     }
-
 }
