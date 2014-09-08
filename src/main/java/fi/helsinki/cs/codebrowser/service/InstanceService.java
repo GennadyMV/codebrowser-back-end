@@ -7,5 +7,6 @@ import java.util.Collection;
 public interface InstanceService {
 
     Collection<Instance> findAll();
+    Instance find(String id);
 
 }

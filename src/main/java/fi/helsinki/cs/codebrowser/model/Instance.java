@@ -1,16 +1,20 @@
 package fi.helsinki.cs.codebrowser.model;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public final class Instance {
 
-    private final String name;
+    private final String id;
 
-    public Instance(final String name) {
+    @JsonCreator
+    public Instance(@JsonProperty("id") final String id) {
 
-        this.name = name;
+        this.id = id;
     }
 
-    public String getName() {
+    public String getId() {
 
-        return name;
+        return id;
     }
 }

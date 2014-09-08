@@ -1,29 +1,29 @@
 package fi.helsinki.cs.codebrowser.service;
 
 import fi.helsinki.cs.codebrowser.model.Instance;
+import fi.helsinki.cs.codebrowser.web.client.SnapshotApiRestTemplate;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
-import java.util.List;
 
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public final class DefaultInstanceService implements InstanceService {
 
-    @Value("#{'${spyware.instances}'.split(' ')}")
-    private List<String> spywareInstances;
+    @Autowired
+    private SnapshotApiRestTemplate snapshotRestTemplate;
 
     @Override
     public Collection<Instance> findAll() {
 
-        final List<Instance> instances = new ArrayList<>();
+        return Arrays.asList(snapshotRestTemplate.getForObject("#", Instance[].class));
+    }
 
-        for (String instance : spywareInstances) {
-            instances.add(new Instance(instance));
-        }
+    @Override
+    public Instance find(final String id) {
 
-        return instances;
+        return snapshotRestTemplate.getForObject("{id}", Instance.class, id);
     }
 }
