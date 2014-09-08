@@ -6,7 +6,7 @@ public class NotFoundExceptionTest {
 
     @Test
     public void canConstruct() {
-        
+
         final NotFoundException nfe = new NotFoundException();
     }
 

@@ -14,7 +14,7 @@ public class InstanceTest {
 
     @Before
     public void setUp() {
-        
+
         instance = new Instance(ID, NAME);
     }
 
