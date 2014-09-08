@@ -1,6 +1,7 @@
 package fi.helsinki.cs.codebrowser.controller;
 
 import fi.helsinki.cs.codebrowser.app.App;
+import fi.helsinki.cs.codebrowser.exception.NotFoundException;
 import fi.helsinki.cs.codebrowser.model.Snapshot;
 import fi.helsinki.cs.codebrowser.service.SnapshotService;
 
@@ -155,5 +156,37 @@ public final class SnapshotControllerTest {
 
         verify(snapshotService, times(1)).findBy(INSTANCE, STUDENT, COURSE, EXERCISE, SNAPSHOT, LEVEL);
         verifyNoMoreInteractions(snapshotService);
+    }
+
+    @Test
+    public void readFilesReturnsZip() throws Exception {
+
+        final byte[] bytes = { 0x00, 0x01, 0x02 };
+        when(snapshotService.findAllFilesAsZip(INSTANCE, STUDENT, COURSE, EXERCISE, LEVEL)).thenReturn(bytes);
+
+        mockMvc.perform(get(BASE_URL_A + "/files.zip?level=KEY"))
+               .andExpect(status().isOk())
+               .andExpect(content().contentType("application/zip"))
+               .andExpect(content().bytes(bytes));
+
+        verify(snapshotService).findAllFilesAsZip(INSTANCE, STUDENT, COURSE, EXERCISE, LEVEL);
+        verifyNoMoreInteractions(snapshotService);
+    }
+
+    @Test
+    public void readFilesPassesLevelToService() throws Exception {
+
+        mockMvc.perform(get(BASE_URL_A + "/files.zip?level=CODE"));
+
+        verify(snapshotService).findAllFilesAsZip(INSTANCE, STUDENT, COURSE, EXERCISE, "CODE");
+    }
+
+    @Test
+    public void readFilesHandlesNotFoundException() throws Exception {
+
+        when(snapshotService.findAllFilesAsZip(INSTANCE, STUDENT, COURSE, EXERCISE, LEVEL)).thenThrow(new NotFoundException());
+
+        mockMvc.perform(get(BASE_URL_A + "/files.zip?level=KEY"))
+               .andExpect(status().isNotFound());
     }
 }
