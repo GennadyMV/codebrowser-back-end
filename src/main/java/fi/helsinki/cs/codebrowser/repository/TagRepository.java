@@ -1,6 +1,7 @@
 package fi.helsinki.cs.codebrowser.repository;
 
 import fi.helsinki.cs.codebrowser.model.Tag;
+
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
