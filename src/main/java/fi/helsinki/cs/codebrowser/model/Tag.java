@@ -12,6 +12,9 @@ import org.springframework.data.jpa.domain.AbstractPersistable;
 public class Tag extends AbstractPersistable<Long> {
 
     @Column(nullable = false)
+    private String instanceId;
+
+    @Column(nullable = false)
     private String studentId;
 
     @Column(nullable = false)
@@ -31,6 +34,10 @@ public class Tag extends AbstractPersistable<Long> {
     private String name;
 
     protected Tag() {
+    }
+
+    public void setInstanceId(final String instanceId) {
+        this.instanceId = instanceId;
     }
 
     public void setStudentId(final String studentId) {
