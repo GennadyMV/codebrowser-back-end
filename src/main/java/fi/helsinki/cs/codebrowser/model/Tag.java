@@ -33,11 +33,16 @@ public class Tag extends AbstractPersistable<Long> {
     @Column(nullable = false)
     private String name;
 
-    protected Tag() {
-    }
+    protected Tag() { }
 
     public void setInstanceId(final String instanceId) {
+
         this.instanceId = instanceId;
+    }
+
+    public String getInstanceId() {
+
+        return instanceId;
     }
 
     public void setStudentId(final String studentId) {
@@ -45,9 +50,19 @@ public class Tag extends AbstractPersistable<Long> {
         this.studentId = studentId;
     }
 
+    public String getStudentId() {
+
+        return studentId;
+    }
+
     public void setCourseId(final String courseId) {
 
         this.courseId = courseId;
+    }
+
+    public String getCourseId() {
+
+        return courseId;
     }
 
     public void setExerciseId(final String exerciseId) {
@@ -55,14 +70,29 @@ public class Tag extends AbstractPersistable<Long> {
         this.exerciseId = exerciseId;
     }
 
+    public String getExerciseId() {
+
+        return exerciseId;
+    }
+
     public void setLevel(final String level) {
 
         this.level = level;
     }
 
+    public String getLevel() {
+
+        return level;
+    }
+
     public void setSnapshotId(final String snapshotId) {
 
         this.snapshotId = snapshotId;
+    }
+
+    public String getSnapshotId() {
+
+        return snapshotId;
     }
 
     public void setName(final String name) {
