@@ -77,8 +77,8 @@ public class Tag extends AbstractPersistable<Long> {
         return name;
     }
 
-    @JsonValue
     @Override
+    @JsonValue
     public String toString() {
 
         return name;

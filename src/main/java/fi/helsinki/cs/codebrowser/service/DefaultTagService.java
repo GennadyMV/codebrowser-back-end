@@ -5,24 +5,33 @@ import fi.helsinki.cs.codebrowser.repository.TagRepository;
 
 import java.util.Collection;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class DefaultTagService implements TagService {
+public final class DefaultTagService implements TagService {
 
     @Autowired
     private TagRepository tagRepository;
 
     @Override
-    public void create(final Tag tag) {
+    public Collection<Tag> findAllBy(final String instanceId,
+                                     final String studentId,
+                                     final String courseId,
+                                     final String exerciseId) {
 
-        tagRepository.save(tag);
+        return tagRepository.findAllByInstanceIdAndStudentIdAndCourseIdAndExerciseId(instanceId,
+                                                                                     studentId,
+                                                                                     courseId,
+                                                                                     exerciseId);
     }
 
     @Override
-    public Collection<Tag> findAllBy(final String instanceId, final String studentId, final String courseId, final String exerciseId) {
+    @Transactional
+    public void create(final Tag tag) {
 
-        return tagRepository.findAllByInstanceIdAndStudentIdAndCourseIdAndExerciseId(instanceId, studentId, courseId, exerciseId);
+        tagRepository.save(tag);
     }
 }

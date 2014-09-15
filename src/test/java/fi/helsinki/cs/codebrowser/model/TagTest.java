@@ -5,7 +5,7 @@ import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 
-public class TagTest {
+public final class TagTest {
 
     private Tag tag;
 
