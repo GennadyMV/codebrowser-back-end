@@ -7,7 +7,7 @@ import java.util.Collection;
 
 public interface TagService {
 
-    Collection<Tag> findAllBy(final String instanceId, final String studentId, final String courseId, final String exerciseId);
-    Tag create(final String instanceId, final String studentId, final String courseId, final String exerciseId, final Tag tag) throws IOException;
+    Collection<Tag> findAllBy(String instanceId, String studentId, String courseId, String exerciseId);
+    Tag create(String instanceId, String studentId, String courseId, String exerciseId, Tag tag) throws IOException;
 
 }

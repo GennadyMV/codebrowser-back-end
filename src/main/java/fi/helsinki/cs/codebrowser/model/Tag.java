@@ -24,8 +24,8 @@ public class Tag extends AbstractPersistable<Long> {
     @Column(nullable = false)
     private String exerciseId;
 
-    @NotEmpty
     @Column(nullable = false)
+    @NotEmpty
     private String name;
 
     public void setInstanceId(final String instanceId) {
