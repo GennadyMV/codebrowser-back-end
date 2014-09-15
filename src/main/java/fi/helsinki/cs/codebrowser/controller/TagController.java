@@ -37,11 +37,11 @@ public final class TagController {
 
     @RequestMapping(method = RequestMethod.POST)
     public Tag create(@Valid @RequestBody final Tag tag,
-                       final BindingResult bindingResult,
-                       @PathVariable final String instanceId,
-                       @PathVariable final String studentId,
-                       @PathVariable final String courseId,
-                       @PathVariable final String exerciseId) throws IOException {
+                      final BindingResult bindingResult,
+                      @PathVariable final String instanceId,
+                      @PathVariable final String studentId,
+                      @PathVariable final String courseId,
+                      @PathVariable final String exerciseId) throws IOException {
 
         if (bindingResult.hasErrors()) {
             throw new BadRequestException();

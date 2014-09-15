@@ -40,7 +40,11 @@ public final class DefaultTagService implements TagService {
 
     @Override
     @Transactional
-    public Tag create(final String instanceId, final String studentId, final String courseId, final String exerciseId, final Tag tag) throws IOException {
+    public Tag create(final String instanceId,
+                      final String studentId,
+                      final String courseId,
+                      final String exerciseId,
+                      final Tag tag) throws IOException {
 
         final Exercise exercise = exerciseService.findBy(instanceId, studentId, courseId, exerciseId);
 
