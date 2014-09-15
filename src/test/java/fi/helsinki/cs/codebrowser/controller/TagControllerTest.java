@@ -93,11 +93,11 @@ public final class TagControllerTest {
         when(tagService.findAllBy(INSTANCE, STUDENT, COURSE, EXERCISE)).thenReturn(tags);
 
         mockMvc.perform(get(URL_A))
-                .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$", hasSize(2)))
-                .andExpect(jsonPath("$[0]", is("tag1")))
-                .andExpect(jsonPath("$[1]", is("tag2")));
+               .andExpect(status().isOk())
+               .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+               .andExpect(jsonPath("$", hasSize(2)))
+               .andExpect(jsonPath("$[0]", is("tag1")))
+               .andExpect(jsonPath("$[1]", is("tag2")));
 
         verify(tagService).findAllBy(INSTANCE, STUDENT, COURSE, EXERCISE);
         verifyNoMoreInteractions(tagService);
@@ -113,11 +113,11 @@ public final class TagControllerTest {
         when(tagService.findAllBy(INSTANCE, STUDENT, COURSE, EXERCISE)).thenReturn(tags);
 
         mockMvc.perform(get(URL_B))
-                .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$", hasSize(2)))
-                .andExpect(jsonPath("$[0]", is("tag1")))
-                .andExpect(jsonPath("$[1]", is("tag2")));
+               .andExpect(status().isOk())
+               .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+               .andExpect(jsonPath("$", hasSize(2)))
+               .andExpect(jsonPath("$[0]", is("tag1")))
+               .andExpect(jsonPath("$[1]", is("tag2")));
 
         verify(tagService).findAllBy(INSTANCE, STUDENT, COURSE, EXERCISE);
         verifyNoMoreInteractions(tagService);
@@ -129,7 +129,7 @@ public final class TagControllerTest {
         when(tagService.findAllBy(INSTANCE, STUDENT, COURSE, EXERCISE)).thenThrow(new NotFoundException());
 
         mockMvc.perform(get(URL_A))
-                .andExpect(status().isNotFound());
+               .andExpect(status().isNotFound());
 
         verify(tagService).findAllBy(INSTANCE, STUDENT, COURSE, EXERCISE);
         verifyNoMoreInteractions(tagService);
