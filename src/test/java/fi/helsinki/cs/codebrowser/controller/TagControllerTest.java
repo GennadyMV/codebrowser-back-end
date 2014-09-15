@@ -1,19 +1,22 @@
 package fi.helsinki.cs.codebrowser.controller;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
+
 import fi.helsinki.cs.codebrowser.app.App;
 import fi.helsinki.cs.codebrowser.exception.NotFoundException;
 import fi.helsinki.cs.codebrowser.model.Tag;
 import fi.helsinki.cs.codebrowser.service.TagService;
-import fi.helsinki.cs.codebrowser.util.JsonMapper;
+
 import java.util.ArrayList;
 import java.util.List;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+
 import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
@@ -25,6 +28,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import static com.jayway.jsonassert.impl.matcher.IsCollectionWithSize.hasSize;
 
 import static org.hamcrest.CoreMatchers.is;
+
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.verify;
@@ -77,10 +81,6 @@ public class TagControllerTest {
         tag.setStudentId("s");
 
         return tag;
-    }
-
-    private String toJson(final Tag tag) throws JsonProcessingException {
-        return new JsonMapper().writeValueAsString(tag);
     }
 
     @Test
