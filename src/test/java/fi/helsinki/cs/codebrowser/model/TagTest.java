@@ -48,22 +48,6 @@ public class TagTest {
     }
 
     @Test
-    public void canSetLevel() {
-
-        tag.setLevel("key");
-
-        assertEquals("key", tag.getLevel());
-    }
-
-    @Test
-    public void canSetSnapshotId() {
-
-        tag.setSnapshotId("4");
-
-        assertEquals("4", tag.getSnapshotId());
-    }
-
-    @Test
     public void canSetName() {
 
         tag.setName("tagName");

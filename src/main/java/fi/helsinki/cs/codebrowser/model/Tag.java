@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonValue;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.validation.constraints.Pattern;
 
 import org.springframework.data.jpa.domain.AbstractPersistable;
 
@@ -22,13 +21,6 @@ public class Tag extends AbstractPersistable<Long> {
 
     @Column(nullable = false)
     private String exerciseId;
-
-    @Column(nullable = false)
-    private String snapshotId;
-
-    @Pattern(regexp = "key|code")
-    @Column(name = "code_level", nullable = false)
-    private String level;
 
     @Column(nullable = false)
     private String name;
@@ -73,26 +65,6 @@ public class Tag extends AbstractPersistable<Long> {
     public String getExerciseId() {
 
         return exerciseId;
-    }
-
-    public void setLevel(final String level) {
-
-        this.level = level;
-    }
-
-    public String getLevel() {
-
-        return level;
-    }
-
-    public void setSnapshotId(final String snapshotId) {
-
-        this.snapshotId = snapshotId;
-    }
-
-    public String getSnapshotId() {
-
-        return snapshotId;
     }
 
     public void setName(final String name) {
