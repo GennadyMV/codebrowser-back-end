@@ -28,8 +28,6 @@ public class Tag extends AbstractPersistable<Long> {
     @Column(nullable = false)
     private String name;
 
-    protected Tag() { }
-
     public void setInstanceId(final String instanceId) {
 
         this.instanceId = instanceId;
