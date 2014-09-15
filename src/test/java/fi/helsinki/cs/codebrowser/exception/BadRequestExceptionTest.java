@@ -2,7 +2,7 @@ package fi.helsinki.cs.codebrowser.exception;
 
 import org.junit.Test;
 
-public class BadRequestExceptionTest {
+public final class BadRequestExceptionTest {
 
     @Test
     public void canConstruct() {
