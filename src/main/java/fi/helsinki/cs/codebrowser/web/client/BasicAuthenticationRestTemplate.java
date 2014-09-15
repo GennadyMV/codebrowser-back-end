@@ -44,4 +44,16 @@ public class BasicAuthenticationRestTemplate extends RestTemplate implements Res
 
         return getForObject(url, String.class);
     }
+
+    @Override
+    public <T> T getForObject(final String url, final Class<T> responseType, final Object... urlVariables) {
+        try {
+            return super.getForObject(url, responseType, urlVariables);
+        } catch (HttpStatusCodeException e) {
+            if (e.getStatusCode().equals(HttpStatus.NOT_FOUND)) {
+                throw new NotFoundException();
+            }
+            throw e;
+        }
+    }
 }
