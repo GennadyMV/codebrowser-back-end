@@ -44,7 +44,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringApplicationConfiguration(classes = App.class)
 @WebAppConfiguration
 @ActiveProfiles("test")
-public class TagControllerTest {
+public final class TagControllerTest {
 
     private static final String INSTANCE = "hy";
     private static final String COURSE = "ohpe";
