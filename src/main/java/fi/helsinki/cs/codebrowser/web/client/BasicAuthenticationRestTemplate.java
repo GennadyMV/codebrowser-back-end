@@ -1,10 +1,13 @@
 package fi.helsinki.cs.codebrowser.web.client;
 
-import java.io.IOException;
+import fi.helsinki.cs.codebrowser.exception.NotFoundException;
+
 import java.net.URISyntaxException;
 
 import org.apache.http.HttpHost;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.web.client.HttpStatusCodeException;
 import org.springframework.web.client.RestOperations;
 import org.springframework.web.client.RestTemplate;
 
@@ -30,7 +33,7 @@ public class BasicAuthenticationRestTemplate extends RestTemplate implements Res
         requestFactory.setBaseUrl(baseUrl);
     }
 
-    public String fetchJson(final String url, final String... parameters) throws IOException {
+    public String fetchJson(final String url, final String... parameters) {
 
         final HttpComponentsClientHttpRequestFactoryPreemptiveAuthentication requestFactory = (HttpComponentsClientHttpRequestFactoryPreemptiveAuthentication) getRequestFactory();
 
