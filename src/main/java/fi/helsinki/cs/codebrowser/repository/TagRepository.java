@@ -9,5 +9,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 public interface TagRepository extends JpaRepository<Tag, Long> {
 
     List<Tag> findAllByInstanceIdAndStudentIdAndCourseIdAndExerciseId(String instanceId, String studentId, String courseId, String exerciseId);
+    Tag findByInstanceIdAndStudentIdAndCourseIdAndExerciseIdAndId(String instanceId, String studentId, String courseId, String exerciseId, Long id);
 
 }

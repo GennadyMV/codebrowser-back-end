@@ -38,6 +38,21 @@ public final class DefaultTagService implements TagService {
         return tags;
     }
 
+    public Tag findBy(final String instanceId,
+                      final String studentId,
+                      final String courseId,
+                      final String exerciseId,
+                      final Long tagId) {
+
+        final Tag tag = tagRepository.findByInstanceIdAndStudentIdAndCourseIdAndExerciseIdAndId(instanceId, studentId, courseId, exerciseId, tagId);
+
+        if (tag == null) {
+            throw new NotFoundException();
+        }
+
+        return tag;
+    }
+
     @Override
     @Transactional
     public Tag create(final String instanceId,
@@ -58,5 +73,19 @@ public final class DefaultTagService implements TagService {
         tag.setExerciseId(exerciseId);
 
         return tagRepository.save(tag);
+    }
+
+    @Override
+    @Transactional
+    public Tag delete(final String instanceId,
+                      final String studentId,
+                      final String courseId,
+                      final String exerciseId,
+                      final Long tagId) {
+
+        final Tag tag = findBy(instanceId, studentId, courseId, exerciseId, tagId);
+        tagRepository.delete(tag);
+
+        return tag;
     }
 }

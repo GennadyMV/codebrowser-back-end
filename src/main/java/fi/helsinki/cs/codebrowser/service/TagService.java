@@ -9,5 +9,6 @@ public interface TagService {
 
     Collection<Tag> findAllBy(String instanceId, String studentId, String courseId, String exerciseId);
     Tag create(String instanceId, String studentId, String courseId, String exerciseId, Tag tag) throws IOException;
+    Tag delete(String instanceId, String studentId, String courseId, String exerciseId, Long tagId);
 
 }
