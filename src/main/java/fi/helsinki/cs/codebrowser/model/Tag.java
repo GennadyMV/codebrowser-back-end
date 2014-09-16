@@ -1,6 +1,6 @@
 package fi.helsinki.cs.codebrowser.model;
 
-import com.fasterxml.jackson.annotation.JsonValue;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -12,15 +12,19 @@ import org.springframework.data.jpa.domain.AbstractPersistable;
 @Entity
 public class Tag extends AbstractPersistable<Long> {
 
+    @JsonIgnore
     @Column(nullable = false)
     private String instanceId;
 
+    @JsonIgnore
     @Column(nullable = false)
     private String studentId;
 
+    @JsonIgnore
     @Column(nullable = false)
     private String courseId;
 
+    @JsonIgnore
     @Column(nullable = false)
     private String exerciseId;
 
@@ -79,7 +83,6 @@ public class Tag extends AbstractPersistable<Long> {
     }
 
     @Override
-    @JsonValue
     public String toString() {
 
         return name;
