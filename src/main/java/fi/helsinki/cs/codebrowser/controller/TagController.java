@@ -43,8 +43,6 @@ public final class TagController {
                       @PathVariable final String courseId,
                       @PathVariable final String exerciseId) throws IOException {
 
-        System.out.println("halleluja");
-
         if (bindingResult.hasErrors()) {
             throw new BadRequestException();
         }
