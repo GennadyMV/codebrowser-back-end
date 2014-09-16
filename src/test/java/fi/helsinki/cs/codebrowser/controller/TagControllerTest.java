@@ -96,8 +96,8 @@ public final class TagControllerTest {
                .andExpect(status().isOk())
                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                .andExpect(jsonPath("$", hasSize(2)))
-               .andExpect(jsonPath("$[0]", is("tag1")))
-               .andExpect(jsonPath("$[1]", is("tag2")));
+               .andExpect(jsonPath("$[0].name", is("tag1")))
+               .andExpect(jsonPath("$[1].name", is("tag2")));
 
         verify(tagService).findAllBy(INSTANCE, STUDENT, COURSE, EXERCISE);
         verifyNoMoreInteractions(tagService);
@@ -116,8 +116,8 @@ public final class TagControllerTest {
                .andExpect(status().isOk())
                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                .andExpect(jsonPath("$", hasSize(2)))
-               .andExpect(jsonPath("$[0]", is("tag1")))
-               .andExpect(jsonPath("$[1]", is("tag2")));
+               .andExpect(jsonPath("$[0].name", is("tag1")))
+               .andExpect(jsonPath("$[1].name", is("tag2")));
 
         verify(tagService).findAllBy(INSTANCE, STUDENT, COURSE, EXERCISE);
         verifyNoMoreInteractions(tagService);
@@ -144,7 +144,7 @@ public final class TagControllerTest {
         mockMvc.perform(post(URL_A).contentType(MediaType.APPLICATION_JSON)
                                    .content("{\"name\": \"tag3\"}"))
                .andExpect(status().isOk())
-               .andExpect(jsonPath("$", is("tag3")));
+               .andExpect(jsonPath("$.name", is("tag3")));
 
         verify(tagService).create(eq(INSTANCE), eq(STUDENT), eq(COURSE), eq(EXERCISE), any(Tag.class));
         verifyNoMoreInteractions(tagService);
@@ -159,7 +159,7 @@ public final class TagControllerTest {
         mockMvc.perform(post(URL_B).contentType(MediaType.APPLICATION_JSON)
                                    .content("{\"name\": \"tag3\"}"))
                .andExpect(status().isOk())
-               .andExpect(jsonPath("$", is("tag3")));
+               .andExpect(jsonPath("$.name", is("tag3")));
 
         verify(tagService).create(eq(INSTANCE), eq(STUDENT), eq(COURSE), eq(EXERCISE), any(Tag.class));
         verifyNoMoreInteractions(tagService);
