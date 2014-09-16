@@ -24,6 +24,7 @@ public final class SimpleCORSFilter implements Filter {
         final HttpServletResponse httpResponse = (HttpServletResponse) response;
 
         httpResponse.setHeader("Access-Control-Allow-Origin", "*");
+        httpResponse.setHeader("Access-Control-Allow-Headers", "Content-Type");
 
         chain.doFilter(request, response);
     }
