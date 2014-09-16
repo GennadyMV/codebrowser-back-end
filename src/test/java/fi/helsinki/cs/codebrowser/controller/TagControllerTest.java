@@ -50,9 +50,13 @@ public final class TagControllerTest {
     private static final String COURSE = "ohpe";
     private static final String EXERCISE = "ex1";
     private static final String STUDENT = "01111";
+    private static final Long TAG = 1L;
+
+    private static final String TAG_NAME = "tag1";
 
     private static final String URL_A = "/hy/students/01111/courses/ohpe/exercises/ex1/tags";
     private static final String URL_B = "/hy/courses/ohpe/exercises/ex1/students/01111/tags";
+    private static final String URL_C = "/hy/students/01111/courses/ohpe/exercises/ex1/tags/1";
 
     @Mock
     private TagService tagService;
@@ -96,7 +100,7 @@ public final class TagControllerTest {
                .andExpect(status().isOk())
                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                .andExpect(jsonPath("$", hasSize(2)))
-               .andExpect(jsonPath("$[0].name", is("tag1")))
+               .andExpect(jsonPath("$[0].name", is(TAG_NAME)))
                .andExpect(jsonPath("$[1].name", is("tag2")));
 
         verify(tagService).findAllBy(INSTANCE, STUDENT, COURSE, EXERCISE);
@@ -116,7 +120,7 @@ public final class TagControllerTest {
                .andExpect(status().isOk())
                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                .andExpect(jsonPath("$", hasSize(2)))
-               .andExpect(jsonPath("$[0].name", is("tag1")))
+               .andExpect(jsonPath("$[0].name", is(TAG_NAME)))
                .andExpect(jsonPath("$[1].name", is("tag2")));
 
         verify(tagService).findAllBy(INSTANCE, STUDENT, COURSE, EXERCISE);
@@ -172,6 +176,24 @@ public final class TagControllerTest {
                                    .content("{\"foo\":\"bar\"}"))
                .andExpect(status().isBadRequest());
 
+        verifyNoMoreInteractions(tagService);
+    }
+
+    @Test
+    public void deleteTagDeletesExistingTagAndReturnsIt() throws Exception {
+
+        final List<Tag> tags = new ArrayList<>();
+        tags.add(createTag("tag1"));
+        tags.add(createTag("tag2"));
+
+        when(tagService.delete(INSTANCE, STUDENT, COURSE, EXERCISE, TAG)).thenReturn(tags.get(0));
+
+        mockMvc.perform(delete(URL_C))
+               .andExpect(status().isOk())
+               .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+               .andExpect(jsonPath("$.name", is(TAG_NAME)));
+
+        verify(tagService).delete(INSTANCE, STUDENT, COURSE, EXERCISE, TAG);
         verifyNoMoreInteractions(tagService);
     }
 }
