@@ -12,20 +12,20 @@ import org.springframework.data.jpa.domain.AbstractPersistable;
 @Entity
 public class Tag extends AbstractPersistable<Long> {
 
-    @JsonIgnore
     @Column(nullable = false)
+    @JsonIgnore
     private String instanceId;
 
-    @JsonIgnore
     @Column(nullable = false)
+    @JsonIgnore
     private String studentId;
 
-    @JsonIgnore
     @Column(nullable = false)
+    @JsonIgnore
     private String courseId;
 
-    @JsonIgnore
     @Column(nullable = false)
+    @JsonIgnore
     private String exerciseId;
 
     @Column(nullable = false)
