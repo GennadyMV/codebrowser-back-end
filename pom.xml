@@ -119,12 +119,14 @@
                         <excludes>
                             <exclude>com/google/*</exclude>
                             <exclude>fi/helsinki/cs/codebrowser/app/App.class</exclude>
+                            <exclude>fi/helsinki/cs/codebrowser/repository/TagRepository.class</exclude>
                             <exclude>fi/helsinki/cs/codebrowser/service/CourseService.class</exclude>
                             <exclude>fi/helsinki/cs/codebrowser/service/ExerciseService.class</exclude>
                             <exclude>fi/helsinki/cs/codebrowser/service/InstanceService.class</exclude>
                             <exclude>fi/helsinki/cs/codebrowser/service/SnapshotFileService.class</exclude>
                             <exclude>fi/helsinki/cs/codebrowser/service/SnapshotService.class</exclude>
                             <exclude>fi/helsinki/cs/codebrowser/service/StudentService.class</exclude>
+                            <exclude>fi/helsinki/cs/codebrowser/service/TagService.class</exclude>
                         </excludes>
                     </instrumentation>
                     <formats>
