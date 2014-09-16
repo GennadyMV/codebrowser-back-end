@@ -3,9 +3,12 @@ package fi.helsinki.cs.codebrowser.controller;
 import fi.helsinki.cs.codebrowser.exception.BadRequestException;
 import fi.helsinki.cs.codebrowser.model.Tag;
 import fi.helsinki.cs.codebrowser.service.TagService;
+
 import java.io.IOException;
 import java.util.Collection;
+
 import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PathVariable;
