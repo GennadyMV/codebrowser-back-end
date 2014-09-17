@@ -75,12 +75,6 @@
             <classifier>standalone</classifier>
         </dependency>
 
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>4.11</version>
-        </dependency>
-
     </dependencies>
 
     <build>
