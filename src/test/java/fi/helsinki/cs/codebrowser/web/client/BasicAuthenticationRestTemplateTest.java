@@ -22,6 +22,7 @@ import static org.junit.Assert.assertEquals;
 public class BasicAuthenticationRestTemplateTest {
 
     private static final String PATH = "/test.json";
+    private static final String ANY = ".*";
 
     @Rule
     public WireMockRule wireMockRule = new WireMockRule(8089);
@@ -61,13 +62,13 @@ public class BasicAuthenticationRestTemplateTest {
     @Test
     public void fetchJsonSetsCorrectParameters() {
 
-        stubFor(get(urlMatching(PATH + ".*")).willReturn(aResponse().withBody("")));
+        stubFor(get(urlMatching(PATH + ANY)).willReturn(aResponse().withBody("")));
 
         template.fetchJson(PATH, "other_header=1", "api_version=7");
 
-        verify(getRequestedFor(urlMatching(".*" + PATH + ".*")));
-        verify(getRequestedFor(urlMatching(".*" + "api_version=7" + ".*")));
-        verify(getRequestedFor(urlMatching(".*" + "other_header=1" + ".*")));
+        verify(getRequestedFor(urlMatching(ANY + PATH + ANY)));
+        verify(getRequestedFor(urlMatching(ANY + "api_version=7" + ANY)));
+        verify(getRequestedFor(urlMatching(ANY + "other_header=1" + ANY)));
     }
 
     @Test(expected = NotFoundException.class)
