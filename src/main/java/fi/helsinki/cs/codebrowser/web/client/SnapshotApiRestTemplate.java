@@ -38,10 +38,4 @@ public final class SnapshotApiRestTemplate extends BasicAuthenticationRestTempla
             return;
         }
     }
-
-    public void addParameter(final String key, final String value) {
-
-        final HttpComponentsClientHttpRequestFactoryPreemptiveAuthentication requestFactory = (HttpComponentsClientHttpRequestFactoryPreemptiveAuthentication) getRequestFactory();
-        requestFactory.addParameter(key, value);
-    }
 }

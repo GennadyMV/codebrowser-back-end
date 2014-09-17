@@ -45,6 +45,12 @@ public class BasicAuthenticationRestTemplate extends RestTemplate implements Res
         return getForObject(url, String.class);
     }
 
+    public void addParameter(final String key, final String value) {
+
+        final HttpComponentsClientHttpRequestFactoryPreemptiveAuthentication requestFactory = (HttpComponentsClientHttpRequestFactoryPreemptiveAuthentication) getRequestFactory();
+        requestFactory.addParameter(key, value);
+    }
+
     @Override
     public <T> T getForObject(final String url, final Class<T> responseType, final Object... urlVariables) {
 
