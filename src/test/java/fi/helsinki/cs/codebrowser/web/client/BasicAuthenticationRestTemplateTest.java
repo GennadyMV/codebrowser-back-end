@@ -61,11 +61,13 @@ public class BasicAuthenticationRestTemplateTest {
     @Test
     public void fetchJsonSetsCorrectParameters() {
 
-        stubFor(get(urlEqualTo(PATH + "?api_version=7&other_header=1")).willReturn(aResponse().withBody("")));
+        stubFor(get(urlMatching(PATH + ".*")).willReturn(aResponse().withBody("")));
 
-        template.fetchJson(PATH, "api_version=7", "other_header=1");
+        template.fetchJson(PATH, "other_header=1", "api_version=7");
 
-        verify(getRequestedFor(urlEqualTo(PATH + "?api_version=7&other_header=1")));
+        verify(getRequestedFor(urlMatching(".*" + PATH + ".*")));
+        verify(getRequestedFor(urlMatching(".*" + "api_version=7" + ".*")));
+        verify(getRequestedFor(urlMatching(".*" + "other_header=1" + ".*")));
     }
 
     @Test(expected = NotFoundException.class)
