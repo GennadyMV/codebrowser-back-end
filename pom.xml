@@ -135,6 +135,7 @@
                         <excludes>
                             <exclude>com/google/*</exclude>
                             <exclude>fi/helsinki/cs/codebrowser/app/App.class</exclude>
+                            <exclude>fi/helsinki/cs/codebrowser/app/WebInitialiser.class</exclude>
                             <exclude>fi/helsinki/cs/codebrowser/repository/TagRepository.class</exclude>
                             <exclude>fi/helsinki/cs/codebrowser/service/CourseService.class</exclude>
                             <exclude>fi/helsinki/cs/codebrowser/service/ExerciseService.class</exclude>
