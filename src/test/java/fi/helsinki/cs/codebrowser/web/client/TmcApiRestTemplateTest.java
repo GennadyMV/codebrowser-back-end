@@ -10,7 +10,7 @@ import org.springframework.test.util.ReflectionTestUtils;
 
 import static com.github.tomakehurst.wiremock.client.WireMock.*;
 
-public class TmcApiRestTemplateTest {
+public final class TmcApiRestTemplateTest {
 
     @Rule
     public WireMockRule wireMockRule = new WireMockRule(8089);
@@ -48,6 +48,6 @@ public class TmcApiRestTemplateTest {
         template.fetchJson("/test");
 
         verify(getRequestedFor(urlEqualTo("/test"))
-                .withHeader("Authorization", equalTo("Basic dXNlcm5hbWU6cGFzc3dvcmQ=")));
+               .withHeader("Authorization", equalTo("Basic dXNlcm5hbWU6cGFzc3dvcmQ=")));
     }
 }

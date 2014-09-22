@@ -3,6 +3,8 @@
                         'http://www.puppycrawl.com/dtds/suppressions_1_1.dtd'>
 
 <suppressions>
+
     <!-- JUnit Rules require the rules field to have public visibility. -->
-    <suppress files=".*(?:Test)\.java$" checks="VisibilityModifier"/>
+    <suppress files='.*(?:Test)\.java$' checks='VisibilityModifier' />
+
 </suppressions>

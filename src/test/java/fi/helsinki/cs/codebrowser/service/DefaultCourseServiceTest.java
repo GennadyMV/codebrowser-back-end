@@ -29,7 +29,7 @@ import static org.junit.Assert.assertEquals;
 @SpringApplicationConfiguration(classes = App.class)
 @WebAppConfiguration
 @ActiveProfiles("test")
-public class DefaultCourseServiceTest {
+public final class DefaultCourseServiceTest {
 
     @Rule
     public WireMockRule wireMockRule = new WireMockRule(8089);

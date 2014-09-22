@@ -22,7 +22,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
-public class HttpComponentsClientHttpRequestFactoryPreemptiveAuthenticationTest {
+public final class HttpComponentsClientHttpRequestFactoryPreemptiveAuthenticationTest {
 
     private static final String BASE_URL = "http://www.example.com";
     private static final String PATH = "/test";
@@ -82,6 +82,6 @@ public class HttpComponentsClientHttpRequestFactoryPreemptiveAuthenticationTest 
         auth.createRequest(new URI(PATH), HttpMethod.GET).execute();
 
         verify(getRequestedFor(urlEqualTo(PATH))
-                              .withHeader("Authorization", equalTo("Basic dXNlcm5hbWU6cGFzc3dvcmQ=")));
+               .withHeader("Authorization", equalTo("Basic dXNlcm5hbWU6cGFzc3dvcmQ=")));
     }
 }
