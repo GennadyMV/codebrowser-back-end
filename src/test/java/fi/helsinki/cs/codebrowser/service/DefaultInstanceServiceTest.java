@@ -36,7 +36,7 @@ public final class DefaultInstanceServiceTest {
     @Autowired
     private InstanceService instanceService;
 
-    private final BackendServerStub testUtil = new BackendServerStub();
+    private final BackendServerStub server = new BackendServerStub();
 
     private void assertEitherHasName(final List<Instance> instances, final String name) {
 
@@ -52,7 +52,7 @@ public final class DefaultInstanceServiceTest {
     @Before
     public void setUp() {
 
-        testUtil.reset();
+        server.reset();
     }
 
     @Test

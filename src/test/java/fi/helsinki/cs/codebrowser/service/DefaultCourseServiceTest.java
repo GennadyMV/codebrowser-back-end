@@ -37,12 +37,12 @@ public final class DefaultCourseServiceTest {
     @Autowired
     private CourseService courseService;
 
-    private final BackendServerStub testUtil = new BackendServerStub();
+    private final BackendServerStub server = new BackendServerStub();
 
     @Before
     public void setUp() {
 
-        testUtil.reset();
+        server.reset();
     }
 
     @Test

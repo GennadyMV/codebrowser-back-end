@@ -35,7 +35,7 @@ public final class DefaultExerciseServiceTest {
     @Rule
     public WireMockRule wireMockRule = new WireMockRule(8089);
 
-    private final BackendServerStub testUtil = new BackendServerStub();
+    private final BackendServerStub server = new BackendServerStub();
 
     @Autowired
     private ExerciseService exerciseService;
@@ -54,7 +54,7 @@ public final class DefaultExerciseServiceTest {
     @Before
     public void setUp() {
 
-        testUtil.reset();
+        server.reset();
     }
 
     @Test
