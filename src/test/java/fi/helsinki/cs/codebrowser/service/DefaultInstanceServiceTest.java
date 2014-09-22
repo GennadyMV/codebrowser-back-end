@@ -28,7 +28,7 @@ import static org.junit.Assert.fail;
 @SpringApplicationConfiguration(classes = App.class)
 @WebAppConfiguration
 @ActiveProfiles("test")
-public class DefaultInstanceServiceTest {
+public final class DefaultInstanceServiceTest {
 
     @Rule
     public WireMockRule wireMockRule = new WireMockRule(8089);

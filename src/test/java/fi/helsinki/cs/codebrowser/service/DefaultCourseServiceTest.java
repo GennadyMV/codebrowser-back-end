@@ -50,7 +50,7 @@ public final class DefaultCourseServiceTest {
 
         final List<Course> courses = (List<Course>) courseService.findAll(INSTANCE_ID);
 
-        assertEquals(COURSES_LENGTH, courses.size());
+        assertEquals(2, courses.size());
         assertEquals(COURSE_NAME, courses.get(1).getName());
     }
 
