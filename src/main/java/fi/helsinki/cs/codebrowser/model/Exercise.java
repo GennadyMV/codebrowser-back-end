@@ -2,7 +2,7 @@ package fi.helsinki.cs.codebrowser.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import org.apache.tomcat.util.codec.binary.Base64;
+import org.apache.commons.codec.binary.Base64;
 
 public final class Exercise {
 
