@@ -19,7 +19,7 @@ import static com.github.tomakehurst.wiremock.client.WireMock.*;
 
 import static org.junit.Assert.assertEquals;
 
-public class BasicAuthenticationRestTemplateTest {
+public final class BasicAuthenticationRestTemplateTest {
 
     private static final String PATH = "/test.json";
     private static final String ANY = ".*";
@@ -47,7 +47,7 @@ public class BasicAuthenticationRestTemplateTest {
         template.fetchJson(PATH);
 
         verify(getRequestedFor(urlEqualTo(PATH))
-                              .withHeader("Authorization", equalTo("Basic dXNlcm5hbWU6cGFzc3dvcmQ=")));
+               .withHeader("Authorization", equalTo("Basic dXNlcm5hbWU6cGFzc3dvcmQ=")));
     }
 
     @Test
@@ -56,7 +56,7 @@ public class BasicAuthenticationRestTemplateTest {
         template.fetchJson(PATH);
 
         verify(getRequestedFor(urlEqualTo(PATH))
-                              .withHeader("Accept", matching(".*application/json.*")));
+               .withHeader("Accept", matching(".*application/json.*")));
     }
 
     @Test

@@ -26,7 +26,7 @@ import static org.junit.Assert.assertEquals;
 @SpringApplicationConfiguration(classes = App.class)
 @WebAppConfiguration
 @ActiveProfiles("test")
-public class DefaultCourseServiceTest {
+public final class DefaultCourseServiceTest {
 
     private static final String ANY = ".*";
     private static final String CONTENT_TYPE = "Content-Type";
@@ -58,8 +58,8 @@ public class DefaultCourseServiceTest {
 
         stubFor(get(urlMatching(ANY))
                 .willReturn(aResponse()
-                        .withBody(COURSES_JSON)
-                        .withHeader(CONTENT_TYPE, APP_JSON)));
+                            .withBody(COURSES_JSON)
+                            .withHeader(CONTENT_TYPE, APP_JSON)));
 
         final List<Course> courses = (List<Course>) courseService.findAll(INSTANCE);
 
@@ -75,8 +75,8 @@ public class DefaultCourseServiceTest {
 
         stubFor(get(urlMatching(ANY))
                 .willReturn(aResponse()
-                        .withBody(STUDENT_COURSES_JSON)
-                        .withHeader(CONTENT_TYPE, APP_JSON)));
+                            .withBody(STUDENT_COURSES_JSON)
+                            .withHeader(CONTENT_TYPE, APP_JSON)));
 
         final List<Course> courses = (List<Course>) courseService.findAllBy(INSTANCE, STUDENT);
 
@@ -91,8 +91,8 @@ public class DefaultCourseServiceTest {
 
         stubFor(get(urlMatching(ANY))
                 .willReturn(aResponse()
-                        .withBody(STUDENT_COURSE_JSON)
-                        .withHeader(CONTENT_TYPE, APP_JSON)));
+                            .withBody(STUDENT_COURSE_JSON)
+                            .withHeader(CONTENT_TYPE, APP_JSON)));
 
         final Course course = courseService.findBy(INSTANCE, STUDENT, COURSE);
 
@@ -105,13 +105,13 @@ public class DefaultCourseServiceTest {
     public void findByInstanceAndCourseRetrievesJsonAndParsesItToCourses() throws IOException {
         stubFor(get(urlMatching(COURSES_JSON_URL + ANY))
                 .willReturn(aResponse()
-                        .withBody(COURSES_JSON)
-                        .withHeader(CONTENT_TYPE, APP_JSON)));
+                            .withBody(COURSES_JSON)
+                            .withHeader(CONTENT_TYPE, APP_JSON)));
 
         stubFor(get(urlMatching(COURSE_JSON_URL + ANY))
                 .willReturn(aResponse()
-                        .withBody(COURSE_JSON)
-                        .withHeader(CONTENT_TYPE, APP_JSON)));
+                            .withBody(COURSE_JSON)
+                            .withHeader(CONTENT_TYPE, APP_JSON)));
 
         final Course course = courseService.findBy(INSTANCE, COURSE);
 
@@ -123,8 +123,8 @@ public class DefaultCourseServiceTest {
 
         stubFor(get(urlMatching(COURSES_JSON_URL + ANY))
                 .willReturn(aResponse()
-                        .withBody(COURSES_JSON)
-                        .withHeader(CONTENT_TYPE, APP_JSON)));
+                            .withBody(COURSES_JSON)
+                            .withHeader(CONTENT_TYPE, APP_JSON)));
 
         courseService.findBy(INSTANCE, "NoSuchCourse");
     }
