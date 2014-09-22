@@ -8,6 +8,7 @@ public final class BackendServerStub {
 
     public static final String ANY = ".*";
     public static final String API_VERSION = "?api_version=7";
+    public static final String PARAM = "\\?.*";
 
     public static final String CONTENT_TYPE = "Content-Type";
     public static final String APP_JSON = "application/json";
@@ -71,9 +72,9 @@ public final class BackendServerStub {
     public static final String STUDENT_COURSE_EXERCISE_SNAPSHOT_FILE_JSON = "{\"id\":\"cG9tLnhtbDEzOTI4MDY1OTU4MzQzNzcyMDE0NDM4NjE\",\"path\":\"pom.xml\",\"name\":\"pom.xml\"}";
     public static final String STUDENT_COURSE_EXERCISE_SNAPSHOT_FILE_CONTENT = "This is pom.xml";
 
-    private void stubGetWithApiVersionWithJsonResponse(final String url, final String response) {
+    private void stubGetWithParamWithJsonResponse(final String url, final String response) {
 
-        stubFor(get(urlMatching(url + ANY))
+        stubFor(get(urlMatching(url + PARAM))
                 .willReturn(aResponse()
                             .withBody(response)
                             .withHeader(CONTENT_TYPE, APP_JSON)));
@@ -81,7 +82,7 @@ public final class BackendServerStub {
 
     private void stubGetWithJsonResponse(final String url, final String response) {
 
-        stubFor(get(urlMatching(url))
+        stubFor(get(urlMatching(url + PARAM))
                 .willReturn(aResponse()
                             .withBody(response)
                             .withHeader(CONTENT_TYPE, APP_JSON)));
@@ -89,7 +90,7 @@ public final class BackendServerStub {
 
     private void stubGetWithPlainResponse(final String url, final String response) {
 
-        stubFor(get(urlMatching(url))
+        stubFor(get(urlMatching(url + PARAM))
                 .willReturn(aResponse()
                             .withBody(response)
                             .withHeader(CONTENT_TYPE, TEXT_PLAIN)));
@@ -100,8 +101,8 @@ public final class BackendServerStub {
         WireMock.reset();
 
         // TMC API
-        stubGetWithApiVersionWithJsonResponse(COURSES_JSON_URL, COURSES_JSON);
-        stubGetWithApiVersionWithJsonResponse(COURSE_JSON_URL, COURSE_JSON);
+        stubGetWithParamWithJsonResponse(COURSES_JSON_URL, COURSES_JSON);
+        stubGetWithParamWithJsonResponse(COURSE_JSON_URL, COURSE_JSON);
 
         // Snapshot API
         stubGetWithJsonResponse(INSTANCES_URL, INSTANCES_JSON);
@@ -111,10 +112,10 @@ public final class BackendServerStub {
         stubGetWithJsonResponse(STUDENT_COURSE_URL, STUDENT_COURSE_JSON);
         stubGetWithJsonResponse(STUDENT_COURSE_EXERCISES_URL, STUDENT_COURSE_EXERCISES_JSON);
         stubGetWithJsonResponse(STUDENT_COURSE_EXERCISE_URL, STUDENT_COURSE_EXERCISE_JSON);
-        stubGetWithJsonResponse(STUDENT_COURSE_EXERCISE_SNAPSHOTS_URL, STUDENT_COURSE_EXERCISE_SNAPSHOTS_JSON);
-        stubGetWithJsonResponse(STUDENT_COURSE_EXERCISE_SNAPSHOT_URL, STUDENT_COURSE_EXERCISE_SNAPSHOT_JSON);
-        stubGetWithJsonResponse(STUDENT_COURSE_EXERCISE_SNAPSHOT_FILES_URL, STUDENT_COURSE_EXERCISE_SNAPSHOT_FILES_JSON);
-        stubGetWithJsonResponse(STUDENT_COURSE_EXERCISE_SNAPSHOT_FILE_URL, STUDENT_COURSE_EXERCISE_SNAPSHOT_FILE_JSON);
+        stubGetWithParamWithJsonResponse(STUDENT_COURSE_EXERCISE_SNAPSHOTS_URL, STUDENT_COURSE_EXERCISE_SNAPSHOTS_JSON);
+        stubGetWithParamWithJsonResponse(STUDENT_COURSE_EXERCISE_SNAPSHOT_URL, STUDENT_COURSE_EXERCISE_SNAPSHOT_JSON);
+        stubGetWithParamWithJsonResponse(STUDENT_COURSE_EXERCISE_SNAPSHOT_FILES_URL, STUDENT_COURSE_EXERCISE_SNAPSHOT_FILES_JSON);
+        stubGetWithParamWithJsonResponse(STUDENT_COURSE_EXERCISE_SNAPSHOT_FILE_URL, STUDENT_COURSE_EXERCISE_SNAPSHOT_FILE_JSON);
         stubGetWithPlainResponse(STUDENT_COURSE_EXERCISE_SNAPSHOT_FILE_CONTENT_URL, STUDENT_COURSE_EXERCISE_SNAPSHOT_FILE_CONTENT);
     }
 }
