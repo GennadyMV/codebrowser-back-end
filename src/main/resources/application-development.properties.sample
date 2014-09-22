@@ -1,8 +1,8 @@
-# Spyware
+# Snapshot API
 snapshot.api.username = username
 snapshot.api.password = password
 
-# TMC
+# TMC API
 tmc.api.username = username
 tmc.api.password = password
 
