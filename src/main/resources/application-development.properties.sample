@@ -1,4 +1,7 @@
 # Snapshot API
+snapshot.api.host = localhost
+snapshot.api.port = 8080
+snapshot.api.url = http://localhost:8080/
 snapshot.api.username = username
 snapshot.api.password = password
 
