@@ -35,15 +35,16 @@ public final class BackendServerStub {
     public static final String FILE_ID = "cG9tLnhtbDEzOTI4MDY1OTU4MzQzNzcyMDE0NDM4NjE";
     public static final String FILE_CONTENT = "This is pom.xml";
 
+    // TMC API
 
-    // TMC
     public static final String COURSES_JSON_URL = "/hy/courses.json";
     public static final String COURSE_JSON_URL = "/hy/courses/26.json";
 
     public static final String COURSES_JSON = "{\"api_version\":7,\"courses\":[{\"id\":31,\"name\":\"k2014-ohja\",\"details_url\":\"http://tmc.mooc.fi/hy/courses/31.json\",\"unlock_url\":\"http://tmc.mooc.fi/hy/courses/31/unlock.json\",\"reviews_url\":\"http://tmc.mooc.fi/hy/courses/31/reviews.json\",\"comet_url\":\"http://tmc.mooc.fi:8080/comet\",\"spyware_urls\":[\"http://hy.spyware.testmycode.net/\"]},{\"id\":26,\"name\":\"s2013-wepa\",\"details_url\":\"http://tmc.mooc.fi/hy/courses/26.json\",\"unlock_url\":\"http://tmc.mooc.fi/hy/courses/26/unlock.json\",\"reviews_url\":\"http://tmc.mooc.fi/hy/courses/26/reviews.json\",\"comet_url\":\"http://tmc.mooc.fi:8080/comet\",\"spyware_urls\":[\"http://hy.spyware.testmycode.net/\"]}]}";
     public static final String COURSE_JSON = "{\"api_version\":7,\"course\":{\"id\":26,\"name\":\"s2013-wepa\",\"details_url\":\"http://tmc.mooc.fi/hy/courses/26.json\",\"unlock_url\":\"http://tmc.mooc.fi/hy/courses/26/unlock.json\",\"reviews_url\":\"http://tmc.mooc.fi/hy/courses/26/reviews.json\",\"comet_url\":\"http://tmc.mooc.fi:8080/comet\",\"spyware_urls\":[\"http://hy.spyware.testmycode.net/\"],\"unlockables\":[],\"exercises\":[{\"id\":2112,\"name\":\"WK1-W1E04.FirstHtmlForm\",\"locked\":false,\"deadline_description\":\"2013-09-11 23:59:00 +0300\",\"deadline\":\"2013-09-11T23:59:00+03:00\",\"checksum\":\"e41c0780ad6ffddcb12829e2c9f309a9\",\"return_url\":\"http://tmc.mooc.fi/hy/exercises/2112/submissions.json\",\"zip_url\":\"http://tmc.mooc.fi/hy/exercises/2112.zip\",\"returnable\":true,\"requires_review\":false,\"attempted\":false,\"completed\":false,\"reviewed\":false,\"all_review_points_given\":true,\"memory_limit\":null,\"runtime_params\":[],\"solution_zip_url\":\"http://tmc.mooc.fi/hy/exercises/2112/solution.zip\",\"exercise_submissions_url\":\"http://tmc.mooc.fi/hy/exercises/2112.json?api_version=7\"},{\"id\":2113,\"name\":\"WK1-W1E05.PageViewCounter\",\"locked\":false,\"deadline_description\":\"2013-09-11 23:59:00 +0300\",\"deadline\":\"2013-09-11T23:59:00+03:00\",\"checksum\":\"3136319ea5be1b33bbf105ef380f319c\",\"return_url\":\"http://tmc.mooc.fi/hy/exercises/2113/submissions.json\",\"zip_url\":\"http://tmc.mooc.fi/hy/exercises/2113.zip\",\"returnable\":true,\"requires_review\":false,\"attempted\":false,\"completed\":false,\"reviewed\":false,\"all_review_points_given\":true,\"memory_limit\":null,\"runtime_params\":[],\"solution_zip_url\":\"http://tmc.mooc.fi/hy/exercises/2113/solution.zip\",\"exercise_submissions_url\":\"http://tmc.mooc.fi/hy/exercises/2113.json?api_version=7\"}]}}";
 
-    //Snapshot API
+    // Snapshot API
+
     public static final String INSTANCES_URL = "/";
     public static final String INSTANCE_URL = "/hy";
     public static final String STUDENT_URL = "/hy/participants/MDE0MDAwMDAw";
@@ -74,34 +75,35 @@ public final class BackendServerStub {
 
         stubFor(get(urlMatching(url + ANY))
                 .willReturn(aResponse()
-                           .withBody(response)
-                           .withHeader(CONTENT_TYPE, APP_JSON)));
+                            .withBody(response)
+                            .withHeader(CONTENT_TYPE, APP_JSON)));
     }
 
     private void stubGetWithJsonResponse(final String url, final String response) {
 
         stubFor(get(urlMatching(url))
                 .willReturn(aResponse()
-                           .withBody(response)
-                           .withHeader(CONTENT_TYPE, APP_JSON)));
+                            .withBody(response)
+                            .withHeader(CONTENT_TYPE, APP_JSON)));
     }
 
     private void stubGetWithPlainResponse(final String url, final String response) {
 
         stubFor(get(urlMatching(url))
                 .willReturn(aResponse()
-                           .withBody(response)
-                           .withHeader(CONTENT_TYPE, TEXT_PLAIN)));
+                            .withBody(response)
+                            .withHeader(CONTENT_TYPE, TEXT_PLAIN)));
     }
 
     public void reset() {
+
         WireMock.reset();
 
-        //TMC
+        // TMC API
         stubGetWithApiVersionWithJsonResponse(COURSES_JSON_URL, COURSES_JSON);
         stubGetWithApiVersionWithJsonResponse(COURSE_JSON_URL, COURSE_JSON);
 
-        //SnapshotAPI
+        // Snapshot API
         stubGetWithJsonResponse(INSTANCES_URL, INSTANCES_JSON);
         stubGetWithJsonResponse(INSTANCE_URL, INSTANCE_JSON);
         stubGetWithJsonResponse(STUDENT_URL, STUDENT_JSON);

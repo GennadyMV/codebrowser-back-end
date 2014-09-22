@@ -87,7 +87,6 @@ public final class DefaultExerciseServiceTest {
         exerciseService.findAllBy(NO_SUCH_ID, NO_SUCH_ID, NO_SUCH_ID);
     }
 
-
     @Test
     public void findByInstanceCourseAndExerciseReturnsCorrectExercise() throws IOException {
 
