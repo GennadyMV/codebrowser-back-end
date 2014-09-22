@@ -13,12 +13,11 @@ public class BackendServerStub {
     public static final String APP_JSON = "application/json";
     public static final String TEXT_PLAIN = "text/plain";
 
+    public static final String NO_SUCH_ID = "NoSuchId";
+
     public static final String INSTANCE_ID = "hy";
     public static final String INSTANCE_NAME = "hy";
 
-    public static final String NO_SUCH_ID = "NoSuchId";
-
-    public static final int COURSES_LENGTH = 2;
     public static final String COURSE_PLAINID = "26";
     public static final String COURSE_NAME = "s2013-wepa";
     public static final String COURSE_ID = "czIwMTMtd2VwYQ";

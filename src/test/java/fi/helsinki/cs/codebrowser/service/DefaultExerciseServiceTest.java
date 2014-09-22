@@ -9,8 +9,8 @@ import fi.helsinki.cs.codebrowser.testutil.BackendServerStub;
 
 import java.io.IOException;
 import java.util.List;
-import org.junit.Before;
 
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -22,6 +22,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 
 import static fi.helsinki.cs.codebrowser.testutil.BackendServerStub.*;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
