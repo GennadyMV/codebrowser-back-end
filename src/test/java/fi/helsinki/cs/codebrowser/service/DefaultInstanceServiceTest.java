@@ -28,7 +28,7 @@ import static org.junit.Assert.fail;
 @SpringApplicationConfiguration(classes = App.class)
 @WebAppConfiguration
 @ActiveProfiles("test")
-public class DefaultInstanceServiceTest {
+public final class DefaultInstanceServiceTest {
 
     @Rule
     public WireMockRule wireMockRule = new WireMockRule(8089);
@@ -36,7 +36,7 @@ public class DefaultInstanceServiceTest {
     @Autowired
     private InstanceService instanceService;
 
-    private final BackendServerStub testUtil = new BackendServerStub();
+    private final BackendServerStub server = new BackendServerStub();
 
     private void assertEitherHasName(final List<Instance> instances, final String name) {
 
@@ -52,7 +52,7 @@ public class DefaultInstanceServiceTest {
     @Before
     public void setUp() {
 
-        testUtil.reset();
+        server.reset();
     }
 
     @Test

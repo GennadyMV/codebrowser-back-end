@@ -4,7 +4,7 @@ import com.github.tomakehurst.wiremock.client.WireMock;
 
 import static com.github.tomakehurst.wiremock.client.WireMock.*;
 
-public class BackendServerStub {
+public final class BackendServerStub {
 
     public static final String ANY = ".*";
     public static final String API_VERSION = "?api_version=7";
@@ -74,24 +74,24 @@ public class BackendServerStub {
 
         stubFor(get(urlMatching(url + ANY))
                 .willReturn(aResponse()
-                        .withBody(response)
-                        .withHeader(CONTENT_TYPE, APP_JSON)));
+                           .withBody(response)
+                           .withHeader(CONTENT_TYPE, APP_JSON)));
     }
 
     private void stubGetWithJsonResponse(final String url, final String response) {
 
         stubFor(get(urlMatching(url))
                 .willReturn(aResponse()
-                        .withBody(response)
-                        .withHeader(CONTENT_TYPE, APP_JSON)));
+                           .withBody(response)
+                           .withHeader(CONTENT_TYPE, APP_JSON)));
     }
 
     private void stubGetWithPlainResponse(final String url, final String response) {
 
         stubFor(get(urlMatching(url))
                 .willReturn(aResponse()
-                        .withBody(response)
-                        .withHeader(CONTENT_TYPE, TEXT_PLAIN)));
+                           .withBody(response)
+                           .withHeader(CONTENT_TYPE, TEXT_PLAIN)));
     }
 
     public void reset() {

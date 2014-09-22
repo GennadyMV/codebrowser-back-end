@@ -37,12 +37,12 @@ public final class DefaultCourseServiceTest {
     @Autowired
     private CourseService courseService;
 
-    private final BackendServerStub testUtil = new BackendServerStub();
+    private final BackendServerStub server = new BackendServerStub();
 
     @Before
     public void setUp() {
 
-        testUtil.reset();
+        server.reset();
     }
 
     @Test
@@ -50,7 +50,7 @@ public final class DefaultCourseServiceTest {
 
         final List<Course> courses = (List<Course>) courseService.findAll(INSTANCE_ID);
 
-        assertEquals(COURSES_LENGTH, courses.size());
+        assertEquals(2, courses.size());
         assertEquals(COURSE_NAME, courses.get(1).getName());
     }
 
