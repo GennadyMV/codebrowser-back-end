@@ -23,22 +23,7 @@ public final class DefaultTagService implements TagService {
     @Autowired
     private TagRepository tagRepository;
 
-    @Override
-    public Collection<Tag> findAllBy(final String instanceId,
-                                     final String studentId,
-                                     final String courseId,
-                                     final String exerciseId) {
-
-        final Collection<Tag> tags = tagRepository.findAllByInstanceIdAndStudentIdAndCourseIdAndExerciseId(instanceId, studentId, courseId, exerciseId);
-
-        if (tags == null) {
-            throw new NotFoundException();
-        }
-
-        return tags;
-    }
-
-    public Tag findBy(final String instanceId,
+    private Tag findBy(final String instanceId,
                       final String studentId,
                       final String courseId,
                       final String exerciseId,
@@ -54,6 +39,21 @@ public final class DefaultTagService implements TagService {
     }
 
     @Override
+    public Collection<Tag> findAllBy(final String instanceId,
+                                     final String studentId,
+                                     final String courseId,
+                                     final String exerciseId) {
+
+        final Collection<Tag> tags = tagRepository.findAllByInstanceIdAndStudentIdAndCourseIdAndExerciseId(instanceId, studentId, courseId, exerciseId);
+
+        if (tags.isEmpty()) {
+            throw new NotFoundException();
+        }
+
+        return tags;
+    }
+
+    @Override
     @Transactional
     public Tag create(final String instanceId,
                       final String studentId,
@@ -61,9 +61,10 @@ public final class DefaultTagService implements TagService {
                       final String exerciseId,
                       final Tag tag) throws IOException {
 
-        final Exercise exercise = exerciseService.findBy(instanceId, studentId, courseId, exerciseId);
-
-        if (exercise == null) {
+        final Exercise exercise;
+        try {
+            exercise = exerciseService.findBy(instanceId, studentId, courseId, exerciseId);
+        } catch (NotFoundException exception) {
             throw new BadRequestException();
         }
 
