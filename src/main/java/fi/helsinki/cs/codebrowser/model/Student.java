@@ -18,7 +18,6 @@ public final class Student {
 
     private List<Course> courses;
 
-
     public void setPlainId(final String id) {
 
         this.id = id;
@@ -95,11 +94,11 @@ public final class Student {
         int hash = 7;
         hash = 37 * hash + Objects.hashCode(this.username);
         return hash;
-
     }
 
     @Override
     public boolean equals(final Object obj) {
+
         if (obj == null) {
             return false;
         }
