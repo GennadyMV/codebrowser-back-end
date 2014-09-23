@@ -126,7 +126,20 @@ public final class DefaultStudentService implements StudentService {
 
         final Collection<Student> courseStudents = findAllBy(instanceId, courseId);
 
-        return studentsWithSubmissions(courseStudents, submissions);
+        final Collection<Student> submissionStudents = studentsWithSubmissions(courseStudents, submissions);
+
+        final String tmcJson = tmcRestTemplate.fetchJson(String.format("%s/participants.json", instanceId), "api_version=7");
+        final List<Student> tmcStudents = mapper.readSubElementValueToList(tmcJson, Student.class, "participants");
+
+        final Collection<Student> students = new ArrayList<>();
+
+        for (Student student : tmcStudents) {
+            if (submissionStudents.contains(student)) {
+                students.add(student);
+            }
+        }
+
+        return students;
     }
 
     @Override
