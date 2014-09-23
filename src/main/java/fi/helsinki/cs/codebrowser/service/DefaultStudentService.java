@@ -117,17 +117,22 @@ public final class DefaultStudentService implements StudentService {
     @Override
     public Collection<Student> findAllBy(final String instanceId, final String courseId, final String exerciseId) throws IOException {
 
+        // Fetch exercise
         final Exercise exercise = getCourseExerciseById(instanceId, courseId, exerciseId);
 
         final String json = tmcRestTemplate.fetchJson(String.format("%s/exercises/%s.json", instanceId, exercise.getPlainId()),
                                                       "api_version=7");
 
+        // Fetch student submissions containing student IDs
         final List<TmcSubmission> submissions = mapper.readSubElementValueToList(json, TmcSubmission.class, "submissions");
 
+        // Fetch all students from the course
         final Collection<Student> courseStudents = findAllBy(instanceId, courseId);
 
+        // Select only students who have been working on the exercise
         final Collection<Student> submissionStudents = studentsWithSubmissions(courseStudents, submissions);
 
+        // Fetch all students from TMC participants list to get their first and last name
         final String tmcJson = tmcRestTemplate.fetchJson(String.format("%s/participants.json", instanceId), "api_version=7");
         final List<Student> tmcStudents = mapper.readSubElementValueToList(tmcJson, Student.class, "participants");
 
