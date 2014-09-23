@@ -32,7 +32,7 @@ import static org.junit.Assert.fail;
 @SpringApplicationConfiguration(classes = App.class)
 @WebAppConfiguration
 @ActiveProfiles("test")
-public class DefaultSnapshotServiceTest {
+public final class DefaultSnapshotServiceTest {
 
     private static final String CODE = "code";
     private static final String KEY = "key";
