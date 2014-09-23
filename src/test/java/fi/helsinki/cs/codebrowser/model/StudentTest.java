@@ -11,6 +11,8 @@ public final class StudentTest {
 
     private static final String USERNAME = "studentUsername";
     private static final String PLAIN_ID = "studentID";
+    private static final String FIRSTNAME = "firstName";
+    private static final String LASTNAME = "lastName";
 
     private Student student;
 
@@ -37,11 +39,12 @@ public final class StudentTest {
     }
 
     @Test
-    public void getNameReturnsUsername() {
+    public void getNameReturnsConcatenatedFirstAndLastName() {
 
-        student.setUsername(USERNAME);
+        student.setFirstName(FIRSTNAME);
+        student.setLastName(LASTNAME);
 
-        assertEquals(USERNAME, student.getName());
+        assertEquals(FIRSTNAME + " " + LASTNAME, student.getName());
     }
 
     @Test
