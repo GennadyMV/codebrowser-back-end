@@ -11,7 +11,7 @@ import java.io.IOException;
 import java.util.List;
 
 import org.junit.Before;
-import org.junit.Rule;
+import org.junit.ClassRule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -32,8 +32,8 @@ import static org.junit.Assert.fail;
 @ActiveProfiles("test")
 public final class DefaultSnapshotFileServiceTest {
 
-    @Rule
-    public WireMockRule wireMockRule = new WireMockRule(8089);
+    @ClassRule
+    public static WireMockRule wireMockRule = new WireMockRule(8089);
 
     private final BackendServerStub server = new BackendServerStub();
 
