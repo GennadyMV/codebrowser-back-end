@@ -52,7 +52,7 @@ public final class Student {
 
     public String getName() {
 
-        return username;
+        return firstName + " " + lastName;
     }
 
     public void setCourses(final List<Course> courses) {
@@ -66,26 +66,15 @@ public final class Student {
     }
 
     @JsonProperty("first_name")
-    public void setFirstN(final String firstName) {
+    public void setFirstName(final String firstName) {
 
         this.firstName = firstName;
     }
 
-    @JsonProperty("firstName")
-    public String getFirstName() {
-
-        return firstName;
-    }
-
     @JsonProperty("last_name")
-    public void setLastN(final String lastName) {
+    public void setLastName(final String lastName) {
 
         this.lastName = lastName;
-    }
-    @JsonProperty("lastName")
-    public String getLastName() {
-
-        return lastName;
     }
 
     @Override
