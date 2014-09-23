@@ -180,6 +180,16 @@ public final class TagControllerTest {
     }
 
     @Test
+    public void emptyNameReturnsBadRequest() throws Exception {
+
+        mockMvc.perform(post(URL_A).contentType(MediaType.APPLICATION_JSON)
+                                   .content("{\"name\":\"\"}"))
+               .andExpect(status().isBadRequest());
+
+        verifyNoMoreInteractions(tagService);
+    }
+
+    @Test
     public void deleteTagDeletesExistingTagAndReturnsIt() throws Exception {
 
         final List<Tag> tags = new ArrayList<>();
