@@ -69,28 +69,22 @@ public final class Student {
     @Override
     public int hashCode() {
 
-        int hash = 7;
-        hash = 37 * hash + Objects.hashCode(this.username);
-        return hash;
+        return 37 * 7 + Objects.hashCode(username);
     }
 
     @Override
-    public boolean equals(final Object obj) {
+    public boolean equals(final Object object) {
 
-        if (obj == null) {
+        if (object == null) {
             return false;
         }
 
-        if (getClass() != obj.getClass()) {
+        if (getClass() != object.getClass()) {
             return false;
         }
 
-        final Student other = (Student) obj;
+        final Student other = (Student) object;
 
-        if (!Objects.equals(this.username, other.username)) {
-            return false;
-        }
-
-        return true;
+        return username.equals(other.getUsername());
     }
 }

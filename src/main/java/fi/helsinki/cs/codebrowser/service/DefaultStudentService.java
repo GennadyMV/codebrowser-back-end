@@ -86,7 +86,7 @@ public final class DefaultStudentService implements StudentService {
 
         final String json = tmcRestTemplate.fetchJson(String.format("%s/participants.json", instanceId), "api_version=7");
 
-        // Fetch all students from TMC
+        // Fetch all students from TMC API
         final List<Student> tmcStudents = mapper.readSubElementValueToList(json, Student.class, "participants");
 
         // Fetch students from Snapshot API
@@ -94,7 +94,7 @@ public final class DefaultStudentService implements StudentService {
 
         final Collection<Student> students = new ArrayList<>();
 
-        // Return students which are found both from TMC and Snapshot API
+        // Return students which are found both in TMC API and Snapshot API
         for (Student student : tmcStudents) {
             if (snapshotStudents.contains(student)) {
                 students.add(student);
