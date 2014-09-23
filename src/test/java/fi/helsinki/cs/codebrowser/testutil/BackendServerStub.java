@@ -7,8 +7,7 @@ import static com.github.tomakehurst.wiremock.client.WireMock.*;
 public final class BackendServerStub {
 
     public static final String ANY = ".*";
-    public static final String API_VERSION = "?api_version=7";
-    public static final String PARAM = "\\?.*";
+    public static final String MAYBE_PARAM = "(\\?.*)?";
 
     public static final String CONTENT_TYPE = "Content-Type";
     public static final String APP_JSON = "application/json";
@@ -72,25 +71,19 @@ public final class BackendServerStub {
     public static final String STUDENT_COURSE_EXERCISE_SNAPSHOT_FILE_JSON = "{\"id\":\"cG9tLnhtbDEzOTI4MDY1OTU4MzQzNzcyMDE0NDM4NjE\",\"path\":\"pom.xml\",\"name\":\"pom.xml\"}";
     public static final String STUDENT_COURSE_EXERCISE_SNAPSHOT_FILE_CONTENT = "This is pom.xml";
 
-    private void stubGetWithParamWithJsonResponse(final String url, final String response) {
+    private void stubGetWithJsonResponse(final int priority, final String url, final String response) {
 
-        stubFor(get(urlMatching(url + PARAM))
+        stubFor(get(urlMatching(url + MAYBE_PARAM))
+                .atPriority(priority)
                 .willReturn(aResponse()
                             .withBody(response)
                             .withHeader(CONTENT_TYPE, APP_JSON)));
     }
 
-    private void stubGetWithJsonResponse(final String url, final String response) {
+    private void stubGetWithPlainResponse(final int priority, final String url, final String response) {
 
-        stubFor(get(urlMatching(url + PARAM))
-                .willReturn(aResponse()
-                            .withBody(response)
-                            .withHeader(CONTENT_TYPE, APP_JSON)));
-    }
-
-    private void stubGetWithPlainResponse(final String url, final String response) {
-
-        stubFor(get(urlMatching(url + PARAM))
+        stubFor(get(urlMatching(url + MAYBE_PARAM))
+                .atPriority(priority)
                 .willReturn(aResponse()
                             .withBody(response)
                             .withHeader(CONTENT_TYPE, TEXT_PLAIN)));
@@ -101,21 +94,21 @@ public final class BackendServerStub {
         WireMock.reset();
 
         // TMC API
-        stubGetWithParamWithJsonResponse(COURSES_JSON_URL, COURSES_JSON);
-        stubGetWithParamWithJsonResponse(COURSE_JSON_URL, COURSE_JSON);
+        stubGetWithJsonResponse(1, COURSES_JSON_URL, COURSES_JSON);
+        stubGetWithJsonResponse(1, COURSE_JSON_URL, COURSE_JSON);
 
         // Snapshot API
-        stubGetWithJsonResponse(INSTANCES_URL, INSTANCES_JSON);
-        stubGetWithJsonResponse(INSTANCE_URL, INSTANCE_JSON);
-        stubGetWithJsonResponse(STUDENT_URL, STUDENT_JSON);
-        stubGetWithJsonResponse(STUDENT_COURSES_URL, STUDENT_COURSES_JSON);
-        stubGetWithJsonResponse(STUDENT_COURSE_URL, STUDENT_COURSE_JSON);
-        stubGetWithJsonResponse(STUDENT_COURSE_EXERCISES_URL, STUDENT_COURSE_EXERCISES_JSON);
-        stubGetWithJsonResponse(STUDENT_COURSE_EXERCISE_URL, STUDENT_COURSE_EXERCISE_JSON);
-        stubGetWithParamWithJsonResponse(STUDENT_COURSE_EXERCISE_SNAPSHOTS_URL, STUDENT_COURSE_EXERCISE_SNAPSHOTS_JSON);
-        stubGetWithParamWithJsonResponse(STUDENT_COURSE_EXERCISE_SNAPSHOT_URL, STUDENT_COURSE_EXERCISE_SNAPSHOT_JSON);
-        stubGetWithParamWithJsonResponse(STUDENT_COURSE_EXERCISE_SNAPSHOT_FILES_URL, STUDENT_COURSE_EXERCISE_SNAPSHOT_FILES_JSON);
-        stubGetWithParamWithJsonResponse(STUDENT_COURSE_EXERCISE_SNAPSHOT_FILE_URL, STUDENT_COURSE_EXERCISE_SNAPSHOT_FILE_JSON);
-        stubGetWithPlainResponse(STUDENT_COURSE_EXERCISE_SNAPSHOT_FILE_CONTENT_URL, STUDENT_COURSE_EXERCISE_SNAPSHOT_FILE_CONTENT);
+        stubGetWithJsonResponse(12, INSTANCES_URL, INSTANCES_JSON);
+        stubGetWithJsonResponse(11, INSTANCE_URL, INSTANCE_JSON);
+        stubGetWithJsonResponse(10, STUDENT_URL, STUDENT_JSON);
+        stubGetWithJsonResponse(9, STUDENT_COURSES_URL, STUDENT_COURSES_JSON);
+        stubGetWithJsonResponse(8, STUDENT_COURSE_URL, STUDENT_COURSE_JSON);
+        stubGetWithJsonResponse(7, STUDENT_COURSE_EXERCISES_URL, STUDENT_COURSE_EXERCISES_JSON);
+        stubGetWithJsonResponse(6, STUDENT_COURSE_EXERCISE_URL, STUDENT_COURSE_EXERCISE_JSON);
+        stubGetWithJsonResponse(5, STUDENT_COURSE_EXERCISE_SNAPSHOTS_URL, STUDENT_COURSE_EXERCISE_SNAPSHOTS_JSON);
+        stubGetWithJsonResponse(4, STUDENT_COURSE_EXERCISE_SNAPSHOT_URL, STUDENT_COURSE_EXERCISE_SNAPSHOT_JSON);
+        stubGetWithJsonResponse(3, STUDENT_COURSE_EXERCISE_SNAPSHOT_FILES_URL, STUDENT_COURSE_EXERCISE_SNAPSHOT_FILES_JSON);
+        stubGetWithJsonResponse(2, STUDENT_COURSE_EXERCISE_SNAPSHOT_FILE_URL, STUDENT_COURSE_EXERCISE_SNAPSHOT_FILE_JSON);
+        stubGetWithPlainResponse(1, STUDENT_COURSE_EXERCISE_SNAPSHOT_FILE_CONTENT_URL, STUDENT_COURSE_EXERCISE_SNAPSHOT_FILE_CONTENT);
     }
 }
