@@ -5,7 +5,10 @@ import org.apache.commons.codec.binary.Base64;
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.junit.Assert.assertEquals;
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.not;
+
+import static org.junit.Assert.*;
 
 public final class StudentTest {
 
@@ -62,5 +65,59 @@ public final class StudentTest {
         student.setPlainId(PLAIN_ID);
 
         assertEquals(PLAIN_ID, student.getPlainId());
+    }
+
+    @Test
+    public void hashCodeIsNotSameForTwoUsersWithDifferentUsernames() {
+
+        final Student student1 = new Student();
+        student1.setUsername(USERNAME);
+
+        final Student student2 = new Student();
+        student2.setUsername("notSame");
+
+        assertThat(student1.hashCode(), is(not(student2.hashCode())));
+    }
+
+    @Test
+    public void hashCodeIsSameForTwoUsersWithSameUsernames() {
+
+        final Student student1 = new Student();
+        student1.setUsername(USERNAME);
+
+        final Student student2 = new Student();
+        student2.setUsername(USERNAME);
+
+        assertEquals(student1.hashCode(), student2.hashCode());
+    }
+
+    @Test
+    public void studentIsNotEqualToNull() {
+
+        assertFalse(student.equals(null));
+    }
+
+    @Test
+    public void studentIsNotEqualToObjectOfAnotherType() {
+
+        assertFalse(student.equals(new String("")));
+    }
+
+    @Test
+    public void studentIsNotEqualToStudentWithOtherUsername() {
+
+        final Student other = new Student();
+        other.setUsername("NotSame");
+
+        assertFalse(student.equals(other));
+    }
+
+    @Test
+    public void studentIsEqualToStudentWithSameUsername() {
+
+        final Student other = new Student();
+        other.setUsername(USERNAME);
+
+        assertTrue(student.equals(other));
     }
 }
