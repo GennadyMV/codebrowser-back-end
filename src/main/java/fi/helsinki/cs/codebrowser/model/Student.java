@@ -1,8 +1,10 @@
 package fi.helsinki.cs.codebrowser.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.List;
+import java.util.Objects;
 
 import org.apache.commons.codec.binary.Base64;
 
@@ -10,7 +12,12 @@ public final class Student {
 
     private String id;
     private String username;
+
+    private String firstName;
+    private String lastName;
+
     private List<Course> courses;
+
 
     public void setPlainId(final String id) {
 
@@ -57,5 +64,56 @@ public final class Student {
     public List<Course> getCourses() {
 
         return courses;
+    }
+
+    @JsonProperty("first_name")
+    public void setFirstN(final String firstName) {
+
+        this.firstName = firstName;
+    }
+
+    @JsonProperty("firstName")
+    public String getFirstName() {
+
+        return firstName;
+    }
+
+    @JsonProperty("last_name")
+    public void setLastN(final String lastName) {
+
+        this.lastName = lastName;
+    }
+    @JsonProperty("lastName")
+    public String getLastName() {
+
+        return lastName;
+    }
+
+    @Override
+    public int hashCode() {
+
+        int hash = 7;
+        hash = 37 * hash + Objects.hashCode(this.username);
+        return hash;
+
+    }
+
+    @Override
+    public boolean equals(final Object obj) {
+        if (obj == null) {
+            return false;
+        }
+
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+
+        final Student other = (Student) obj;
+
+        if (!Objects.equals(this.username, other.username)) {
+            return false;
+        }
+
+        return true;
     }
 }

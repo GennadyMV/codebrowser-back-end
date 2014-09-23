@@ -84,7 +84,24 @@ public final class DefaultStudentService implements StudentService {
     @Override
     public Collection<Student> findAll(final String instanceId) throws IOException {
 
-        return Arrays.asList(snapshotRestTemplate.getForObject("{instanceId}/participants", Student[].class, instanceId));
+        final String json = tmcRestTemplate.fetchJson(String.format("%s/participants.json", instanceId), "api_version=7");
+
+        // Fetch all students from TMC
+        final List<Student> tmcStudents = mapper.readSubElementValueToList(json, Student.class, "participants");
+
+        // Fetch students from Snapshot API
+        final List<Student> snapshotStudents = Arrays.asList(snapshotRestTemplate.getForObject("{instanceId}/participants", Student[].class, instanceId));
+
+        final Collection<Student> students = new ArrayList<>();
+
+        // Return students which are found both from TMC and Snapshot API
+        for (Student student : tmcStudents) {
+            if (snapshotStudents.contains(student)) {
+                students.add(student);
+            }
+        }
+
+        return students;
     }
 
     @Override
