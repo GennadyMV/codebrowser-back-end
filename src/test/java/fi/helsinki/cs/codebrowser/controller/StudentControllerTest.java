@@ -121,23 +121,6 @@ public final class StudentControllerTest {
     }
 
     @Test
-    public void listForInstanceAndCourseReturnsCorrectStudents() throws Exception {
-
-        when(studentService.findAllBy(INSTANCE, COURSE)).thenReturn(students);
-
-        mockMvc.perform(get(URL_INSTANCE_COURSE))
-               .andExpect(status().isOk())
-               .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-               .andExpect(jsonPath("$", hasSize(3)))
-               .andExpect(jsonPath("$[0].username", is(STUDENT_1)))
-               .andExpect(jsonPath("$[1].username", is(STUDENT_2)))
-               .andExpect(jsonPath("$[2].username", is(STUDENT_3)));
-
-        verify(studentService).findAllBy(INSTANCE, COURSE);
-        verifyNoMoreInteractions(studentService);
-    }
-
-    @Test
     public void listForInstanceCourseAndExerciseReturnsCorrectStudents() throws Exception {
 
         when(studentService.findAllBy(INSTANCE, COURSE, EXERCISE)).thenReturn(students);
@@ -191,18 +174,6 @@ public final class StudentControllerTest {
                 .andExpect(status().isNotFound());
 
         verify(studentService).findAll(INSTANCE);
-        verifyNoMoreInteractions(studentService);
-    }
-
-    @Test
-    public void listForInstanceAndCourseHandlesNotFound() throws Exception {
-
-        when(studentService.findAllBy(INSTANCE, COURSE)).thenThrow(new NotFoundException());
-
-        mockMvc.perform(get(URL_INSTANCE_COURSE))
-                .andExpect(status().isNotFound());
-
-        verify(studentService).findAllBy(INSTANCE, COURSE);
         verifyNoMoreInteractions(studentService);
     }
 
