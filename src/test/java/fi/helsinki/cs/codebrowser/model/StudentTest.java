@@ -1,8 +1,5 @@
 package fi.helsinki.cs.codebrowser.model;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.apache.commons.codec.binary.Base64;
 
 import org.junit.Before;
@@ -21,15 +18,6 @@ public final class StudentTest {
     public void setUp() {
 
         student = new Student();
-    }
-
-    @Test
-    public void canSetCourse() {
-
-        final List<Course> courses = new ArrayList<>();
-        student.setCourses(courses);
-
-        assertEquals(courses, student.getCourses());
     }
 
     @Test

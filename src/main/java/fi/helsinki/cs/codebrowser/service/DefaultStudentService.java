@@ -145,21 +145,6 @@ public final class DefaultStudentService implements StudentService {
     }
 
     @Override
-    public Student findByCourse(final String instanceId, final String courseId, final String studentId) throws IOException {
-
-        final Collection<Student> students = findAllBy(instanceId, courseId);
-
-        // Find student by ID
-        for (Student student : students) {
-            if (student.getId().equals(studentId)) {
-                return student;
-            }
-        }
-
-        throw new NotFoundException();
-    }
-
-    @Override
     public Student findByInstance(final String instanceId, final String studentId) throws IOException {
 
         return snapshotRestTemplate.getForObject("{instanceId}/participants/{studentId}", Student.class, instanceId, studentId);

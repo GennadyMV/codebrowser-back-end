@@ -12,7 +12,6 @@ public interface StudentService {
     Collection<Student> findAllBy(String instanceId, String courseId, String exerciseId) throws IOException;
 
     Student find(String instanceId, String courseId, String exerciseId, String studentId) throws IOException;
-    Student findByCourse(String instanceId, String courseId, String studentId) throws IOException;
     Student findByInstance(String instanceId, String studentId) throws IOException;
 
 }

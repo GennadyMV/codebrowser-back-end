@@ -1,13 +1,14 @@
 package fi.helsinki.cs.codebrowser.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import java.util.List;
 import java.util.Objects;
 
 import org.apache.commons.codec.binary.Base64;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public final class Student {
 
     private String id;
@@ -15,8 +16,6 @@ public final class Student {
 
     private String firstName;
     private String lastName;
-
-    private List<Course> courses;
 
     public void setPlainId(final String id) {
 
@@ -53,16 +52,6 @@ public final class Student {
     public String getName() {
 
         return firstName + " " + lastName;
-    }
-
-    public void setCourses(final List<Course> courses) {
-
-        this.courses = courses;
-    }
-
-    public List<Course> getCourses() {
-
-        return courses;
     }
 
     @JsonProperty("first_name")

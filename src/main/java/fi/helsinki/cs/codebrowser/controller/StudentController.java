@@ -25,13 +25,6 @@ public final class StudentController {
         return studentService.findAll(instanceId);
     }
 
-    @RequestMapping(value = "{instanceId}/courses/{courseId}/students")
-    public Collection<Student> list(@PathVariable final String instanceId,
-                                    @PathVariable final String courseId) throws IOException {
-
-        return studentService.findAllBy(instanceId, courseId);
-    }
-
     @RequestMapping(value = "{instanceId}/courses/{courseId}/exercises/{exerciseId}/students")
     public Collection<Student> list(@PathVariable final String instanceId,
                                     @PathVariable final String courseId,
@@ -47,14 +40,6 @@ public final class StudentController {
                         @PathVariable final String studentId) throws IOException {
 
         return studentService.find(instanceId, courseId, exerciseId, studentId);
-    }
-
-    @RequestMapping(value = "{instanceId}/courses/{courseId}/students/{studentId}")
-    public Student read(@PathVariable final String instanceId,
-                        @PathVariable final String courseId,
-                        @PathVariable final String studentId) throws IOException {
-
-        return studentService.findByCourse(instanceId, courseId, studentId);
     }
 
     @RequestMapping(value = "{instanceId}/students/{studentId}")

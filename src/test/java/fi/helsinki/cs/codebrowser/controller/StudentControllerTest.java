@@ -169,20 +169,6 @@ public final class StudentControllerTest {
     }
 
     @Test
-    public void readForInstanceAndCourseReturnsCorrectStudent() throws Exception {
-
-        when(studentService.findByCourse(INSTANCE, COURSE, STUDENT_1)).thenReturn(s1);
-
-        mockMvc.perform(get(URL_INSTANCE_COURSE + STUDENT_1))
-               .andExpect(status().isOk())
-               .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-               .andExpect(jsonPath("$.username", is(STUDENT_1)));
-
-        verify(studentService).findByCourse(INSTANCE, COURSE, STUDENT_1);
-        verifyNoMoreInteractions(studentService);
-    }
-
-    @Test
     public void readForInstanceCourseAndExerciseReturnsCorrectStudent() throws Exception {
 
         when(studentService.find(INSTANCE, COURSE, EXERCISE, STUDENT_1)).thenReturn(s1);
@@ -241,18 +227,6 @@ public final class StudentControllerTest {
                 .andExpect(status().isNotFound());
 
         verify(studentService).findByInstance(INSTANCE, STUDENT_1);
-        verifyNoMoreInteractions(studentService);
-    }
-
-    @Test
-    public void readForInstanceAndCourseHandlesNotFound() throws Exception {
-
-        when(studentService.findByCourse(INSTANCE, COURSE, STUDENT_1)).thenThrow(new NotFoundException());
-
-        mockMvc.perform(get(URL_INSTANCE_COURSE + STUDENT_1))
-                .andExpect(status().isNotFound());
-
-        verify(studentService).findByCourse(INSTANCE, COURSE, STUDENT_1);
         verifyNoMoreInteractions(studentService);
     }
 
