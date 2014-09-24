@@ -6,12 +6,11 @@ import fi.helsinki.cs.codebrowser.app.App;
 import fi.helsinki.cs.codebrowser.exception.BadRequestException;
 import fi.helsinki.cs.codebrowser.exception.NotFoundException;
 import fi.helsinki.cs.codebrowser.model.Tag;
+import fi.helsinki.cs.codebrowser.repository.TagRepository;
 import fi.helsinki.cs.codebrowser.testutil.BackendServerStub;
 
 import java.io.IOException;
 import java.util.List;
-
-import javax.transaction.Transactional;
 
 import org.junit.Before;
 import org.junit.ClassRule;
@@ -32,7 +31,6 @@ import static org.junit.Assert.assertEquals;
 @SpringApplicationConfiguration(classes = App.class)
 @ActiveProfiles("test")
 @WebAppConfiguration
-@Transactional
 public final class DefaultTagServiceTest {
 
     @ClassRule
@@ -45,9 +43,13 @@ public final class DefaultTagServiceTest {
     @Autowired
     private TagService tagService;
 
+    @Autowired
+    private TagRepository tagRepository;
+
     @Before
     public void setUp() {
 
+        tagRepository.deleteAll();
         server.reset();
     }
 
