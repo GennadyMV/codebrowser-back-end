@@ -192,24 +192,31 @@ Returns: A single student for the specified instance's specified course's specif
 
 ##### Base urls:
 
-`BASE URL A`
-
-`BASE URL B`
-
 #### 3.1 All by instance
 
 ```
 Method: GET
 Content-Type: application/json
-URL: xxx/yyy
-Returns: 
+URL: /{instanceId}/courses/
+Returns: A list of all the courses for the specified instance
 ```
 ##### Example Request
 
-`GET xxx/yyy`
+`GET /hy/courses/`
 
 ```
-EXAMPLE OUTPUT
+[
+    {
+        "id": "azIwMTQtb2hqYQ",
+        "name": "k2014-ohja",
+        "exercises": [ ]
+    },
+    {
+        "id": "azIwMTQtb2hwZQ",
+        "name": "k2014-ohpe",
+        "exercises": [ ]
+    }
+]
 ```
 
 #### 3.2 All by student
@@ -217,15 +224,30 @@ EXAMPLE OUTPUT
 ```
 Method: GET
 Content-Type: application/json
-URL: xxx/yyy
-Returns: 
+URL: /{instanceId}/students/{studentId}/courses/
+Returns: A single course for the specified instance's specified student
 ```
 ##### Example Request
 
-`GET xxx/yyy`
+`GET /hy/students/dXNlcjE=/courses/`
 
 ```
-EXAMPLE OUTPUT
+[
+    {
+        "id": "czIwMTQtdGlyYQ",
+        "name": "s2014-tira",
+        "exercises": [
+            {
+                "id": "dmlpa2tvMDEtdGlyYTEuMQ",
+                "name": "viikko01-tira1.1"
+            },
+            {
+                "id": "dmlpa2tvMDEtdGlyYTEuMg",
+                "name": "viikko01-tira1.2"
+            }
+        ]
+    }
+]
 ```
 
 #### 3.3 Single by instance
@@ -233,15 +255,28 @@ EXAMPLE OUTPUT
 ```
 Method: GET
 Content-Type: application/json
-URL: xxx/yyy
-Returns: 
+URL: /{instanceId}/courses/{courseId}/
+Returns: A single course for the speficied instance
 ```
 ##### Example Request
 
-`GET xxx/yyy`
+`GET /hy/courses/czIwMTQtdGlyYQ/`
 
 ```
-EXAMPLE OUTPUT
+{
+    "id": "czIwMTQtdGlyYQ",
+    "name": "s2014-tira",
+    "exercises": [
+        {
+            "id": "dmlpa2tvMDEtdGlyYTEuMQ",
+            "name": "viikko01-tira1.1"
+        },
+        {
+            "id": "dmlpa2tvMDEtdGlyYTEuMg",
+            "name": "viikko01-tira1.2"
+        }
+    ]
+}
 ```
 
 #### 3.4 Single by students
@@ -249,15 +284,25 @@ EXAMPLE OUTPUT
 ```
 Method: GET
 Content-Type: application/json
-URL: xxx/yyy
-Returns: 
+URL: /{instanceId}/students/{studentId}/courses/{courseId}/
+Returns: A single course for the specified instance's specified student
 ```
 ##### Example Request
 
-`GET xxx/yyy`
+`GET /hy/students/dXNlcjE=/courses/czIwMTQtdGlyYQ`
 
 ```
-EXAMPLE OUTPUT
+{
+    "id": "czIwMTQtdGlyYQ",
+    "name": "s2014-tira",
+    "exercises": [
+        {
+            "id": "dmlpa2tvMDEtdGlyYTEuMQ",
+            "name": "viikko01-tira1.1"
+        }
+    ]
+}
+
 ```
 
 ### 4. Exercises
