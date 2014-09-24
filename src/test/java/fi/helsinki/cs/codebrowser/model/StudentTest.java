@@ -111,8 +111,6 @@ public final class StudentTest {
         final Student other = new Student();
         other.setUsername("NotSame");
 
-        student.setUsername("Same");
-
         assertFalse(student.equals(other));
     }
 
