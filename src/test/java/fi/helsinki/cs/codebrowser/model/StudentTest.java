@@ -100,7 +100,7 @@ public final class StudentTest {
     @Test
     public void studentIsNotEqualToObjectOfAnotherType() {
 
-        assertFalse(student.equals(new String("")));
+        assertFalse(student.equals(""));
     }
 
     @Test
@@ -108,6 +108,8 @@ public final class StudentTest {
 
         final Student other = new Student();
         other.setUsername("NotSame");
+
+        student.setUsername("Same");
 
         assertFalse(student.equals(other));
     }
@@ -117,6 +119,8 @@ public final class StudentTest {
 
         final Student other = new Student();
         other.setUsername(USERNAME);
+
+        student.setUsername(USERNAME);
 
         assertTrue(student.equals(other));
     }

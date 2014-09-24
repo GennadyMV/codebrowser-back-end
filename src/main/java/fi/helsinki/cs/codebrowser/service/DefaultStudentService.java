@@ -47,20 +47,6 @@ public final class DefaultStudentService implements StudentService {
         mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
     }
 
-    private Exercise getCourseExerciseById(final String instanceId, final String courseId, final String exerciseId) throws IOException {
-
-        final Collection<Exercise> exercises = exerciseService.findAllBy(instanceId, courseId);
-
-        // Find exercise with ID
-        for (Exercise exercise : exercises) {
-            if (exercise.getId().equals(exerciseId)) {
-                return exercise;
-            }
-        }
-
-        throw new NotFoundException();
-    }
-
     private Collection<Student> studentsWithSubmissions(final Collection<Student> courseStudents,
                                                         final List<TmcSubmission> submissions) {
 
@@ -118,7 +104,7 @@ public final class DefaultStudentService implements StudentService {
     public Collection<Student> findAllBy(final String instanceId, final String courseId, final String exerciseId) throws IOException {
 
         // Fetch exercise
-        final Exercise exercise = getCourseExerciseById(instanceId, courseId, exerciseId);
+        final Exercise exercise = exerciseService.findBy(instanceId, courseId, exerciseId);
 
         final String json = tmcRestTemplate.fetchJson(String.format("%s/exercises/%s.json", instanceId, exercise.getPlainId()),
                                                       "api_version=7");
