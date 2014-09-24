@@ -106,6 +106,8 @@ public final class StudentTest {
     @Test
     public void studentIsNotEqualToStudentWithOtherUsername() {
 
+        student.setUsername(USERNAME);
+
         final Student other = new Student();
         other.setUsername("NotSame");
 
@@ -115,8 +117,37 @@ public final class StudentTest {
     @Test
     public void studentIsEqualToStudentWithSameUsername() {
 
+        student.setUsername(USERNAME);
+
         final Student other = new Student();
         other.setUsername(USERNAME);
+
+        assertTrue(student.equals(other));
+    }
+
+    @Test
+    public void studentWithNullUsernameIsNotEqualToStudentWithNonNullUsername() {
+
+        final Student other = new Student();
+        other.setUsername(USERNAME);
+
+        assertFalse(student.equals(other));
+    }
+
+    @Test
+    public void studentWithNonNullUsernameIsNotEqualToStudentWithNullUsername() {
+
+        student.setUsername(USERNAME);
+
+        final Student other = new Student();
+
+        assertFalse(student.equals(other));
+    }
+
+    @Test
+    public void studentWithNullUsernameIsEqualToStudentWithNullUsername() {
+
+        final Student other = new Student();
 
         assertTrue(student.equals(other));
     }
