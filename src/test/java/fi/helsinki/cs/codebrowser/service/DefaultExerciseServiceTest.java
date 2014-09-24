@@ -10,7 +10,7 @@ import fi.helsinki.cs.codebrowser.testutil.BackendServerStub;
 import java.io.IOException;
 import java.util.List;
 
-import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.ClassRule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -35,7 +35,7 @@ public final class DefaultExerciseServiceTest {
     @ClassRule
     public static WireMockRule wireMockRule = new WireMockRule(8089);
 
-    private final BackendServerStub server = new BackendServerStub();
+    private static final BackendServerStub SERVER = new BackendServerStub();
 
     @Autowired
     private ExerciseService exerciseService;
@@ -51,10 +51,10 @@ public final class DefaultExerciseServiceTest {
         fail("No element has name " + name);
     }
 
-    @Before
-    public void setUp() {
+    @BeforeClass
+    public static void setUpClass() {
 
-        server.reset();
+        SERVER.initialiseServer();
     }
 
     @Test

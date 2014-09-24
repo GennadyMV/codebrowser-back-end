@@ -1,7 +1,5 @@
 package fi.helsinki.cs.codebrowser.testutil;
 
-import com.github.tomakehurst.wiremock.client.WireMock;
-
 import static com.github.tomakehurst.wiremock.client.WireMock.*;
 
 public final class BackendServerStub {
@@ -89,9 +87,7 @@ public final class BackendServerStub {
                             .withHeader(CONTENT_TYPE, TEXT_PLAIN)));
     }
 
-    public void reset() {
-
-        WireMock.reset();
+    public void initialiseServer() {
 
         // TMC API
         stubGetWithJsonResponse(1, COURSES_JSON_URL, COURSES_JSON);

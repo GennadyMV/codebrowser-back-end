@@ -85,12 +85,6 @@ public final class Student {
 
         final Student other = (Student) object;
 
-        if (this.username == null && other.getUsername() == null) {
-            return true;
-        } else if (this.username == null || other.getUsername() == null) {
-            return false;
-        }
-
-        return username.equals(other.getUsername());
+        return Objects.equals(this.username, other.username);
     }
 }

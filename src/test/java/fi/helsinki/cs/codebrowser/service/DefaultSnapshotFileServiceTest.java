@@ -10,7 +10,7 @@ import fi.helsinki.cs.codebrowser.testutil.BackendServerStub;
 import java.io.IOException;
 import java.util.List;
 
-import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.ClassRule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -35,10 +35,16 @@ public final class DefaultSnapshotFileServiceTest {
     @ClassRule
     public static WireMockRule wireMockRule = new WireMockRule(8089);
 
-    private final BackendServerStub server = new BackendServerStub();
+    private static final BackendServerStub SERVER = new BackendServerStub();
 
     @Autowired
     private SnapshotFileService snapshotFileService;
+
+    @BeforeClass
+    public static void setUpClass() {
+
+        SERVER.initialiseServer();
+    }
 
     private void assertEitherHasName(final List<SnapshotFile> files, final String name) {
 
@@ -49,12 +55,6 @@ public final class DefaultSnapshotFileServiceTest {
         }
 
         fail("No element has name " + name);
-    }
-
-    @Before
-    public void setUp() {
-
-        server.reset();
     }
 
     @Test
