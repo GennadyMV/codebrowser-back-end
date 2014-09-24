@@ -100,7 +100,7 @@ public final class StudentTest {
     @Test
     public void studentIsNotEqualToObjectOfAnotherType() {
 
-        assertFalse(student.equals(new String("")));
+        assertFalse(student.equals(""));
     }
 
     @Test
