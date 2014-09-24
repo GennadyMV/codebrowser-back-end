@@ -16,6 +16,7 @@ public final class StudentTest {
     private static final String PLAIN_ID = "studentID";
     private static final String FIRSTNAME = "firstName";
     private static final String LASTNAME = "lastName";
+    private static final String FULLNAME = "fullName";
 
     private Student student;
 
@@ -42,12 +43,26 @@ public final class StudentTest {
     }
 
     @Test
-    public void getNameReturnsConcatenatedFirstAndLastName() {
+    public void getNameReturnsFullNameIfItIsSet() {
+
+        student.setFullName(FULLNAME);
+
+        assertEquals(FULLNAME, student.getName());
+    }
+
+    @Test
+    public void getNameReturnsConcatenatedFirstAndLastNameIfNoFullNameSet() {
 
         student.setFirstName(FIRSTNAME);
         student.setLastName(LASTNAME);
 
         assertEquals(FIRSTNAME + " " + LASTNAME, student.getName());
+    }
+
+    @Test
+    public void getNameInitialisesToEmptyString() {
+
+        assertEquals("", student.getName());
     }
 
     @Test

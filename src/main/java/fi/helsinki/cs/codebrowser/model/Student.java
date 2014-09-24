@@ -14,6 +14,7 @@ public final class Student {
     private String id;
     private String username;
 
+    private String fullName = "";
     private String firstName = "";
     private String lastName = "";
 
@@ -51,6 +52,10 @@ public final class Student {
 
     public String getName() {
 
+        if (!fullName.isEmpty()) {
+            return fullName;
+        }
+
         return (firstName + " " + lastName).trim();
     }
 
@@ -64,6 +69,12 @@ public final class Student {
     public void setLastName(final String lastName) {
 
         this.lastName = lastName;
+    }
+
+    @JsonProperty("koko_nimi")
+    public void setFullName(final String name) {
+
+        this.fullName = name;
     }
 
     @Override

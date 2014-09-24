@@ -8,6 +8,7 @@ import fi.helsinki.cs.codebrowser.model.Snapshot;
 import fi.helsinki.cs.codebrowser.testutil.BackendServerStub;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
 
 import org.junit.BeforeClass;
@@ -26,6 +27,7 @@ import static com.github.tomakehurst.wiremock.client.WireMock.*;
 import static fi.helsinki.cs.codebrowser.testutil.BackendServerStub.*;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -77,7 +79,7 @@ public final class DefaultSnapshotServiceTest {
         snapshotService.findAllBy(INSTANCE_ID, STUDENT_ID, COURSE_ID, EXERCISE_ID, KEY);
         snapshotService.findAllBy(INSTANCE_ID, STUDENT_ID, COURSE_ID, EXERCISE_ID, CODE);
 
-        verify(getRequestedFor(urlMatching(STUDENT_COURSE_EXERCISE_SNAPSHOTS_URL + ".*")));
+        verify(getRequestedFor(urlMatching(STUDENT_COURSE_EXERCISE_SNAPSHOTS_URL + ANY)));
         verify(getRequestedFor(urlMatching(".*=code")));
         verify(getRequestedFor(urlMatching(".*=key")));
     }
@@ -102,7 +104,35 @@ public final class DefaultSnapshotServiceTest {
         snapshotService.findBy(INSTANCE_ID, STUDENT_ID, COURSE_ID, EXERCISE_ID, SNAPSHOT_ID, CODE);
         snapshotService.findBy(INSTANCE_ID, STUDENT_ID, COURSE_ID, EXERCISE_ID, SNAPSHOT_ID, KEY);
 
-        verify(getRequestedFor(urlMatching(STUDENT_COURSE_EXERCISE_SNAPSHOT_URL + ".*")));
+        verify(getRequestedFor(urlMatching(STUDENT_COURSE_EXERCISE_SNAPSHOT_URL + ANY)));
+        verify(getRequestedFor(urlMatching(".*=code")));
+        verify(getRequestedFor(urlMatching(".*=key")));
+    }
+
+    @Test
+    public void findAllFilesAsZipReturnsCorrectZip() throws IOException {
+
+        final byte[] expected = {0x00, 0x01, 0x02, 0x03};
+
+        final byte[] zip = snapshotService.findAllFilesAsZip(INSTANCE_ID, STUDENT_ID, COURSE_ID, EXERCISE_ID, CODE);
+
+        assertEquals(4, zip.length);
+        assertTrue(Arrays.equals(zip, expected));
+    }
+
+    @Test(expected = NotFoundException.class)
+    public void findAllFilesAsZipThrowsNotFoundForNonExistantSnapshot() throws IOException {
+
+        snapshotService.findAllFilesAsZip(INSTANCE_ID, STUDENT_ID, COURSE_ID, NO_SUCH_ID, CODE);
+    }
+
+    @Test
+    public void findAllFilesAsZipPassesOnLevel() throws IOException {
+
+        snapshotService.findAllFilesAsZip(INSTANCE_ID, STUDENT_ID, COURSE_ID, EXERCISE_ID, CODE);
+        snapshotService.findAllFilesAsZip(INSTANCE_ID, STUDENT_ID, COURSE_ID, EXERCISE_ID, KEY);
+
+        verify(getRequestedFor(urlMatching(STUDENT_COURSE_EXERCISE_SNAPSHOTS_ZIP_URL + ANY)));
         verify(getRequestedFor(urlMatching(".*=code")));
         verify(getRequestedFor(urlMatching(".*=key")));
     }
