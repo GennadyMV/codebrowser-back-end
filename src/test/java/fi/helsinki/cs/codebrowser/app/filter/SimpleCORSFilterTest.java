@@ -32,11 +32,13 @@ public final class SimpleCORSFilterTest {
     }
 
     @Test
-    public void setsCorrectHeader() throws IOException, ServletException {
+    public void setsCorrectHeaders() throws IOException, ServletException {
 
         filter.doFilter(servletRequest, servletResponse, filterChain);
 
         verify(servletResponse).setHeader("Access-Control-Allow-Origin", "*");
+        verify(servletResponse).setHeader("Access-Control-Allow-Headers", "Content-Type");
+        verify(servletResponse).setHeader("Access-Control-Allow-Methods", "OPTIONS, DELETE");
     }
 
     @Test
