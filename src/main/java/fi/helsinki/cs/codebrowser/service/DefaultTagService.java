@@ -24,12 +24,16 @@ public final class DefaultTagService implements TagService {
     private TagRepository tagRepository;
 
     private Tag findBy(final String instanceId,
-                      final String studentId,
-                      final String courseId,
-                      final String exerciseId,
-                      final Long tagId) {
+                       final String studentId,
+                       final String courseId,
+                       final String exerciseId,
+                       final Long tagId) {
 
-        final Tag tag = tagRepository.findByInstanceIdAndStudentIdAndCourseIdAndExerciseIdAndId(instanceId, studentId, courseId, exerciseId, tagId);
+        final Tag tag = tagRepository.findByInstanceIdAndStudentIdAndCourseIdAndExerciseIdAndId(instanceId,
+                                                                                                studentId,
+                                                                                                courseId,
+                                                                                                exerciseId,
+                                                                                                tagId);
 
         if (tag == null) {
             throw new NotFoundException();
@@ -44,7 +48,10 @@ public final class DefaultTagService implements TagService {
                                      final String courseId,
                                      final String exerciseId) {
 
-        final Collection<Tag> tags = tagRepository.findAllByInstanceIdAndStudentIdAndCourseIdAndExerciseId(instanceId, studentId, courseId, exerciseId);
+        final Collection<Tag> tags = tagRepository.findAllByInstanceIdAndStudentIdAndCourseIdAndExerciseId(instanceId,
+                                                                                                           studentId,
+                                                                                                           courseId,
+                                                                                                           exerciseId);
 
         if (tags.isEmpty()) {
             throw new NotFoundException();
@@ -62,6 +69,7 @@ public final class DefaultTagService implements TagService {
                       final Tag tag) throws IOException {
 
         final Exercise exercise;
+
         try {
             exercise = exerciseService.findBy(instanceId, studentId, courseId, exerciseId);
         } catch (NotFoundException exception) {

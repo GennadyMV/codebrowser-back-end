@@ -10,6 +10,7 @@ import fi.helsinki.cs.codebrowser.testutil.BackendServerStub;
 
 import java.io.IOException;
 import java.util.List;
+
 import javax.transaction.Transactional;
 
 import org.junit.Before;
@@ -32,7 +33,7 @@ import static org.junit.Assert.assertEquals;
 @ActiveProfiles("test")
 @WebAppConfiguration
 @Transactional
-public class DefaultTagServiceTest {
+public final class DefaultTagServiceTest {
 
     @ClassRule
     public static WireMockRule wireMockRule = new WireMockRule(8089);
