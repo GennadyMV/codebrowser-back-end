@@ -79,7 +79,7 @@ public final class DefaultSnapshotServiceTest {
         snapshotService.findAllBy(INSTANCE_ID, STUDENT_ID, COURSE_ID, EXERCISE_ID, KEY);
         snapshotService.findAllBy(INSTANCE_ID, STUDENT_ID, COURSE_ID, EXERCISE_ID, CODE);
 
-        verify(getRequestedFor(urlMatching(STUDENT_COURSE_EXERCISE_SNAPSHOTS_URL + ".*")));
+        verify(getRequestedFor(urlMatching(STUDENT_COURSE_EXERCISE_SNAPSHOTS_URL + ANY)));
         verify(getRequestedFor(urlMatching(".*=code")));
         verify(getRequestedFor(urlMatching(".*=key")));
     }
@@ -104,7 +104,7 @@ public final class DefaultSnapshotServiceTest {
         snapshotService.findBy(INSTANCE_ID, STUDENT_ID, COURSE_ID, EXERCISE_ID, SNAPSHOT_ID, CODE);
         snapshotService.findBy(INSTANCE_ID, STUDENT_ID, COURSE_ID, EXERCISE_ID, SNAPSHOT_ID, KEY);
 
-        verify(getRequestedFor(urlMatching(STUDENT_COURSE_EXERCISE_SNAPSHOT_URL + ".*")));
+        verify(getRequestedFor(urlMatching(STUDENT_COURSE_EXERCISE_SNAPSHOT_URL + ANY)));
         verify(getRequestedFor(urlMatching(".*=code")));
         verify(getRequestedFor(urlMatching(".*=key")));
     }
