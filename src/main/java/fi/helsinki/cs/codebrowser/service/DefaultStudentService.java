@@ -74,7 +74,7 @@ public final class DefaultStudentService implements StudentService {
 
         for (Student student : tmcStudents) {
 
-            // Student has name information
+            // Student has a name
             if (snapshotStudents.contains(student)) {
                 students.add(student);
             }

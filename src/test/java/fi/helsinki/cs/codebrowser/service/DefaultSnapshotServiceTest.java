@@ -112,7 +112,7 @@ public final class DefaultSnapshotServiceTest {
     @Test
     public void findAllFilesAsZipReturnsCorrectZip() throws IOException {
 
-        final byte[] expected = {0x00, 0x01, 0x02, 0x03};
+        final byte[] expected = { 0x00, 0x01, 0x02, 0x03 };
 
         final byte[] zip = snapshotService.findAllFilesAsZip(INSTANCE_ID, STUDENT_ID, COURSE_ID, EXERCISE_ID, CODE);
 

@@ -30,7 +30,7 @@ import static org.junit.Assert.fail;
 @SpringApplicationConfiguration(classes = App.class)
 @WebAppConfiguration
 @ActiveProfiles("test")
-public class DefaultStudentServiceTest {
+public final class DefaultStudentServiceTest {
 
     @ClassRule
     public static WireMockRule wireMockRule = new WireMockRule(8089);

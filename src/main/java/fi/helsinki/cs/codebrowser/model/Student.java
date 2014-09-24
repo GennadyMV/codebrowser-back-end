@@ -56,7 +56,7 @@ public final class Student {
             return fullName;
         }
 
-        return (firstName + " " + lastName).trim();
+        return String.format("%s %s", firstName, lastName).trim();
     }
 
     @JsonProperty("first_name")
@@ -96,6 +96,6 @@ public final class Student {
 
         final Student other = (Student) object;
 
-        return Objects.equals(this.username, other.username);
+        return Objects.equals(username, other.getUsername());
     }
 }
