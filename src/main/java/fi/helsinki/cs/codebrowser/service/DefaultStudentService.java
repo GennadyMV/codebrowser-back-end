@@ -67,6 +67,24 @@ public final class DefaultStudentService implements StudentService {
         return students;
     }
 
+    private Collection<Student> mergeStudents(final Collection<Student> tmcStudents,
+                                              final Collection<Student> snapshotStudents) {
+
+        final Set<Student> students = new HashSet<>();
+
+        for (Student student : tmcStudents) {
+
+            // Student has name information
+            if (snapshotStudents.contains(student)) {
+                students.add(student);
+            }
+        }
+
+        students.addAll(snapshotStudents);
+
+        return students;
+    }
+
     @Override
     public Collection<Student> findAll(final String instanceId) throws IOException {
 
@@ -78,16 +96,7 @@ public final class DefaultStudentService implements StudentService {
         // Fetch students from Snapshot API
         final List<Student> snapshotStudents = Arrays.asList(snapshotRestTemplate.getForObject("{instanceId}/participants", Student[].class, instanceId));
 
-        final Collection<Student> students = new ArrayList<>();
-
-        // Return students which are found both in TMC API and Snapshot API
-        for (Student student : tmcStudents) {
-            if (snapshotStudents.contains(student)) {
-                students.add(student);
-            }
-        }
-
-        return students;
+        return mergeStudents(tmcStudents, snapshotStudents);
     }
 
     @Override
@@ -122,15 +131,7 @@ public final class DefaultStudentService implements StudentService {
         final String tmcJson = tmcRestTemplate.fetchJson(String.format("%s/participants.json", instanceId), "api_version=7");
         final List<Student> tmcStudents = mapper.readSubElementValueToList(tmcJson, Student.class, "participants");
 
-        final Collection<Student> students = new ArrayList<>();
-
-        for (Student student : tmcStudents) {
-            if (submissionStudents.contains(student)) {
-                students.add(student);
-            }
-        }
-
-        return students;
+        return mergeStudents(tmcStudents, submissionStudents);
     }
 
     @Override

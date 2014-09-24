@@ -14,8 +14,8 @@ public final class Student {
     private String id;
     private String username;
 
-    private String firstName;
-    private String lastName;
+    private String firstName = "";
+    private String lastName = "";
 
     public void setPlainId(final String id) {
 
@@ -51,7 +51,7 @@ public final class Student {
 
     public String getName() {
 
-        return firstName + " " + lastName;
+        return (firstName + " " + lastName).trim();
     }
 
     @JsonProperty("first_name")
