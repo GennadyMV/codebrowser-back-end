@@ -8,7 +8,7 @@ import fi.helsinki.cs.codebrowser.testutil.BackendServerStub;
 
 import java.util.List;
 
-import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.ClassRule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -33,10 +33,16 @@ public final class DefaultInstanceServiceTest {
     @ClassRule
     public static WireMockRule wireMockRule = new WireMockRule(8089);
 
+    private static final BackendServerStub SERVER = new BackendServerStub();
+
     @Autowired
     private InstanceService instanceService;
 
-    private final BackendServerStub server = new BackendServerStub();
+    @BeforeClass
+    public static void setUpClass() {
+
+        SERVER.initialiseServer();
+    }
 
     private void assertEitherHasName(final List<Instance> instances, final String name) {
 
@@ -47,12 +53,6 @@ public final class DefaultInstanceServiceTest {
         }
 
         fail("No element has name " + name);
-    }
-
-    @Before
-    public void setUp() {
-
-        server.reset();
     }
 
     @Test

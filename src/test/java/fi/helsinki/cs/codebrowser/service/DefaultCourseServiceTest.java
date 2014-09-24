@@ -10,7 +10,7 @@ import fi.helsinki.cs.codebrowser.testutil.BackendServerStub;
 import java.io.IOException;
 import java.util.List;
 
-import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.ClassRule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -34,15 +34,15 @@ public final class DefaultCourseServiceTest {
     @ClassRule
     public static WireMockRule wireMockRule = new WireMockRule(8089);
 
+    private static final BackendServerStub SERVER = new BackendServerStub();
+
     @Autowired
     private CourseService courseService;
 
-    private final BackendServerStub server = new BackendServerStub();
+    @BeforeClass
+    public static void setUpClass() {
 
-    @Before
-    public void setUp() {
-
-        server.reset();
+        SERVER.initialiseServer();
     }
 
     @Test

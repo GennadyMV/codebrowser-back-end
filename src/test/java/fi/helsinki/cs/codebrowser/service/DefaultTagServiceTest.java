@@ -13,6 +13,7 @@ import java.io.IOException;
 import java.util.List;
 
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.ClassRule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -36,9 +37,9 @@ public final class DefaultTagServiceTest {
     @ClassRule
     public static WireMockRule wireMockRule = new WireMockRule(8089);
 
-    private static final String TAG_NAME = "MyTagName";
+    private static final BackendServerStub SERVER = new BackendServerStub();
 
-    private final BackendServerStub server = new BackendServerStub();
+    private static final String TAG_NAME = "MyTagName";
 
     @Autowired
     private TagService tagService;
@@ -46,11 +47,16 @@ public final class DefaultTagServiceTest {
     @Autowired
     private TagRepository tagRepository;
 
+    @BeforeClass
+    public static void setUpClass() {
+
+        SERVER.initialiseServer();
+    }
+
     @Before
     public void setUp() {
 
         tagRepository.deleteAll();
-        server.reset();
     }
 
     private Tag newTag(final String name) {

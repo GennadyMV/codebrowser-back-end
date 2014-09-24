@@ -10,7 +10,7 @@ import fi.helsinki.cs.codebrowser.testutil.BackendServerStub;
 import java.io.IOException;
 import java.util.List;
 
-import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.ClassRule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -37,13 +37,19 @@ public final class DefaultSnapshotServiceTest {
     @ClassRule
     public static WireMockRule wireMockRule = new WireMockRule(8089);
 
+    private static final BackendServerStub SERVER = new BackendServerStub();
+
     private static final String CODE = "code";
     private static final String KEY = "key";
 
-    private final BackendServerStub server = new BackendServerStub();
-
     @Autowired
     private SnapshotService snapshotService;
+
+    @BeforeClass
+    public static void setUpClass() {
+
+        SERVER.initialiseServer();
+    }
 
     private void assertEitherHasId(final List<Snapshot> snapshots, final String id) {
 
@@ -54,12 +60,6 @@ public final class DefaultSnapshotServiceTest {
         }
 
         fail("No element has id " + id);
-    }
-
-    @Before
-    public void setUp() {
-
-        server.reset();
     }
 
     @Test
