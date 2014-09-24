@@ -9,6 +9,7 @@ public final class BackendServerStub {
 
     public static final String CONTENT_TYPE = "Content-Type";
     public static final String APP_JSON = "application/json";
+    public static final String APP_ZIP = "application/zip";
     public static final String TEXT_PLAIN = "text/plain";
 
     public static final String NO_SUCH_ID = "NoSuchId";
@@ -61,6 +62,7 @@ public final class BackendServerStub {
     public static final String STUDENT_COURSE_EXERCISES_URL = "/hy/participants/MDE0MDAwMDAw/courses/czIwMTMtd2VwYQ/exercises";
     public static final String STUDENT_COURSE_EXERCISE_URL = "/hy/participants/MDE0MDAwMDAw/courses/czIwMTMtd2VwYQ/exercises/V0sxLVcxRTA0LkZpcnN0SHRtbEZvcm0";
     public static final String STUDENT_COURSE_EXERCISE_SNAPSHOTS_URL = "/hy/participants/MDE0MDAwMDAw/courses/czIwMTMtd2VwYQ/exercises/V0sxLVcxRTA0LkZpcnN0SHRtbEZvcm0/snapshots";
+    public static final String STUDENT_COURSE_EXERCISE_SNAPSHOTS_ZIP_URL = "/hy/participants/MDE0MDAwMDAw/courses/czIwMTMtd2VwYQ/exercises/V0sxLVcxRTA0LkZpcnN0SHRtbEZvcm0/snapshots/files.zip";
     public static final String STUDENT_COURSE_EXERCISE_SNAPSHOT_URL = "/hy/participants/MDE0MDAwMDAw/courses/czIwMTMtd2VwYQ/exercises/V0sxLVcxRTA0LkZpcnN0SHRtbEZvcm0/snapshots/1392806595834377201443861";
     public static final String STUDENT_COURSE_EXERCISE_SNAPSHOT_FILES_URL = "/hy/participants/MDE0MDAwMDAw/courses/czIwMTMtd2VwYQ/exercises/V0sxLVcxRTA0LkZpcnN0SHRtbEZvcm0/snapshots/1392806595834377201443861/files";
     public static final String STUDENT_COURSE_EXERCISE_SNAPSHOT_FILE_URL = "/hy/participants/MDE0MDAwMDAw/courses/czIwMTMtd2VwYQ/exercises/V0sxLVcxRTA0LkZpcnN0SHRtbEZvcm0/snapshots/1392806595834377201443861/files/cG9tLnhtbDEzOTI4MDY1OTU4MzQzNzcyMDE0NDM4NjE";
@@ -73,6 +75,7 @@ public final class BackendServerStub {
     public static final String STUDENT_COURSES_JSON = "[{\"id\":\"czIwMTMtd2VwYQ\",\"name\":\"s2013-wepa\",\"exercises\":[{\"id\":\"V0sxLVcxRTA0LkZpcnN0SHRtbEZvcm0\",\"name\":\"WK1-W1E04.FirstHtmlForm\"},{\"id\":\"V0sxLVcxRTA1LlBhZ2VWaWV3Q291bnRlcg\",\"name\":\"WK1-W1E05.PageViewCounter\"}]}]";
     public static final String STUDENT_COURSE_JSON = "{\"id\":\"czIwMTMtd2VwYQ\",\"name\":\"s2013-wepa\",\"exercises\":[{\"id\":\"V0sxLVcxRTA0LkZpcnN0SHRtbEZvcm0\",\"name\":\"WK1-W1E04.FirstHtmlForm\"}]}";
     public static final String STUDENT_COURSE_EXERCISES_JSON = "[{\"id\":\"V0sxLVcxRTA0LkZpcnN0SHRtbEZvcm0\",\"name\":\"WK1-W1E04.FirstHtmlForm\"},{\"id\":\"V0sxLVcxRTA1LlBhZ2VWaWV3Q291bnRlcg\",\"name\":\"WK1-W1E05.PageViewCounter\"}]";
+    public static final byte[] STUDENT_COURSE_EXERCISE_SNAPSHOTS_ZIP = {0x00, 0x01, 0x02, 0x03};
     public static final String STUDENT_COURSE_EXERCISE_JSON = "{\"id\":\"V0sxLVcxRTA0LkZpcnN0SHRtbEZvcm0\",\"name\":\"WK1-W1E04.FirstHtmlForm\"}";
     public static final String STUDENT_COURSE_EXERCISE_SNAPSHOTS_JSON = "[{\"id\":\"1392806595834377201443861\",\"timestamp\":1392806595834,\"files\":[{\"id\":\"bmJhY3Rpb25zLnhtbDEzOTI4MDY1OTU4MzQzNzcyMDE0NDM4NjE\",\"path\":\"nbactions.xml\",\"name\":\"nbactions.xml\"},{\"id\":\"cG9tLnhtbDEzOTI4MDY1OTU4MzQzNzcyMDE0NDM4NjE\",\"path\":\"pom.xml\",\"name\":\"pom.xml\"}]}]";
     public static final String STUDENT_COURSE_EXERCISE_SNAPSHOT_JSON = "{\"id\":\"1392806595834377201443861\",\"timestamp\":1392806595834,\"files\":[{\"id\":\"bmJhY3Rpb25zLnhtbDEzOTI4MDY1OTU4MzQzNzcyMDE0NDM4NjE\",\"path\":\"nbactions.xml\",\"name\":\"nbactions.xml\"},{\"id\":\"cG9tLnhtbDEzOTI4MDY1OTU4MzQzNzcyMDE0NDM4NjE\",\"path\":\"pom.xml\",\"name\":\"pom.xml\"}]}";
@@ -98,6 +101,15 @@ public final class BackendServerStub {
                             .withHeader(CONTENT_TYPE, TEXT_PLAIN)));
     }
 
+    private void stubGetWithZipResponse(final int priority, final String url, final byte[] response) {
+
+        stubFor(get(urlMatching(url + MAYBE_PARAM))
+                .atPriority(priority)
+                .willReturn(aResponse()
+                            .withBody(response)
+                            .withHeader(CONTENT_TYPE, APP_ZIP)));
+    }
+
     public void initialiseServer() {
 
         // TMC API
@@ -108,15 +120,16 @@ public final class BackendServerStub {
         stubGetWithJsonResponse(1, EXERCISE_JSON_URL, EXERCISE_JSON);
 
         // Snapshot API
-        stubGetWithJsonResponse(13, INSTANCES_URL, INSTANCES_JSON);
-        stubGetWithJsonResponse(12, INSTANCE_URL, INSTANCE_JSON);
-        stubGetWithJsonResponse(11, STUDENTS_URL, STUDENTS_JSON);
-        stubGetWithJsonResponse(10, STUDENT_URL, STUDENT_JSON);
-        stubGetWithJsonResponse(9, STUDENT_COURSES_URL, STUDENT_COURSES_JSON);
-        stubGetWithJsonResponse(8, STUDENT_COURSE_URL, STUDENT_COURSE_JSON);
-        stubGetWithJsonResponse(7, STUDENT_COURSE_EXERCISES_URL, STUDENT_COURSE_EXERCISES_JSON);
-        stubGetWithJsonResponse(6, STUDENT_COURSE_EXERCISE_URL, STUDENT_COURSE_EXERCISE_JSON);
-        stubGetWithJsonResponse(5, STUDENT_COURSE_EXERCISE_SNAPSHOTS_URL, STUDENT_COURSE_EXERCISE_SNAPSHOTS_JSON);
+        stubGetWithJsonResponse(14, INSTANCES_URL, INSTANCES_JSON);
+        stubGetWithJsonResponse(13, INSTANCE_URL, INSTANCE_JSON);
+        stubGetWithJsonResponse(12, STUDENTS_URL, STUDENTS_JSON);
+        stubGetWithJsonResponse(11, STUDENT_URL, STUDENT_JSON);
+        stubGetWithJsonResponse(10, STUDENT_COURSES_URL, STUDENT_COURSES_JSON);
+        stubGetWithJsonResponse(9, STUDENT_COURSE_URL, STUDENT_COURSE_JSON);
+        stubGetWithJsonResponse(8, STUDENT_COURSE_EXERCISES_URL, STUDENT_COURSE_EXERCISES_JSON);
+        stubGetWithJsonResponse(7, STUDENT_COURSE_EXERCISE_URL, STUDENT_COURSE_EXERCISE_JSON);
+        stubGetWithJsonResponse(6, STUDENT_COURSE_EXERCISE_SNAPSHOTS_URL, STUDENT_COURSE_EXERCISE_SNAPSHOTS_JSON);
+        stubGetWithZipResponse(5, STUDENT_COURSE_EXERCISE_SNAPSHOTS_ZIP_URL, STUDENT_COURSE_EXERCISE_SNAPSHOTS_ZIP);
         stubGetWithJsonResponse(4, STUDENT_COURSE_EXERCISE_SNAPSHOT_URL, STUDENT_COURSE_EXERCISE_SNAPSHOT_JSON);
         stubGetWithJsonResponse(3, STUDENT_COURSE_EXERCISE_SNAPSHOT_FILES_URL, STUDENT_COURSE_EXERCISE_SNAPSHOT_FILES_JSON);
         stubGetWithJsonResponse(2, STUDENT_COURSE_EXERCISE_SNAPSHOT_FILE_URL, STUDENT_COURSE_EXERCISE_SNAPSHOT_FILE_JSON);
