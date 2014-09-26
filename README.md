@@ -488,7 +488,7 @@ Returns: A zip containing all the snapshots and and their files relating to the 
 ```
 ##### Example Request
 
-`GET http://localhost:8090/hy/students/dXNlcjE=/courses/czIwMTQtdGlyYQ/exercises/dmlpa2tvMDEtdGlyYTEuMQ/snapshots/files.zip`
+`GET /hy/students/dXNlcjE=/courses/czIwMTQtdGlyYQ/exercises/dmlpa2tvMDEtdGlyYTEuMQ/snapshots/files.zip`
 
 
 The following is an example of the file structure found in the zip:
@@ -505,24 +505,32 @@ The files furthest down are the project files with their unique ID as their file
 
 ##### Base urls:
 
-`BASE URL A`
+All the urls in this section work relative to both these urls:
 
-`BASE URL B`
+`/{instanceId}/students/{studentId}/courses/{courseId}/exercises/{exerciseId}/snapshots`
+
+`/{instanceId}/courses/{courseId}/exercises/{exerciseId}/students/{studentId}/snapshots`
 
 #### 6.1 List by snapshot
 
 ```
 Method: GET
 Content-Type: application/json
-URL: xxx/yyy
-Returns: 
+URL: /{snapshotId}/files/
+Returns: A list of all the files for the requred snapshot as it relates to the start of the url
 ```
 ##### Example Request
 
-`GET xxx/yyy`
+`GET /hy/students/dXNlcjE=/courses/czIwMTQtdGlyYQ/exercises/dmlpa2tvMDEtdGlyYTEuMQ/snapshots/140943627771047191388761820/files/`
 
 ```
-EXAMPLE OUTPUT
+[
+    {
+        "id": "c3JjL01haW4uamF2YTE0MDk0MzYyNzc3MTA0NzE5MTM4ODc2MTgyMA",
+        "name": "Main.java",
+        "path": "src/Main.java"
+    }
+]
 ```
 
 #### 6.2 Single by file
@@ -530,15 +538,19 @@ EXAMPLE OUTPUT
 ```
 Method: GET
 Content-Type: application/json
-URL: xxx/yyy
-Returns: 
+URL: /{snapshotId}/files/{fileId}
+Returns: A single file for the requested snapshot as it relates to the start of the url
 ```
 ##### Example Request
 
-`GET xxx/yyy`
+`GET /hy/students/dXNlcjE=/courses/czIwMTQtdGlyYQ/exercises/dmlpa2tvMDEtdGlyYTEuMQ/snapshots/140943627771047191388761820/files/c3JjL01haW4uamF2YTE0MDk0MzYyNzc3MTA0NzE5MTM4ODc2MTgyMA/`
 
 ```
-EXAMPLE OUTPUT
+{
+    "id": "c3JjL01haW4uamF2YTE0MDk0MzYyNzc3MTA0NzE5MTM4ODc2MTgyMA",
+    "name": "Main.java",
+    "path": "src/Main.java"
+}
 ```
 
 #### 6.3 Contents by file
@@ -546,39 +558,54 @@ EXAMPLE OUTPUT
 ```
 Method: GET
 Content-Type: text/plain
-URL: xxx/yyy
-Returns: 
+URL: /{snapshotId}/files/{fileId}/content
+Returns: The content of the specified file as it relates to the start of the url
 ```
 ##### Example Request
 
-`GET xxx/yyy`
+`GET /hy/students/dXNlcjE=/courses/czIwMTQtdGlyYQ/exercises/dmlpa2tvMDEtdGlyYTEuMQ/snapshots/140943627771047191388761820/files/c3JjL01haW4uamF2YTE0MDk0MzYyNzc3MTA0NzE5MTM4ODc2MTgyMA/content`
 
 ```
-EXAMPLE OUTPUT
+public class Main {
+
+    public static void main(String[] args) {
+        System.out.println("Hello API");
+    }
+
+}
 ```
 
 ### 7. Tags
 
 ##### Base urls:
 
-`BASE URL A`
+All the urls in this section work relative to both these urls:
 
-`BASE URL B`
+`/{instanceId}/students/{studentId}/courses/{courseId}/exercises/{exerciseId}`
+
+`/{instanceId}/courses/{courseId}/exercises/{exerciseId}/students/{studentId}`
 
 #### 7.1 List by exercise
 
 ```
 Method: GET
 Content-Type: application/json
-URL: xxx/yyy
-Returns: 
+URL: /tags/
+Returns: A list of tags for the specified exercise
 ```
 ##### Example Request
 
-`GET xxx/yyy`
+`GET /hy/students/dXNlcjE=/courses/czIwMTQtdGlyYQ/exercises/dmlpa2tvMDEtdGlyYTEuMQ/tags`
 
 ```
-EXAMPLE OUTPUT
+[
+    {
+        "name": "tag1"
+    },
+    {
+        "name": "tag2"
+    }
+]
 ```
 
 #### 7.2 Create
@@ -586,15 +613,17 @@ EXAMPLE OUTPUT
 ```
 Method: POST
 Content-Type: application/json
-URL: xxx/yyy
-Returns: 
+URL: /tags/
+Returns: The created tag
 ```
 ##### Example Request
 
-`POST xxx/yyy`
+`POST /hy/students/dXNlcjE=/courses/czIwMTQtdGlyYQ/exercises/dmlpa2tvMDEtdGlyYTEuMQ/tags`
 
 ```
-EXAMPLE OUTPUT
+{
+    "name": "tag1"
+}
 ```
 
 #### 7.3 Delete
@@ -602,16 +631,15 @@ EXAMPLE OUTPUT
 ```
 Method: DELETE
 Content-Type: application/json
-URL: xxx/yyy
-Returns: 
+URL: /tags/{tagId}/
+Returns: The deleted tag
 ```
 ##### Example Request
 
-`DELETE xxx/yyy`
+`DELETE /hy/students/dXNlcjE=/courses/czIwMTQtdGlyYQ/exercises/dmlpa2tvMDEtdGlyYTEuMQ/tags/1`
 
 ```
-EXAMPLE OUTPUT
+{
+    "name": "tag1"
+}
 ```
-
-
-
