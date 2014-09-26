@@ -190,8 +190,6 @@ Returns: A single student for the specified instance's specified course's specif
 
 ### 3. Courses
 
-##### Base urls:
-
 #### 3.1 All by instance
 
 ```
@@ -307,26 +305,29 @@ Returns: A single course for the specified instance's specified student
 
 ### 4. Exercises
 
-##### Base urls:
-
-`BASE URL A`
-
-`BASE URL B`
-
 #### 4.1 All by course
 
 ```
 Method: GET
 Content-Type: application/json
-URL: xxx/yyy
-Returns: 
+URL: /{instanceId}/courses/{courseId}/exercises/
+Returns: A list of exercises for the requested instance's requested course.
 ```
 ##### Example Request
 
-`GET xxx/yyy`
+`GET /hy/courses/azIwMTQtb2hqYQ/exercises/`
 
 ```
-EXAMPLE OUTPUT
+[
+    {
+        "id": "dmlpa2tvNy1WaWlra283XzEwOS5IeW1pb3Q",
+        "name": "viikko7-Viikko7_109.Hymiot"
+    },
+    {
+        "id": "dmlpa2tvNy1WaWlra283XzExMC5NZXJra2lqb25vbXV1bnRhamE",
+        "name": "viikko7-Viikko7_110.Merkkijonomuuntaja"
+    }
+]
 ```
 
 #### 4.2 All by student and course
@@ -334,15 +335,24 @@ EXAMPLE OUTPUT
 ```
 Method: GET
 Content-Type: application/json
-URL: xxx/yyy
-Returns: 
+URL: /{instanceId}/students/{studentId}/courses/{courseId}/exercises/
+Returns: A list of exercises for the requested instance's requested student's requested course
 ```
 ##### Example Request
 
-`GET xxx/yyy`
+`GET /hy/students/dXNlcjE=/courses/czIwMTQtdGlyYQ/exercises/`
 
 ```
-EXAMPLE OUTPUT
+[
+    {
+        "id": "dmlpa2tvMDEtdGlyYTEuMQ",
+        "name": "viikko01-tira1.1"
+    },
+    {
+        "id": "dmlpa2tvMDEtdGlyYTEuMg",
+        "name": "viikko01-tira1.2"
+    }
+]
 ```
 
 #### 4.3 Single by course
@@ -350,15 +360,18 @@ EXAMPLE OUTPUT
 ```
 Method: GET
 Content-Type: application/json
-URL: xxx/yyy
-Returns: 
+URL: /{instanceId}/courses/{courseId}/exercises/{exerciseId}/
+Returns: A single exercise matching the provided ID for the requested instance's requested course
 ```
 ##### Example Request
 
-`GET xxx/yyy`
+`GET /hy/courses/azIwMTQtb2hqYQ/exercises/dmlpa2tvNy1WaWlra283XzEwOS5IeW1pb3Q/`
 
 ```
-EXAMPLE OUTPUT
+{
+    "id": "dmlpa2tvNy1WaWlra283XzEwOS5IeW1pb3Q",
+    "name": "viikko7-Viikko7_109.Hymiot"
+}
 ```
 
 #### 4.4 Single by student and course
@@ -366,39 +379,77 @@ EXAMPLE OUTPUT
 ```
 Method: GET
 Content-Type: application/json
-URL: xxx/yyy
-Returns: 
+URL: /{instanceId}/students/{studentId}/courses/{courseId}/exercises/{exerciseId}
+Returns: A single exercise matching the provided ID for the requested instance's requested student's requested course
 ```
 ##### Example Request
 
-`GET xxx/yyy`
+`GET /hy/students/dXNlcjE=/courses/czIwMTQtdGlyYQ/exercises/dmlpa2tvMDEtdGlyYTEuMQ`
 
 ```
-EXAMPLE OUTPUT
+{
+    "id": "dmlpa2tvMDEtdGlyYTEuMQ",
+    "name": "viikko01-tira1.1"
+}
 ```
 
 ### 5. Snapshots
 
 ##### Base urls:
 
-`BASE URL A`
+All the urls in this section work relative to both these urls:
 
-`BASE URL B`
+`/{instanceId}/students/{studentId}/courses/{courseId}/exercises/{exerciseId}`
+
+`/{instanceId}/courses/{courseId}/exercises/{exerciseId}/students/{studentId}"`
+
+##### Level
+
+All urls in this section take an optional parameter `key`. Allowed values are `key`and `code`.
+
+Using level `key` returns as fine grained snapshots as possible. This can mean as much as a snapshot for each keypress the user has made.
+
+Using level `code` returns only snaphots that are created from full project snapshots. These correspond to higher level events such as saving a file, running tests etc.
+
+The default value used when no parameter is provided is `key`.
 
 #### 5.1 List by exercise
 
 ```
 Method: GET
 Content-Type: application/json
-URL: xxx/yyy
-Returns: 
+URL: /snapshots(?level=[key|code])
+Returns: A list of all the snapshots relating to the start of the url.
 ```
 ##### Example Request
 
-`GET xxx/yyy`
+`GET /hy/students/dXNlcjE=/courses/czIwMTQtdGlyYQ/exercises/dmlpa2tvMDEtdGlyYTEuMQ/snapshots?level=key`
 
 ```
-EXAMPLE OUTPUT
+[
+    {
+        "id": "140943627771047191388761820",
+        "timestamp": 1409436277710,
+        "files": [
+            {
+                "id": "c3JjL01haW4uamF2YTE0MDk0MzYyNzc3MTA0NzE5MTM4ODc2MTgyMA",
+                "name": "Main.java",
+                "path": "src/Main.java"
+            }
+        ]
+    },
+    {
+        "id": "140943628816547201843913774",
+        "timestamp": 1409436288165,
+        "files": [
+            {
+                "id": "c3JjL01haW4uamF2YTE0MDk0MzYyODgxNjU0NzIwMTg0MzkxMzc3NA",
+                "name": "Main.java",
+                "path": "src/Main.java"
+            }
+        ]
+    }
+]
 ```
 
 #### 5.2 Single by exercise
@@ -406,15 +457,25 @@ EXAMPLE OUTPUT
 ```
 Method: GET
 Content-Type: application/json
-URL: xxx/yyy
-Returns: 
+URL: /snapshots/{snapshotId}(?level=[key|code])
+Returns: A single snapshots relating to the start of the url and the provided ID
 ```
 ##### Example Request
 
-`GET xxx/yyy`
+`GET /hy/students/dXNlcjE=/courses/czIwMTQtdGlyYQ/exercises/dmlpa2tvMDEtdGlyYTEuMQ/snapshots/140943628816547201843913774?level=key`
 
 ```
-EXAMPLE OUTPUT
+{
+    "id": "140943627771047191388761820",
+    "timestamp": 1409436277710,
+    "files": [
+        {
+            "id": "c3JjL01haW4uamF2YTE0MDk0MzYyNzc3MTA0NzE5MTM4ODc2MTgyMA",
+            "name": "Main.java",
+            "path": "src/Main.java"
+        }
+    ]
+}
 ```
 
 #### 5.3 Zip by exercise
@@ -422,39 +483,54 @@ EXAMPLE OUTPUT
 ```
 Method: GET
 Content-Type: application/zip
-URL: xxx/yyy
-Returns: 
+URL: /snapshots/files.zip(?level=[key|code])
+Returns: A zip containing all the snapshots and and their files relating to the start of the url
 ```
 ##### Example Request
 
-`GET xxx/yyy`
+`GET /hy/students/dXNlcjE=/courses/czIwMTQtdGlyYQ/exercises/dmlpa2tvMDEtdGlyYTEuMQ/snapshots/files.zip`
 
+
+The following is an example of the file structure found in the zip:
 ```
-EXAMPLE OUTPUT
+files
+├── 140943627771047191388761820
+│   └── c3JjL01haW4uamF2YTE0MDk0MzYyNzc3MTA0NzE5MTM4ODc2MTgyMA
+└── 140943628816547201843913774
+    └── c3JjL01haW4uamF2YTE0MDk0MzYyODgxNjU0NzIwMTg0MzkxMzc3NA
 ```
+The files furthest down are the project files with their unique ID as their filename.
 
 ### 6. Snapshot files
 
 ##### Base urls:
 
-`BASE URL A`
+All the urls in this section work relative to both these urls:
 
-`BASE URL B`
+`/{instanceId}/students/{studentId}/courses/{courseId}/exercises/{exerciseId}/snapshots`
+
+`/{instanceId}/courses/{courseId}/exercises/{exerciseId}/students/{studentId}/snapshots`
 
 #### 6.1 List by snapshot
 
 ```
 Method: GET
 Content-Type: application/json
-URL: xxx/yyy
-Returns: 
+URL: /{snapshotId}/files/
+Returns: A list of all the files for the requred snapshot as it relates to the start of the url
 ```
 ##### Example Request
 
-`GET xxx/yyy`
+`GET /hy/students/dXNlcjE=/courses/czIwMTQtdGlyYQ/exercises/dmlpa2tvMDEtdGlyYTEuMQ/snapshots/140943627771047191388761820/files/`
 
 ```
-EXAMPLE OUTPUT
+[
+    {
+        "id": "c3JjL01haW4uamF2YTE0MDk0MzYyNzc3MTA0NzE5MTM4ODc2MTgyMA",
+        "name": "Main.java",
+        "path": "src/Main.java"
+    }
+]
 ```
 
 #### 6.2 Single by file
@@ -462,15 +538,19 @@ EXAMPLE OUTPUT
 ```
 Method: GET
 Content-Type: application/json
-URL: xxx/yyy
-Returns: 
+URL: /{snapshotId}/files/{fileId}
+Returns: A single file for the requested snapshot as it relates to the start of the url
 ```
 ##### Example Request
 
-`GET xxx/yyy`
+`GET /hy/students/dXNlcjE=/courses/czIwMTQtdGlyYQ/exercises/dmlpa2tvMDEtdGlyYTEuMQ/snapshots/140943627771047191388761820/files/c3JjL01haW4uamF2YTE0MDk0MzYyNzc3MTA0NzE5MTM4ODc2MTgyMA/`
 
 ```
-EXAMPLE OUTPUT
+{
+    "id": "c3JjL01haW4uamF2YTE0MDk0MzYyNzc3MTA0NzE5MTM4ODc2MTgyMA",
+    "name": "Main.java",
+    "path": "src/Main.java"
+}
 ```
 
 #### 6.3 Contents by file
@@ -478,39 +558,54 @@ EXAMPLE OUTPUT
 ```
 Method: GET
 Content-Type: text/plain
-URL: xxx/yyy
-Returns: 
+URL: /{snapshotId}/files/{fileId}/content
+Returns: The content of the specified file as it relates to the start of the url
 ```
 ##### Example Request
 
-`GET xxx/yyy`
+`GET /hy/students/dXNlcjE=/courses/czIwMTQtdGlyYQ/exercises/dmlpa2tvMDEtdGlyYTEuMQ/snapshots/140943627771047191388761820/files/c3JjL01haW4uamF2YTE0MDk0MzYyNzc3MTA0NzE5MTM4ODc2MTgyMA/content`
 
 ```
-EXAMPLE OUTPUT
+public class Main {
+
+    public static void main(String[] args) {
+        System.out.println("Hello API");
+    }
+
+}
 ```
 
 ### 7. Tags
 
 ##### Base urls:
 
-`BASE URL A`
+All the urls in this section work relative to both these urls:
 
-`BASE URL B`
+`/{instanceId}/students/{studentId}/courses/{courseId}/exercises/{exerciseId}`
+
+`/{instanceId}/courses/{courseId}/exercises/{exerciseId}/students/{studentId}`
 
 #### 7.1 List by exercise
 
 ```
 Method: GET
 Content-Type: application/json
-URL: xxx/yyy
-Returns: 
+URL: /tags/
+Returns: A list of tags for the specified exercise
 ```
 ##### Example Request
 
-`GET xxx/yyy`
+`GET /hy/students/dXNlcjE=/courses/czIwMTQtdGlyYQ/exercises/dmlpa2tvMDEtdGlyYTEuMQ/tags`
 
 ```
-EXAMPLE OUTPUT
+[
+    {
+        "name": "tag1"
+    },
+    {
+        "name": "tag2"
+    }
+]
 ```
 
 #### 7.2 Create
@@ -518,15 +613,17 @@ EXAMPLE OUTPUT
 ```
 Method: POST
 Content-Type: application/json
-URL: xxx/yyy
-Returns: 
+URL: /tags/
+Returns: The created tag
 ```
 ##### Example Request
 
-`POST xxx/yyy`
+`POST /hy/students/dXNlcjE=/courses/czIwMTQtdGlyYQ/exercises/dmlpa2tvMDEtdGlyYTEuMQ/tags`
 
 ```
-EXAMPLE OUTPUT
+{
+    "name": "tag1"
+}
 ```
 
 #### 7.3 Delete
@@ -534,16 +631,15 @@ EXAMPLE OUTPUT
 ```
 Method: DELETE
 Content-Type: application/json
-URL: xxx/yyy
-Returns: 
+URL: /tags/{tagId}/
+Returns: The deleted tag
 ```
 ##### Example Request
 
-`DELETE xxx/yyy`
+`DELETE /hy/students/dXNlcjE=/courses/czIwMTQtdGlyYQ/exercises/dmlpa2tvMDEtdGlyYTEuMQ/tags/1`
 
 ```
-EXAMPLE OUTPUT
+{
+    "name": "tag1"
+}
 ```
-
-
-
