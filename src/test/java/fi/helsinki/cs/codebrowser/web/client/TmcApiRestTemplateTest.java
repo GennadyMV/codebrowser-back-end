@@ -50,4 +50,12 @@ public final class TmcApiRestTemplateTest {
         verify(getRequestedFor(urlEqualTo("/test"))
                .withHeader("Authorization", equalTo("Basic dXNlcm5hbWU6cGFzc3dvcmQ=")));
     }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void initialisationThrowsURISyntaxExceptionOnInvalidBaseUrl() {
+
+        setField("baseUrl", "::");
+
+        template.initialise();
+    }
 }

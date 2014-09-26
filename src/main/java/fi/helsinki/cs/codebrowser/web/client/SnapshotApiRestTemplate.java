@@ -35,7 +35,7 @@ public final class SnapshotApiRestTemplate extends BasicAuthenticationRestTempla
         try {
             setBaseUrl(baseUrl);
         } catch (URISyntaxException exception) {
-            return;
+            throw new IllegalArgumentException();
         }
     }
 }
