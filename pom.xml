@@ -14,13 +14,18 @@
     <name>codebrowser-back-end</name>
 
     <properties>
+        
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        
+        <!-- Override default spring version with latest -->
+        <spring.version>4.1.0.RELEASE</spring.version>
+        
     </properties>
 
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>1.1.5.RELEASE</version>
+        <version>1.1.7.RELEASE</version>
     </parent>
 
     <dependencies>
