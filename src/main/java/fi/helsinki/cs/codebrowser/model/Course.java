@@ -1,6 +1,7 @@
 package fi.helsinki.cs.codebrowser.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -8,6 +9,9 @@ import java.util.List;
 import org.apache.commons.codec.binary.Base64;
 
 public final class Course {
+
+    public interface DefaultView { }
+    public interface WithExercisesView extends DefaultView { }
 
     private String id;
     private String name;
@@ -24,6 +28,7 @@ public final class Course {
         return id;
     }
 
+    @JsonView(DefaultView.class)
     public String getId() {
 
         return Base64.encodeBase64URLSafeString(name.getBytes());
@@ -34,6 +39,7 @@ public final class Course {
         this.name = name;
     }
 
+    @JsonView(DefaultView.class)
     public String getName() {
 
         return name;
@@ -44,6 +50,7 @@ public final class Course {
         this.exercises = exercises;
     }
 
+    @JsonView(WithExercisesView.class)
     public List<Exercise> getExercises() {
 
         if (exercises == null) {

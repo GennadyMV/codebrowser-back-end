@@ -1,5 +1,7 @@
 package fi.helsinki.cs.codebrowser.controller;
 
+import com.fasterxml.jackson.annotation.JsonView;
+
 import fi.helsinki.cs.codebrowser.model.Course;
 import fi.helsinki.cs.codebrowser.service.CourseService;
 
@@ -19,12 +21,14 @@ public final class CourseController {
     @Autowired
     private CourseService courseService;
 
+    @JsonView(Course.DefaultView.class)
     @RequestMapping(value = "{instanceId}/courses")
     public Collection<Course> list(@PathVariable final String instanceId) throws IOException {
 
         return courseService.findAll(instanceId);
     }
 
+    @JsonView(Course.WithExercisesView.class)
     @RequestMapping(value = "{instanceId}/students/{studentId}/courses")
     public Collection<Course> list(@PathVariable final String instanceId,
                                    @PathVariable final String studentId) throws IOException {
@@ -32,6 +36,7 @@ public final class CourseController {
         return courseService.findAllBy(instanceId, studentId);
     }
 
+    @JsonView(Course.WithExercisesView.class)
     @RequestMapping(value = "{instanceId}/courses/{courseId}")
     public Course read(@PathVariable final String instanceId,
                        @PathVariable final String courseId) throws IOException {
@@ -39,6 +44,7 @@ public final class CourseController {
         return courseService.findBy(instanceId, courseId);
     }
 
+    @JsonView(Course.WithExercisesView.class)
     @RequestMapping(value = "{instanceId}/students/{studentId}/courses/{courseId}")
     public Course read(@PathVariable final String instanceId,
                        @PathVariable final String studentId,
