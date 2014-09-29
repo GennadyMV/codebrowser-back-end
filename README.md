@@ -20,18 +20,18 @@ Build the project with `mvn package`.
 
 ## Configuration
 
-You need to configure a few properties to get the API running — mainly setting the credentials for the [TMC Snapshot API](https://github.com/rage-research/tmc-snapshot-api/), [TestMyCode Server](https://github.com/testmycode/tmc-server) user credentials and the credentials for the service itself.
+You need to configure a few properties to get the API running — mainly setting the credentials for the [TMC Snapshot API](https://github.com/rage-research/tmc-snapshot-api/), [Test My Code API](https://github.com/testmycode/tmc-server/) user credentials and the credentials for the service itself.
 
 ### Development
 
 1. For development purposes create a configuration-file `src/main/resources/application-development.properties`. See a sample configuration in `src/main/resources/application-development.properties.sample`.
-2. Modify the properties to set the credentials and connection information for the service ,`tmc-snapshot-api` and `tmc-server`.
+2. Modify the properties to set the credentials and connection information for the service, `tmc-snapshot-api` and `tmc-server`.
 
 ### Production
 
 1. Modify the active profile `spring.profiles.active` to `production` in `src/main/resources/application.properties`.
 2. Create a configuration-file `src/main/resources/application-production.properties` for the production-profile. See a sample configuration in `src/main/resources/application-development.properties.sample`.
-3. Modify the properties to set the credentials and connection information for the service ,`tmc-snapshot-api` and `tmc-server`.
+3. Modify the properties to set the credentials and connection information for the service, `tmc-snapshot-api` and `tmc-server`.
 
 You can also set additional properties as declared in the `.properties`-files.
 
@@ -39,15 +39,15 @@ You can also set additional properties as declared in the `.properties`-files.
 
 ### IDs
 
-All IDs in the API are specified as strings. The ID for an instance is its name. The ID for a participant is a URL-safe Base64-encoded string from a username, which matches to the username specified in TMC. The ID for a course and exercise is a URL-safe Base64-encoded string from a course and exercise name, which also match to their corresponding names in TMC. The ID for a snapshot is a string concatenated from the timestamp and nanotime for the snapshot. The ID for a file is a URL-safe Base64-encoded string concatenated from a file path, snapshot timestamp and nanotime. The ID for an event is a string concatenated from the timestamp and nanotime for the event.
+All IDs in the API are specified as strings. The ID for an instance is its name. The ID for a student is a URL-safe Base64-encoded string from a username, which matches to the username specified in TMC. The ID for a course and exercise is a URL-safe Base64-encoded string from a course and exercise name, which also match to their corresponding names in TMC. The ID for a snapshot is a string concatenated from the timestamp and nanotime for the snapshot. The ID for a file is a URL-safe Base64-encoded string concatenated from a file path, snapshot timestamp and nanotime.
 
 ### Snapshot Level
 
-There are two levels for snapshots. Key-level snapshots — which is the default — provide snapshots that progress one keystroke (or event) at a time. This provides a way to “playback” the snapshots, the same way as a participant has implemented the solution. Code-level snapshots provide snapshots that have a larger scope. These snapshots are “full snapshots” that are collected for example when the participant saves the solution.
+There are two levels for snapshots. Key-level snapshots — which is the default — provide snapshots that progress one keystroke (or event) at a time. This provides a way to “playback” the snapshots, the same way as a student has implemented the solution. Code-level snapshots provide snapshots that have a larger scope. These snapshots are “full snapshots” that are collected for example when the user saves the solution.
 
 ### 1. Instances
 
-#### 1.1 All
+#### 1.1. All
 
 ```
 Method: GET
@@ -55,6 +55,7 @@ Content-Type: application/json
 URL: /
 Returns: A list of instances
 ```
+
 ##### Example Request
 
 `GET /`
@@ -72,7 +73,7 @@ Returns: A list of instances
 ]
 ```
 
-#### 1.2 Single
+#### 1.2. Single
 
 ```
 Method: GET
@@ -80,6 +81,7 @@ Content-Type: application/json
 URL: /{instanceId}/
 Returns: A single instance matching the provided ID
 ```
+
 ##### Example Request
 
 `GET /hy/`
@@ -93,7 +95,7 @@ Returns: A single instance matching the provided ID
 
 ### 2. Students
 
-#### 2.1 All by instance
+#### 2.1. All by Instance
 
 ```
 Method: GET
@@ -101,6 +103,7 @@ Content-Type: application/json
 URL: /{instanceId}/students/
 Returns: A list of students for the requested instance
 ```
+
 ##### Example Request
 
 `GET /hy/students/`
@@ -108,26 +111,27 @@ Returns: A list of students for the requested instance
 ```
 [
     {
-        "id": "dXNlcjE=",
+        "id": "dXNlcjE",
         "username": "user1",
         "name": "User Usersson"
     },
     {
-        "id": "ZXhhbXBsZQ==",
+        "id": "ZXhhbXBsZQ",
         "username": "example",
         "name": "Ex Ample"
     }
 ]
 ```
 
-#### 2.2 All by exercise
+#### 2.2. All by Exercise
 
 ```
 Method: GET
 Content-Type: application/json
 URL: /{instanceId}/courses/{courseId}/exercises/{exerciseId}/students/
-Returns: All students for the specified instance's specified course's specified exercise
+Returns: All students for the specified instance’s specified course’s specified exercise
 ```
+
 ##### Example Request
 
 `GET /hy/courses/czIwMTQtdGlyYQ/exercises/dmlpa2tvMDEtdGlyYTEuMQ/students/`
@@ -135,19 +139,19 @@ Returns: All students for the specified instance's specified course's specified 
 ```
 [
     {
-        "id": "dXNlcjE=",
+        "id": "dXNlcjE",
         "username": "user1",
         "name": "User Usersson"
     },
     {
-        "id": "ZXhhbXBsZQ==",
+        "id": "ZXhhbXBsZQ",
         "username": "example",
         "name": "Ex Ample"
     }
 ]
 ```
 
-#### 2.3 Single by instance
+#### 2.3. Single by Instance
 
 ```
 Method: GET
@@ -158,30 +162,32 @@ Returns: A single student for the specified instance
 
 ##### Example Request
 
-`GET /hy/students/dXNlcjE=/`
+`GET /hy/students/dXNlcjE/`
 
 ```
 {
-    "id": "dXNlcjE=",
+    "id": "dXNlcjE",
     "username": "user1",
     "name": "User Usersson"
 }
 ```
 
-#### 2.4 Single by exercise
+#### 2.4. Single by Exercise
+
 ```
 Method: GET
 Content-Type: application/json
 URL: /{instanceId}/courses/{courseId}/exercises/{exerciseId}/students/{studentId}/
-Returns: A single student for the specified instance's specified course's specified exercise
+Returns: A single student for the specified instance’s specified course’s specified exercise
 ```
+
 ##### Example Request
 
-`GET /hy/courses/czIwMTQtdGlyYQ/exercises/dmlpa2tvMDEtdGlyYTEuMQ/students/dXNlcjE=`
+`GET /hy/courses/czIwMTQtdGlyYQ/exercises/dmlpa2tvMDEtdGlyYTEuMQ/students/dXNlcjE/`
 
 ```
 {
-    "id": "dXNlcjE=",
+    "id": "dXNlcjE",
     "username": "user1",
     "name": "User Usersson"
 }
@@ -190,7 +196,7 @@ Returns: A single student for the specified instance's specified course's specif
 
 ### 3. Courses
 
-#### 3.1 All by instance
+#### 3.1. All by Instance
 
 ```
 Method: GET
@@ -198,6 +204,7 @@ Content-Type: application/json
 URL: /{instanceId}/courses/
 Returns: A list of all the courses for the specified instance
 ```
+
 ##### Example Request
 
 `GET /hy/courses/`
@@ -207,27 +214,28 @@ Returns: A list of all the courses for the specified instance
     {
         "id": "azIwMTQtb2hqYQ",
         "name": "k2014-ohja",
-        "exercises": [ ]
+        "exercises": []
     },
     {
         "id": "azIwMTQtb2hwZQ",
         "name": "k2014-ohpe",
-        "exercises": [ ]
+        "exercises": []
     }
 ]
 ```
 
-#### 3.2 All by student
+#### 3.2. All by Student
 
 ```
 Method: GET
 Content-Type: application/json
 URL: /{instanceId}/students/{studentId}/courses/
-Returns: A single course for the specified instance's specified student
+Returns: A single course for the specified instance’s specified student
 ```
+
 ##### Example Request
 
-`GET /hy/students/dXNlcjE=/courses/`
+`GET /hy/students/dXNlcjE/courses/`
 
 ```
 [
@@ -248,7 +256,7 @@ Returns: A single course for the specified instance's specified student
 ]
 ```
 
-#### 3.3 Single by instance
+#### 3.3. Single by Instance
 
 ```
 Method: GET
@@ -256,6 +264,7 @@ Content-Type: application/json
 URL: /{instanceId}/courses/{courseId}/
 Returns: A single course for the speficied instance
 ```
+
 ##### Example Request
 
 `GET /hy/courses/czIwMTQtdGlyYQ/`
@@ -277,17 +286,18 @@ Returns: A single course for the speficied instance
 }
 ```
 
-#### 3.4 Single by students
+#### 3.4. Single by Students
 
 ```
 Method: GET
 Content-Type: application/json
 URL: /{instanceId}/students/{studentId}/courses/{courseId}/
-Returns: A single course for the specified instance's specified student
+Returns: A single course for the specified instance’s specified student
 ```
+
 ##### Example Request
 
-`GET /hy/students/dXNlcjE=/courses/czIwMTQtdGlyYQ`
+`GET /hy/students/dXNlcjE/courses/czIwMTQtdGlyYQ/`
 
 ```
 {
@@ -305,14 +315,15 @@ Returns: A single course for the specified instance's specified student
 
 ### 4. Exercises
 
-#### 4.1 All by course
+#### 4.1. All by Course
 
 ```
 Method: GET
 Content-Type: application/json
 URL: /{instanceId}/courses/{courseId}/exercises/
-Returns: A list of exercises for the requested instance's requested course.
+Returns: A list of exercises for the requested instance’s requested course.
 ```
+
 ##### Example Request
 
 `GET /hy/courses/azIwMTQtb2hqYQ/exercises/`
@@ -330,17 +341,18 @@ Returns: A list of exercises for the requested instance's requested course.
 ]
 ```
 
-#### 4.2 All by student and course
+#### 4.2. All by Student and Course
 
 ```
 Method: GET
 Content-Type: application/json
 URL: /{instanceId}/students/{studentId}/courses/{courseId}/exercises/
-Returns: A list of exercises for the requested instance's requested student's requested course
+Returns: A list of exercises for the requested instance’s requested student’s requested course
 ```
+
 ##### Example Request
 
-`GET /hy/students/dXNlcjE=/courses/czIwMTQtdGlyYQ/exercises/`
+`GET /hy/students/dXNlcjE/courses/czIwMTQtdGlyYQ/exercises/`
 
 ```
 [
@@ -355,14 +367,15 @@ Returns: A list of exercises for the requested instance's requested student's re
 ]
 ```
 
-#### 4.3 Single by course
+#### 4.3. Single by Course
 
 ```
 Method: GET
 Content-Type: application/json
 URL: /{instanceId}/courses/{courseId}/exercises/{exerciseId}/
-Returns: A single exercise matching the provided ID for the requested instance's requested course
+Returns: A single exercise matching the provided ID for the requested instance’s requested course
 ```
+
 ##### Example Request
 
 `GET /hy/courses/azIwMTQtb2hqYQ/exercises/dmlpa2tvNy1WaWlra283XzEwOS5IeW1pb3Q/`
@@ -374,17 +387,18 @@ Returns: A single exercise matching the provided ID for the requested instance's
 }
 ```
 
-#### 4.4 Single by student and course
+#### 4.4. Single by Student and Course
 
 ```
 Method: GET
 Content-Type: application/json
-URL: /{instanceId}/students/{studentId}/courses/{courseId}/exercises/{exerciseId}
-Returns: A single exercise matching the provided ID for the requested instance's requested student's requested course
+URL: /{instanceId}/students/{studentId}/courses/{courseId}/exercises/{exerciseId}/
+Returns: A single exercise matching the provided ID for the requested instance’s requested student’s requested course
 ```
+
 ##### Example Request
 
-`GET /hy/students/dXNlcjE=/courses/czIwMTQtdGlyYQ/exercises/dmlpa2tvMDEtdGlyYTEuMQ`
+`GET /hy/students/dXNlcjE/courses/czIwMTQtdGlyYQ/exercises/dmlpa2tvMDEtdGlyYTEuMQ/`
 
 ```
 {
@@ -395,35 +409,28 @@ Returns: A single exercise matching the provided ID for the requested instance's
 
 ### 5. Snapshots
 
-##### Base urls:
+##### Base URLs
 
-All the urls in this section work relative to both these urls:
-
-`/{instanceId}/students/{studentId}/courses/{courseId}/exercises/{exerciseId}`
-
-`/{instanceId}/courses/{courseId}/exercises/{exerciseId}/students/{studentId}"`
+All the URLs in this section work relative to both these two URLs: `/{instanceId}/students/{studentId}/courses/{courseId}/exercises/{exerciseId}` and `/{instanceId}/courses/{courseId}/exercises/{exerciseId}/students/{studentId}`.
 
 ##### Level
 
-All urls in this section take an optional parameter `key`. Allowed values are `key`and `code`.
-
-Using level `key` returns as fine grained snapshots as possible. This can mean as much as a snapshot for each keypress the user has made.
-
-Using level `code` returns only snaphots that are created from full project snapshots. These correspond to higher level events such as saving a file, running tests etc.
+All URLs in this section take an optional parameter `key`. Allowed values are `key` and `code`. Using the level `key` returns as fine grained snapshots as possible. This can mean as much as a snapshot for each keypress the user has made. Using the level `code` returns only snaphots that are created from full project snapshots. These correspond to higher level events such as saving a file, running tests and so on.
 
 The default value used when no parameter is provided is `key`.
 
-#### 5.1 List by exercise
+#### 5.1. All by Exercise
 
 ```
 Method: GET
 Content-Type: application/json
-URL: /snapshots(?level=[key|code])
-Returns: A list of all the snapshots relating to the start of the url.
+URL: /snapshots/(?level=[key|code])
+Returns: A list of all the snapshots relating to the start of the URL
 ```
+
 ##### Example Request
 
-`GET /hy/students/dXNlcjE=/courses/czIwMTQtdGlyYQ/exercises/dmlpa2tvMDEtdGlyYTEuMQ/snapshots?level=key`
+`GET /hy/students/dXNlcjE/courses/czIwMTQtdGlyYQ/exercises/dmlpa2tvMDEtdGlyYTEuMQ/snapshots/?level=key`
 
 ```
 [
@@ -452,17 +459,18 @@ Returns: A list of all the snapshots relating to the start of the url.
 ]
 ```
 
-#### 5.2 Single by exercise
+#### 5.2. Single by Exercise
 
 ```
 Method: GET
 Content-Type: application/json
 URL: /snapshots/{snapshotId}(?level=[key|code])
-Returns: A single snapshots relating to the start of the url and the provided ID
+Returns: A single snapshots relating to the start of the URL and the provided ID
 ```
+
 ##### Example Request
 
-`GET /hy/students/dXNlcjE=/courses/czIwMTQtdGlyYQ/exercises/dmlpa2tvMDEtdGlyYTEuMQ/snapshots/140943628816547201843913774?level=key`
+`GET /hy/students/dXNlcjE/courses/czIwMTQtdGlyYQ/exercises/dmlpa2tvMDEtdGlyYTEuMQ/snapshots/140943628816547201843913774/?level=key`
 
 ```
 {
@@ -478,20 +486,21 @@ Returns: A single snapshots relating to the start of the url and the provided ID
 }
 ```
 
-#### 5.3 Zip by exercise
+#### 5.3. ZIP by Exercise
 
 ```
 Method: GET
 Content-Type: application/zip
 URL: /snapshots/files.zip(?level=[key|code])
-Returns: A zip containing all the snapshots and and their files relating to the start of the url
+Returns: A ZIP containing all the snapshots and and their files relating to the start of the URL
 ```
+
 ##### Example Request
 
-`GET /hy/students/dXNlcjE=/courses/czIwMTQtdGlyYQ/exercises/dmlpa2tvMDEtdGlyYTEuMQ/snapshots/files.zip`
+`GET /hy/students/dXNlcjE/courses/czIwMTQtdGlyYQ/exercises/dmlpa2tvMDEtdGlyYTEuMQ/snapshots/files.zip`
 
+The following is an example of the file structure found in the ZIP:
 
-The following is an example of the file structure found in the zip:
 ```
 files
 ├── 140943627771047191388761820
@@ -499,29 +508,27 @@ files
 └── 140943628816547201843913774
     └── c3JjL01haW4uamF2YTE0MDk0MzYyODgxNjU0NzIwMTg0MzkxMzc3NA
 ```
+
 The files furthest down are the project files with their unique ID as their filename.
 
-### 6. Snapshot files
+### 6. Snapshot Files
 
-##### Base urls:
+##### Base URLs:
 
-All the urls in this section work relative to both these urls:
+All the URLs in this section work relative to both these URLs: `/{instanceId}/students/{studentId}/courses/{courseId}/exercises/{exerciseId}/snapshots/` and `/{instanceId}/courses/{courseId}/exercises/{exerciseId}/students/{studentId}/snapshots/`.
 
-`/{instanceId}/students/{studentId}/courses/{courseId}/exercises/{exerciseId}/snapshots`
-
-`/{instanceId}/courses/{courseId}/exercises/{exerciseId}/students/{studentId}/snapshots`
-
-#### 6.1 List by snapshot
+#### 6.1. All by Snapshot
 
 ```
 Method: GET
 Content-Type: application/json
 URL: /{snapshotId}/files/
-Returns: A list of all the files for the requred snapshot as it relates to the start of the url
+Returns: A list of all the files for the requred snapshot as it relates to the start of the URL
 ```
+
 ##### Example Request
 
-`GET /hy/students/dXNlcjE=/courses/czIwMTQtdGlyYQ/exercises/dmlpa2tvMDEtdGlyYTEuMQ/snapshots/140943627771047191388761820/files/`
+`GET /hy/students/dXNlcjE/courses/czIwMTQtdGlyYQ/exercises/dmlpa2tvMDEtdGlyYTEuMQ/snapshots/140943627771047191388761820/files/`
 
 ```
 [
@@ -533,17 +540,18 @@ Returns: A list of all the files for the requred snapshot as it relates to the s
 ]
 ```
 
-#### 6.2 Single by file
+#### 6.2. Single by File
 
 ```
 Method: GET
 Content-Type: application/json
-URL: /{snapshotId}/files/{fileId}
-Returns: A single file for the requested snapshot as it relates to the start of the url
+URL: /{snapshotId}/files/{fileId}/
+Returns: A single file for the requested snapshot as it relates to the start of the URL
 ```
+
 ##### Example Request
 
-`GET /hy/students/dXNlcjE=/courses/czIwMTQtdGlyYQ/exercises/dmlpa2tvMDEtdGlyYTEuMQ/snapshots/140943627771047191388761820/files/c3JjL01haW4uamF2YTE0MDk0MzYyNzc3MTA0NzE5MTM4ODc2MTgyMA/`
+`GET /hy/students/dXNlcjE/courses/czIwMTQtdGlyYQ/exercises/dmlpa2tvMDEtdGlyYTEuMQ/snapshots/140943627771047191388761820/files/c3JjL01haW4uamF2YTE0MDk0MzYyNzc3MTA0NzE5MTM4ODc2MTgyMA/`
 
 ```
 {
@@ -553,17 +561,18 @@ Returns: A single file for the requested snapshot as it relates to the start of 
 }
 ```
 
-#### 6.3 Contents by file
+#### 6.3. Contents by File
 
 ```
 Method: GET
 Content-Type: text/plain
-URL: /{snapshotId}/files/{fileId}/content
-Returns: The content of the specified file as it relates to the start of the url
+URL: /{snapshotId}/files/{fileId}/content/
+Returns: The content of the specified file as it relates to the start of the URL
 ```
+
 ##### Example Request
 
-`GET /hy/students/dXNlcjE=/courses/czIwMTQtdGlyYQ/exercises/dmlpa2tvMDEtdGlyYTEuMQ/snapshots/140943627771047191388761820/files/c3JjL01haW4uamF2YTE0MDk0MzYyNzc3MTA0NzE5MTM4ODc2MTgyMA/content`
+`GET /hy/students/dXNlcjE/courses/czIwMTQtdGlyYQ/exercises/dmlpa2tvMDEtdGlyYTEuMQ/snapshots/140943627771047191388761820/files/c3JjL01haW4uamF2YTE0MDk0MzYyNzc3MTA0NzE5MTM4ODc2MTgyMA/content/`
 
 ```
 public class Main {
@@ -577,15 +586,11 @@ public class Main {
 
 ### 7. Tags
 
-##### Base urls:
+##### Base URLs
 
-All the urls in this section work relative to both these urls:
+All the URLs in this section work relative to both these URLs: `/{instanceId}/students/{studentId}/courses/{courseId}/exercises/{exerciseId}/` and `/{instanceId}/courses/{courseId}/exercises/{exerciseId}/students/{studentId}/`.
 
-`/{instanceId}/students/{studentId}/courses/{courseId}/exercises/{exerciseId}`
-
-`/{instanceId}/courses/{courseId}/exercises/{exerciseId}/students/{studentId}`
-
-#### 7.1 List by exercise
+#### 7.1. All by Exercise
 
 ```
 Method: GET
@@ -593,9 +598,10 @@ Content-Type: application/json
 URL: /tags/
 Returns: A list of tags for the specified exercise
 ```
+
 ##### Example Request
 
-`GET /hy/students/dXNlcjE=/courses/czIwMTQtdGlyYQ/exercises/dmlpa2tvMDEtdGlyYTEuMQ/tags`
+`GET /hy/students/dXNlcjE/courses/czIwMTQtdGlyYQ/exercises/dmlpa2tvMDEtdGlyYTEuMQ/tags/`
 
 ```
 [
@@ -608,7 +614,7 @@ Returns: A list of tags for the specified exercise
 ]
 ```
 
-#### 7.2 Create
+#### 7.2. Create
 
 ```
 Method: POST
@@ -616,9 +622,10 @@ Content-Type: application/json
 URL: /tags/
 Returns: The created tag
 ```
+
 ##### Example Request
 
-`POST /hy/students/dXNlcjE=/courses/czIwMTQtdGlyYQ/exercises/dmlpa2tvMDEtdGlyYTEuMQ/tags`
+`POST /hy/students/dXNlcjE/courses/czIwMTQtdGlyYQ/exercises/dmlpa2tvMDEtdGlyYTEuMQ/tags/`
 
 ```
 {
@@ -626,7 +633,7 @@ Returns: The created tag
 }
 ```
 
-#### 7.3 Delete
+#### 7.3. Delete
 
 ```
 Method: DELETE
@@ -634,9 +641,10 @@ Content-Type: application/json
 URL: /tags/{tagId}/
 Returns: The deleted tag
 ```
+
 ##### Example Request
 
-`DELETE /hy/students/dXNlcjE=/courses/czIwMTQtdGlyYQ/exercises/dmlpa2tvMDEtdGlyYTEuMQ/tags/1`
+`DELETE /hy/students/dXNlcjE/courses/czIwMTQtdGlyYQ/exercises/dmlpa2tvMDEtdGlyYTEuMQ/tags/1/`
 
 ```
 {
