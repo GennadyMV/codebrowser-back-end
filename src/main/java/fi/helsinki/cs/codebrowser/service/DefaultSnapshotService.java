@@ -53,13 +53,17 @@ public final class DefaultSnapshotService implements SnapshotService {
     }
 
     @Override
-    public byte[] findAllFilesAsZip(final String instanceId,
+    public byte[] findFilesAsZip(final String instanceId,
                                     final String studentId,
                                     final String courseId,
                                     final String exerciseId,
-                                    final String level) throws IOException {
+                                    final String level,
+                                    final String from,
+                                    final int count) throws IOException {
 
         snapshotRestTemplate.addParameter("level", level);
+        snapshotRestTemplate.addParameter("from", from);
+        snapshotRestTemplate.addParameter("count", Integer.toString(count));
 
         return snapshotRestTemplate.getForObject("{instanceId}/participants/{studentId}/courses/{courseId}/exercises/{exerciseId}/snapshots/files.zip",
                                                  byte[].class,

@@ -162,14 +162,14 @@ public final class SnapshotControllerTest {
     public void readFilesReturnsZip() throws Exception {
 
         final byte[] bytes = { 0x00, 0x01, 0x02 };
-        when(snapshotService.findAllFilesAsZip(INSTANCE, STUDENT, COURSE, EXERCISE, LEVEL)).thenReturn(bytes);
+        when(snapshotService.findFilesAsZip(INSTANCE, STUDENT, COURSE, EXERCISE, LEVEL, null, 0)).thenReturn(bytes);
 
         mockMvc.perform(get(BASE_URL_A + "/files.zip?level=KEY"))
                .andExpect(status().isOk())
                .andExpect(content().contentType("application/zip"))
                .andExpect(content().bytes(bytes));
 
-        verify(snapshotService).findAllFilesAsZip(INSTANCE, STUDENT, COURSE, EXERCISE, LEVEL);
+        verify(snapshotService).findFilesAsZip(INSTANCE, STUDENT, COURSE, EXERCISE, LEVEL, null, 0);
         verifyNoMoreInteractions(snapshotService);
     }
 
@@ -178,13 +178,13 @@ public final class SnapshotControllerTest {
 
         mockMvc.perform(get(BASE_URL_A + "/files.zip?level=CODE"));
 
-        verify(snapshotService).findAllFilesAsZip(INSTANCE, STUDENT, COURSE, EXERCISE, "CODE");
+        verify(snapshotService).findFilesAsZip(INSTANCE, STUDENT, COURSE, EXERCISE, "CODE", null, 0);
     }
 
     @Test
     public void readFilesHandlesNotFoundException() throws Exception {
 
-        when(snapshotService.findAllFilesAsZip(INSTANCE, STUDENT, COURSE, EXERCISE, LEVEL)).thenThrow(new NotFoundException());
+        when(snapshotService.findFilesAsZip(INSTANCE, STUDENT, COURSE, EXERCISE, LEVEL, null, 0)).thenThrow(new NotFoundException());
 
         mockMvc.perform(get(BASE_URL_A + "/files.zip?level=KEY"))
                .andExpect(status().isNotFound());

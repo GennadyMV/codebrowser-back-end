@@ -114,7 +114,7 @@ public final class DefaultSnapshotServiceTest {
 
         final byte[] expected = { 0x00, 0x01, 0x02, 0x03 };
 
-        final byte[] zip = snapshotService.findAllFilesAsZip(INSTANCE_ID, STUDENT_ID, COURSE_ID, EXERCISE_ID, CODE);
+        final byte[] zip = snapshotService.findFilesAsZip(INSTANCE_ID, STUDENT_ID, COURSE_ID, EXERCISE_ID, CODE, null, 0);
 
         assertEquals(4, zip.length);
         assertTrue(Arrays.equals(zip, expected));
@@ -123,14 +123,14 @@ public final class DefaultSnapshotServiceTest {
     @Test(expected = NotFoundException.class)
     public void findAllFilesAsZipThrowsNotFoundForNonExistantSnapshot() throws IOException {
 
-        snapshotService.findAllFilesAsZip(INSTANCE_ID, STUDENT_ID, COURSE_ID, NO_SUCH_ID, CODE);
+        snapshotService.findFilesAsZip(INSTANCE_ID, STUDENT_ID, COURSE_ID, NO_SUCH_ID, CODE, null, 0);
     }
 
     @Test
     public void findAllFilesAsZipPassesOnLevel() throws IOException {
 
-        snapshotService.findAllFilesAsZip(INSTANCE_ID, STUDENT_ID, COURSE_ID, EXERCISE_ID, CODE);
-        snapshotService.findAllFilesAsZip(INSTANCE_ID, STUDENT_ID, COURSE_ID, EXERCISE_ID, KEY);
+        snapshotService.findFilesAsZip(INSTANCE_ID, STUDENT_ID, COURSE_ID, EXERCISE_ID, CODE, null, 0);
+        snapshotService.findFilesAsZip(INSTANCE_ID, STUDENT_ID, COURSE_ID, EXERCISE_ID, KEY, null, 0);
 
         verify(getRequestedFor(urlMatching(STUDENT_COURSE_EXERCISE_SNAPSHOTS_ZIP_URL + ANY)));
         verify(getRequestedFor(urlMatching(".*=code")));
