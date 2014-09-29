@@ -10,6 +10,7 @@ import fi.helsinki.cs.codebrowser.repository.TagRepository;
 import fi.helsinki.cs.codebrowser.testutil.BackendServerStub;
 
 import java.io.IOException;
+import java.util.Collection;
 import java.util.List;
 
 import org.junit.Before;
@@ -67,10 +68,12 @@ public final class DefaultTagServiceTest {
         return tag;
     }
 
-    @Test(expected = NotFoundException.class)
-    public void findAllByThrowsNotFoundIfNothingIsFound() throws IOException {
+    @Test
+    public void findAllByReturnsEmptyListIfNothingIsFound() throws IOException {
 
-        tagService.findAllBy(INSTANCE_ID, STUDENT_ID, COURSE_ID, NO_SUCH_ID);
+        final Collection<Tag> tags = tagService.findAllBy(INSTANCE_ID, STUDENT_ID, COURSE_ID, NO_SUCH_ID);
+
+        assertEquals(0, tags.size());
     }
 
     @Test

@@ -48,16 +48,11 @@ public final class DefaultTagService implements TagService {
                                      final String courseId,
                                      final String exerciseId) {
 
-        final Collection<Tag> tags = tagRepository.findAllByInstanceIdAndStudentIdAndCourseIdAndExerciseId(instanceId,
-                                                                                                           studentId,
-                                                                                                           courseId,
-                                                                                                           exerciseId);
+        return tagRepository.findAllByInstanceIdAndStudentIdAndCourseIdAndExerciseId(instanceId,
+                                                                                     studentId,
+                                                                                     courseId,
+                                                                                     exerciseId);
 
-        if (tags.isEmpty()) {
-            throw new NotFoundException();
-        }
-
-        return tags;
     }
 
     @Override
