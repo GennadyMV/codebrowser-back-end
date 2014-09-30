@@ -1,3 +1,7 @@
+# Security
+security.user.name = username
+security.user.password = password
+
 # Snapshot API
 snapshot.api.host = localhost
 snapshot.api.port = 8080
