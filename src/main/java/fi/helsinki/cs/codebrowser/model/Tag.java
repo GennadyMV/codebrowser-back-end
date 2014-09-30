@@ -81,10 +81,4 @@ public class Tag extends AbstractPersistable<Long> {
 
         return name;
     }
-
-    @Override
-    public String toString() {
-
-        return name;
-    }
 }

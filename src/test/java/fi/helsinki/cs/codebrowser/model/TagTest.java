@@ -54,12 +54,4 @@ public final class TagTest {
 
         assertEquals("tagName", tag.getName());
     }
-
-    @Test
-    public void toStringIsSetCorrectly() {
-
-        tag.setName("testName");
-
-        assertEquals("testName", tag.toString());
-    }
 }
