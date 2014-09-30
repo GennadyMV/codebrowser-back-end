@@ -2,6 +2,8 @@ package fi.helsinki.cs.codebrowser.controller;
 
 import fi.helsinki.cs.codebrowser.exception.BadRequestException;
 import fi.helsinki.cs.codebrowser.model.Tag;
+import fi.helsinki.cs.codebrowser.model.User;
+import fi.helsinki.cs.codebrowser.service.AuthorizationService;
 import fi.helsinki.cs.codebrowser.service.TagService;
 
 import java.io.IOException;
@@ -26,13 +28,20 @@ public final class TagController {
     @Autowired
     private TagService tagService;
 
+    @Autowired
+    private AuthorizationService authorizationService;
+
     @RequestMapping(method = RequestMethod.GET)
     public Collection<Tag> list(@PathVariable final String instanceId,
                                 @PathVariable final String studentId,
                                 @PathVariable final String courseId,
                                 @PathVariable final String exerciseId) throws IOException {
 
-        return tagService.findAllBy(instanceId, studentId, courseId, exerciseId);
+        final User user = authorizationService.currentUser();
+
+        System.out.println("USER: " + user.getUsername());
+
+        return tagService.findAllBy(user, instanceId, studentId, courseId, exerciseId);
     }
 
     @RequestMapping(method = RequestMethod.POST)
@@ -47,7 +56,9 @@ public final class TagController {
             throw new BadRequestException();
         }
 
-        return tagService.create(instanceId, studentId, courseId, exerciseId, tag);
+        final User user = authorizationService.currentUser();
+
+        return tagService.create(user, instanceId, studentId, courseId, exerciseId, tag);
     }
 
     @RequestMapping(method = RequestMethod.DELETE, value = "{tagId}")
@@ -57,6 +68,8 @@ public final class TagController {
                       @PathVariable final String exerciseId,
                       @PathVariable final Long tagId) throws IOException {
 
-        return tagService.delete(instanceId, studentId, courseId, exerciseId, tagId);
+        final User user = authorizationService.currentUser();
+
+        return tagService.delete(user, instanceId, studentId, courseId, exerciseId, tagId);
     }
 }

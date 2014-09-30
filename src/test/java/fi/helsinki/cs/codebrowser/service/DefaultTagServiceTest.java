@@ -6,7 +6,9 @@ import fi.helsinki.cs.codebrowser.app.App;
 import fi.helsinki.cs.codebrowser.exception.BadRequestException;
 import fi.helsinki.cs.codebrowser.exception.NotFoundException;
 import fi.helsinki.cs.codebrowser.model.Tag;
+import fi.helsinki.cs.codebrowser.model.User;
 import fi.helsinki.cs.codebrowser.repository.TagRepository;
+import fi.helsinki.cs.codebrowser.repository.UserRepository;
 import fi.helsinki.cs.codebrowser.testutil.BackendServerStub;
 
 import java.io.IOException;
@@ -42,11 +44,19 @@ public final class DefaultTagServiceTest {
 
     private static final String TAG_NAME = "MyTagName";
 
+    private static final String USERNAME = "username";
+    private static final String PASSWORD = "passwordpasswordpassword";
+
     @Autowired
     private TagService tagService;
 
     @Autowired
     private TagRepository tagRepository;
+
+    @Autowired
+    private UserRepository userRepository;
+
+    private User user;
 
     @BeforeClass
     public static void setUpClass() {
@@ -58,6 +68,14 @@ public final class DefaultTagServiceTest {
     public void setUp() {
 
         tagRepository.deleteAll();
+        userRepository.deleteAll();
+
+        user = new User();
+
+        user.setUsername(USERNAME);
+        user.setPassword(PASSWORD);
+
+        user = userRepository.save(user);
     }
 
     private Tag newTag(final String name) {
@@ -71,7 +89,7 @@ public final class DefaultTagServiceTest {
     @Test
     public void findAllByReturnsEmptyListIfNothingIsFound() throws IOException {
 
-        final Collection<Tag> tags = tagService.findAllBy(INSTANCE_ID, STUDENT_ID, COURSE_ID, NO_SUCH_ID);
+        final Collection<Tag> tags = tagService.findAllBy(user, INSTANCE_ID, STUDENT_ID, COURSE_ID, NO_SUCH_ID);
 
         assertEquals(0, tags.size());
     }
@@ -81,9 +99,9 @@ public final class DefaultTagServiceTest {
 
         final Tag tag = newTag(TAG_NAME);
 
-        tagService.create(INSTANCE_ID, STUDENT_ID, COURSE_ID, EXERCISE_ID, tag);
+        tagService.create(user, INSTANCE_ID, STUDENT_ID, COURSE_ID, EXERCISE_ID, tag);
 
-        final List<Tag> tags = (List<Tag>) tagService.findAllBy(INSTANCE_ID, STUDENT_ID, COURSE_ID, EXERCISE_ID);
+        final List<Tag> tags = (List<Tag>) tagService.findAllBy(user, INSTANCE_ID, STUDENT_ID, COURSE_ID, EXERCISE_ID);
         final Tag created = tags.get(0);
 
         assertEquals(1, tags.size());
@@ -97,18 +115,18 @@ public final class DefaultTagServiceTest {
     @Test(expected = BadRequestException.class)
     public void createThrowsBadRequestExceptionOnInvalidParams() throws IOException {
 
-        tagService.create(INSTANCE_ID, STUDENT_ID, COURSE_ID, NO_SUCH_ID, newTag(TAG_NAME));
+        tagService.create(user, INSTANCE_ID, STUDENT_ID, COURSE_ID, NO_SUCH_ID, newTag(TAG_NAME));
     }
 
     @Test
     public void deleteDeletesTag() throws IOException {
 
-        final Tag created = tagService.create(INSTANCE_ID, STUDENT_ID, COURSE_ID, EXERCISE_ID, newTag(TAG_NAME));
-        tagService.create(INSTANCE_ID, STUDENT_ID, COURSE_ID, EXERCISE_ID, newTag("tag2"));
+        final Tag created = tagService.create(user, INSTANCE_ID, STUDENT_ID, COURSE_ID, EXERCISE_ID, newTag(TAG_NAME));
+        tagService.create(user, INSTANCE_ID, STUDENT_ID, COURSE_ID, EXERCISE_ID, newTag("tag2"));
 
-        tagService.delete(INSTANCE_ID, STUDENT_ID, COURSE_ID, EXERCISE_ID, created.getId());
+        tagService.delete(user, INSTANCE_ID, STUDENT_ID, COURSE_ID, EXERCISE_ID, created.getId());
 
-        final List<Tag> tags = (List<Tag>) tagService.findAllBy(INSTANCE_ID, STUDENT_ID, COURSE_ID, EXERCISE_ID);
+        final List<Tag> tags = (List<Tag>) tagService.findAllBy(user, INSTANCE_ID, STUDENT_ID, COURSE_ID, EXERCISE_ID);
 
         assertEquals(1, tags.size());
     }
@@ -116,6 +134,6 @@ public final class DefaultTagServiceTest {
     @Test(expected = NotFoundException.class)
     public void deleteThrowsNotFoundIfSpecifiedTagDoesNotExist() throws IOException {
 
-        tagService.delete(INSTANCE_ID, STUDENT_ID, COURSE_ID, EXERCISE_ID, 1L);
+        tagService.delete(user, INSTANCE_ID, STUDENT_ID, COURSE_ID, EXERCISE_ID, 1L);
     }
 }

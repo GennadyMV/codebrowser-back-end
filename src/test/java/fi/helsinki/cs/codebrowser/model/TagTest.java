@@ -54,4 +54,14 @@ public final class TagTest {
 
         assertEquals("tagName", tag.getName());
     }
+
+    @Test
+    public void canSetUser() {
+
+        final User user = new User();
+
+        tag.setUser(user);
+
+        assertEquals(user, tag.getUser());
+    }
 }

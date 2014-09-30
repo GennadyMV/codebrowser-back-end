@@ -4,6 +4,8 @@ package fi.helsinki.cs.codebrowser.controller;
 import fi.helsinki.cs.codebrowser.app.App;
 import fi.helsinki.cs.codebrowser.exception.NotFoundException;
 import fi.helsinki.cs.codebrowser.model.Tag;
+import fi.helsinki.cs.codebrowser.model.User;
+import fi.helsinki.cs.codebrowser.service.AuthorizationService;
 import fi.helsinki.cs.codebrowser.service.TagService;
 
 import java.util.ArrayList;
@@ -29,11 +31,7 @@ import static com.jayway.jsonassert.impl.matcher.IsCollectionWithSize.hasSize;
 
 import static org.hamcrest.CoreMatchers.is;
 
-import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.eq;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.verifyNoMoreInteractions;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -50,8 +48,11 @@ public final class TagControllerTest {
     private static final String COURSE = "ohpe";
     private static final String EXERCISE = "ex1";
     private static final String STUDENT = "01111";
-    private static final Long TAG = 1L;
 
+    private static final String USERNAME = "userName";
+    private static final Long USER = 2L;
+
+    private static final Long TAG = 1L;
     private static final String TAG_NAME = "tag1";
 
     private static final String URL_A = "/hy/students/01111/courses/ohpe/exercises/ex1/tags";
@@ -61,10 +62,15 @@ public final class TagControllerTest {
     @Mock
     private TagService tagService;
 
+    @Mock
+    private AuthorizationService authorizationService;
+
     @InjectMocks
     private TagController tagController;
 
     private MockMvc mockMvc;
+
+    private User user;
 
     @Before
     public void setUp() {
@@ -72,6 +78,10 @@ public final class TagControllerTest {
         MockitoAnnotations.initMocks(this);
 
         mockMvc = MockMvcBuilders.standaloneSetup(tagController).build();
+
+        user = mock(User.class);
+        when(user.getId()).thenReturn(1L);
+        when(user.getUsername()).thenReturn(USERNAME);
     }
 
     private Tag createTag(final String name) {
@@ -94,7 +104,9 @@ public final class TagControllerTest {
         tags.add(createTag("tag1"));
         tags.add(createTag("tag2"));
 
-        when(tagService.findAllBy(INSTANCE, STUDENT, COURSE, EXERCISE)).thenReturn(tags);
+
+        when(authorizationService.currentUser()).thenReturn(user);
+        when(tagService.findAllBy(user, INSTANCE, STUDENT, COURSE, EXERCISE)).thenReturn(tags);
 
         mockMvc.perform(get(URL_A))
                .andExpect(status().isOk())
@@ -103,8 +115,9 @@ public final class TagControllerTest {
                .andExpect(jsonPath("$[0].name", is(TAG_NAME)))
                .andExpect(jsonPath("$[1].name", is("tag2")));
 
-        verify(tagService).findAllBy(INSTANCE, STUDENT, COURSE, EXERCISE);
-        verifyNoMoreInteractions(tagService);
+        verify(authorizationService).currentUser();
+        verify(tagService).findAllBy(user, INSTANCE, STUDENT, COURSE, EXERCISE);
+        verifyNoMoreInteractions(tagService, authorizationService);
     }
 
     @Test
@@ -114,7 +127,8 @@ public final class TagControllerTest {
         tags.add(createTag("tag1"));
         tags.add(createTag("tag2"));
 
-        when(tagService.findAllBy(INSTANCE, STUDENT, COURSE, EXERCISE)).thenReturn(tags);
+        when(authorizationService.currentUser()).thenReturn(user);
+        when(tagService.findAllBy(user, INSTANCE, STUDENT, COURSE, EXERCISE)).thenReturn(tags);
 
         mockMvc.perform(get(URL_B))
                .andExpect(status().isOk())
@@ -123,50 +137,59 @@ public final class TagControllerTest {
                .andExpect(jsonPath("$[0].name", is(TAG_NAME)))
                .andExpect(jsonPath("$[1].name", is("tag2")));
 
-        verify(tagService).findAllBy(INSTANCE, STUDENT, COURSE, EXERCISE);
+        verify(authorizationService).currentUser();
+        verify(tagService).findAllBy(user, INSTANCE, STUDENT, COURSE, EXERCISE);
         verifyNoMoreInteractions(tagService);
     }
 
     @Test
     public void listHandlesNotFoundException() throws Exception {
 
-        when(tagService.findAllBy(INSTANCE, STUDENT, COURSE, EXERCISE)).thenThrow(new NotFoundException());
+        when(authorizationService.currentUser()).thenReturn(user);
+        when(tagService.findAllBy(user, INSTANCE, STUDENT, COURSE, EXERCISE)).thenThrow(new NotFoundException());
 
         mockMvc.perform(get(URL_A))
                .andExpect(status().isNotFound());
 
-        verify(tagService).findAllBy(INSTANCE, STUDENT, COURSE, EXERCISE);
-        verifyNoMoreInteractions(tagService);
+        verify(authorizationService).currentUser();
+        verify(tagService).findAllBy(user, INSTANCE, STUDENT, COURSE, EXERCISE);
+        verifyNoMoreInteractions(tagService, authorizationService);
     }
 
     @Test
-    public void addTagCreatesNewTagandReturnsItForUrlA() throws Exception {
+    public void addTagCreatesNewTagAndReturnsItForUrlA() throws Exception {
 
         final Tag tag = createTag("tag3");
-        when(tagService.create(eq(INSTANCE), eq(STUDENT), eq(COURSE), eq(EXERCISE), any(Tag.class))).thenReturn(tag);
+
+        when(authorizationService.currentUser()).thenReturn(user);
+        when(tagService.create(eq(user), eq(INSTANCE), eq(STUDENT), eq(COURSE), eq(EXERCISE), any(Tag.class))).thenReturn(tag);
 
         mockMvc.perform(post(URL_A).contentType(MediaType.APPLICATION_JSON)
                                    .content("{\"name\": \"tag3\"}"))
                .andExpect(status().isOk())
                .andExpect(jsonPath("$.name", is("tag3")));
 
-        verify(tagService).create(eq(INSTANCE), eq(STUDENT), eq(COURSE), eq(EXERCISE), any(Tag.class));
-        verifyNoMoreInteractions(tagService);
+        verify(authorizationService).currentUser();
+        verify(tagService).create(eq(user), eq(INSTANCE), eq(STUDENT), eq(COURSE), eq(EXERCISE), any(Tag.class));
+        verifyNoMoreInteractions(tagService, authorizationService);
     }
 
     @Test
     public void addTagCreatesNewTagAndReturnsItForUrlB() throws Exception {
 
         final Tag tag = createTag("tag3");
-        when(tagService.create(eq(INSTANCE), eq(STUDENT), eq(COURSE), eq(EXERCISE), any(Tag.class))).thenReturn(tag);
+
+        when(authorizationService.currentUser()).thenReturn(user);
+        when(tagService.create(eq(user), eq(INSTANCE), eq(STUDENT), eq(COURSE), eq(EXERCISE), any(Tag.class))).thenReturn(tag);
 
         mockMvc.perform(post(URL_B).contentType(MediaType.APPLICATION_JSON)
                                    .content("{\"name\": \"tag3\"}"))
                .andExpect(status().isOk())
                .andExpect(jsonPath("$.name", is("tag3")));
 
-        verify(tagService).create(eq(INSTANCE), eq(STUDENT), eq(COURSE), eq(EXERCISE), any(Tag.class));
-        verifyNoMoreInteractions(tagService);
+        verify(authorizationService).currentUser();
+        verify(tagService).create(eq(user), eq(INSTANCE), eq(STUDENT), eq(COURSE), eq(EXERCISE), any(Tag.class));
+        verifyNoMoreInteractions(tagService, authorizationService);
     }
 
     @Test
@@ -196,14 +219,16 @@ public final class TagControllerTest {
         tags.add(createTag("tag1"));
         tags.add(createTag("tag2"));
 
-        when(tagService.delete(INSTANCE, STUDENT, COURSE, EXERCISE, TAG)).thenReturn(tags.get(0));
+        when(authorizationService.currentUser()).thenReturn(user);
+        when(tagService.delete(user, INSTANCE, STUDENT, COURSE, EXERCISE, TAG)).thenReturn(tags.get(0));
 
         mockMvc.perform(delete(URL_C))
                .andExpect(status().isOk())
                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                .andExpect(jsonPath("$.name", is(TAG_NAME)));
 
-        verify(tagService).delete(INSTANCE, STUDENT, COURSE, EXERCISE, TAG);
-        verifyNoMoreInteractions(tagService);
+        verify(authorizationService).currentUser();
+        verify(tagService).delete(user, INSTANCE, STUDENT, COURSE, EXERCISE, TAG);
+        verifyNoMoreInteractions(tagService, authorizationService);
     }
 }

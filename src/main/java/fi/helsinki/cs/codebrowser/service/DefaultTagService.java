@@ -4,6 +4,7 @@ import fi.helsinki.cs.codebrowser.exception.BadRequestException;
 import fi.helsinki.cs.codebrowser.exception.NotFoundException;
 import fi.helsinki.cs.codebrowser.model.Exercise;
 import fi.helsinki.cs.codebrowser.model.Tag;
+import fi.helsinki.cs.codebrowser.model.User;
 import fi.helsinki.cs.codebrowser.repository.TagRepository;
 
 import java.io.IOException;
@@ -23,17 +24,19 @@ public final class DefaultTagService implements TagService {
     @Autowired
     private TagRepository tagRepository;
 
-    private Tag findBy(final String instanceId,
+    private Tag findBy(final User user,
+                       final String instanceId,
                        final String studentId,
                        final String courseId,
                        final String exerciseId,
                        final Long tagId) {
 
-        final Tag tag = tagRepository.findByInstanceIdAndStudentIdAndCourseIdAndExerciseIdAndId(instanceId,
-                                                                                                studentId,
-                                                                                                courseId,
-                                                                                                exerciseId,
-                                                                                                tagId);
+        final Tag tag = tagRepository.findByUserIdAndInstanceIdAndStudentIdAndCourseIdAndExerciseIdAndId(user.getId(),
+                                                                                                         instanceId,
+                                                                                                         studentId,
+                                                                                                         courseId,
+                                                                                                         exerciseId,
+                                                                                                         tagId);
 
         if (tag == null) {
             throw new NotFoundException();
@@ -43,21 +46,24 @@ public final class DefaultTagService implements TagService {
     }
 
     @Override
-    public Collection<Tag> findAllBy(final String instanceId,
+    public Collection<Tag> findAllBy(final User user,
+                                     final String instanceId,
                                      final String studentId,
                                      final String courseId,
                                      final String exerciseId) {
 
-        return tagRepository.findAllByInstanceIdAndStudentIdAndCourseIdAndExerciseId(instanceId,
-                                                                                     studentId,
-                                                                                     courseId,
-                                                                                     exerciseId);
+        return tagRepository.findAllByUserIdAndInstanceIdAndStudentIdAndCourseIdAndExerciseId(user.getId(),
+                                                                                              instanceId,
+                                                                                              studentId,
+                                                                                              courseId,
+                                                                                              exerciseId);
 
     }
 
     @Override
     @Transactional
-    public Tag create(final String instanceId,
+    public Tag create(final User user,
+                      final String instanceId,
                       final String studentId,
                       final String courseId,
                       final String exerciseId,
@@ -75,19 +81,21 @@ public final class DefaultTagService implements TagService {
         tag.setStudentId(studentId);
         tag.setCourseId(courseId);
         tag.setExerciseId(exerciseId);
+        tag.setUser(user);
 
         return tagRepository.save(tag);
     }
 
     @Override
     @Transactional
-    public Tag delete(final String instanceId,
+    public Tag delete(final User user,
+                      final String instanceId,
                       final String studentId,
                       final String courseId,
                       final String exerciseId,
                       final Long tagId) {
 
-        final Tag tag = findBy(instanceId, studentId, courseId, exerciseId, tagId);
+        final Tag tag = findBy(user, instanceId, studentId, courseId, exerciseId, tagId);
         tagRepository.delete(tag);
 
         return tag;
