@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 
-import org.hibernate.validator.constraints.NotEmpty;
+import org.hibernate.validator.constraints.NotBlank;
 
 import org.springframework.data.jpa.domain.AbstractPersistable;
 
@@ -29,7 +29,7 @@ public class Tag extends AbstractPersistable<Long> {
     private String exerciseId;
 
     @Column(nullable = false)
-    @NotEmpty
+    @NotBlank
     private String name;
 
     public void setInstanceId(final String instanceId) {

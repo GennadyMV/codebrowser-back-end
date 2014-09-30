@@ -10,8 +10,8 @@ import org.apache.commons.codec.binary.Base64;
 
 public final class Course {
 
-    public interface SimpleView { }
-    public interface ExercisesView extends SimpleView { }
+    public interface Default { }
+    public interface WithExercises extends Default { }
 
     private String id;
     private String name;
@@ -28,7 +28,7 @@ public final class Course {
         return id;
     }
 
-    @JsonView(SimpleView.class)
+    @JsonView(Default.class)
     public String getId() {
 
         return Base64.encodeBase64URLSafeString(name.getBytes());
@@ -39,7 +39,7 @@ public final class Course {
         this.name = name;
     }
 
-    @JsonView(SimpleView.class)
+    @JsonView(Default.class)
     public String getName() {
 
         return name;
@@ -50,7 +50,7 @@ public final class Course {
         this.exercises = exercises;
     }
 
-    @JsonView(ExercisesView.class)
+    @JsonView(WithExercises.class)
     public List<Exercise> getExercises() {
 
         if (exercises == null) {

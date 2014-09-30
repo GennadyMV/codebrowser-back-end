@@ -21,14 +21,14 @@ public final class CourseController {
     @Autowired
     private CourseService courseService;
 
-    @JsonView(Course.SimpleView.class)
+    @JsonView(Course.Default.class)
     @RequestMapping(value = "{instanceId}/courses")
     public Collection<Course> list(@PathVariable final String instanceId) throws IOException {
 
         return courseService.findAll(instanceId);
     }
 
-    @JsonView(Course.ExercisesView.class)
+    @JsonView(Course.WithExercises.class)
     @RequestMapping(value = "{instanceId}/students/{studentId}/courses")
     public Collection<Course> list(@PathVariable final String instanceId,
                                    @PathVariable final String studentId) throws IOException {
@@ -36,7 +36,7 @@ public final class CourseController {
         return courseService.findAllBy(instanceId, studentId);
     }
 
-    @JsonView(Course.ExercisesView.class)
+    @JsonView(Course.WithExercises.class)
     @RequestMapping(value = "{instanceId}/courses/{courseId}")
     public Course read(@PathVariable final String instanceId,
                        @PathVariable final String courseId) throws IOException {
@@ -44,7 +44,7 @@ public final class CourseController {
         return courseService.findBy(instanceId, courseId);
     }
 
-    @JsonView(Course.ExercisesView.class)
+    @JsonView(Course.WithExercises.class)
     @RequestMapping(value = "{instanceId}/students/{studentId}/courses/{courseId}")
     public Course read(@PathVariable final String instanceId,
                        @PathVariable final String studentId,
