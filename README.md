@@ -492,6 +492,8 @@ Returns: A single snapshots relating to the start of the URL and the provided ID
 Method: GET
 Content-Type: application/zip
 URL: /snapshots/files.zip(?level=[key|code])
+Parameters: from [snapshotId], optional, files are returned from this snapshot onwards
+            count [Integer], optional, amount of snapshots to return
 Returns: A ZIP containing all the snapshots and and their files relating to the start of the URL
 ```
 
@@ -651,3 +653,16 @@ Returns: The deleted tag
     "name": "tag1"
 }
 ```
+
+## Credits
+
+This project has been developed at the University of Helsinki’s [Department of Computer Science](http://cs.helsinki.fi/en/) by:
+
+* Kenny Heinonen ([kennyhei](https://github.com/kennyhei/))
+* Kasper Hirvikoski ([kasperhirvikoski](https://github.com/kasperhirvikoski/))
+* Leo Leppänen ([ljleppan](https://github.com/ljleppan/))
+* Joni Salmi ([josalmi](https://github.com/josalmi/))
+
+## License
+
+This project is licensed under [GPL2](LICENSE.txt).
