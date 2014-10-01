@@ -1,18 +1,32 @@
 package fi.helsinki.cs.codebrowser.app.filter;
 
+import fi.helsinki.cs.codebrowser.model.User;
+import fi.helsinki.cs.codebrowser.service.AuthenticationService;
+import fi.helsinki.cs.codebrowser.service.TokenService;
+
 import java.io.IOException;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
+
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.GenericFilterBean;
 
 @Component
-public final class SimpleCORSFilter extends GenericFilterBean {
+public class TokenBasedBasicAuthenticationFilter extends GenericFilterBean {
+
+    private static final String AUTHENTICATION_TOKEN_HEADER = "X-Authentication-Token";
+
+    @Autowired
+    private AuthenticationService authenticationService;
+
+    @Autowired
+    private TokenService tokenService;
 
     @Override
     public void doFilter(final ServletRequest request,
@@ -21,10 +35,12 @@ public final class SimpleCORSFilter extends GenericFilterBean {
                                                          ServletException {
 
         final HttpServletResponse httpResponse = (HttpServletResponse) response;
+        final User user = authenticationService.currentUser();
 
-        httpResponse.setHeader("Access-Control-Allow-Origin", "*");
-        httpResponse.setHeader("Access-Control-Allow-Headers", "Content-Type");
-        httpResponse.setHeader("Access-Control-Allow-Methods", "OPTIONS, DELETE");
+        // Return authentication token for user if authenticated
+        if (user != null) {
+            httpResponse.setHeader(AUTHENTICATION_TOKEN_HEADER, tokenService.token(user));
+        }
 
         chain.doFilter(request, response);
     }

@@ -2,10 +2,8 @@ package fi.helsinki.cs.codebrowser.service;
 
 import fi.helsinki.cs.codebrowser.model.User;
 
-import java.security.Principal;
-
 import org.springframework.beans.factory.annotation.Autowired;
-
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
@@ -18,10 +16,13 @@ public final class DefaultAuthenticationService implements AuthenticationService
     @Override
     public User currentUser() {
 
-        final Principal user = (Principal) SecurityContextHolder.getContext()
-                                                                .getAuthentication()
-                                                                .getPrincipal();
+        final Authentication authentication = SecurityContextHolder.getContext()
+                                                                   .getAuthentication();
 
-        return userService.findByUsername(user.getName());
+        if (authentication == null) {
+            return null;
+        }
+
+        return userService.findByUsername(authentication.getName());
     }
 }

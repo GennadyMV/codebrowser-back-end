@@ -19,9 +19,9 @@ public final class DefaultTokenService implements TokenService {
 
         final String token = UUID.randomUUID().toString();
 
-        // Invalidate previous token
+        // User has a token
         if (usersToTokens.containsKey(user)) {
-            tokensToUsers.remove(usersToTokens.get(user));
+            return usersToTokens.get(user);
         }
 
         tokensToUsers.put(token, user);

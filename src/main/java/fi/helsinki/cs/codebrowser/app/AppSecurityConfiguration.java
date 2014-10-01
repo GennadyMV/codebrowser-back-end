@@ -1,5 +1,7 @@
 package fi.helsinki.cs.codebrowser.app;
 
+import fi.helsinki.cs.codebrowser.app.filter.TokenBasedBasicAuthenticationFilter;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
@@ -9,6 +11,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.annotation.web.servlet.configuration.EnableWebMvcSecurity;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 
 @Configuration
 @EnableWebMvcSecurity
@@ -21,11 +24,8 @@ public class AppSecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Value("${security.basic.path}")
     private String basicPath;
 
-    @Value("${security.user.name}")
-    private String username;
-
-    @Value("${security.user.password}")
-    private String password;
+    @Autowired
+    private TokenBasedBasicAuthenticationFilter tokenBasedBasicAuthenticationFilter;
 
     @Autowired
     private UserDetailsService userDetailsService;
@@ -35,22 +35,17 @@ public class AppSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
         security.antMatcher(basicPath)
                 .authorizeRequests()
-                    .anyRequest()
-                        .authenticated()
-                .and()
+                    .anyRequest().authenticated()
+                    .and()
                 .httpBasic()
-                    .realmName(basicRealm);
+                    .realmName(basicRealm)
+                    .and()
+                .addFilterAfter(tokenBasedBasicAuthenticationFilter, BasicAuthenticationFilter.class);
     }
 
     @Override
     public void configure(final AuthenticationManagerBuilder managerBuilder) throws Exception {
 
-        managerBuilder.inMemoryAuthentication()
-                        .withUser(username)
-                        .password(password)
-                        .roles("USER")
-                        .and()
-                      .and()
-                        .userDetailsService(userDetailsService);
+        managerBuilder.userDetailsService(userDetailsService);
     }
 }

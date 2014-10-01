@@ -48,16 +48,4 @@ public final class SimpleCORSFilterTest {
 
         verify(filterChain).doFilter(servletRequest, servletResponse);
     }
-
-    @Test
-    public void canInit() {
-
-        filter.init(null);
-    }
-
-    @Test
-    public void canDestroy() {
-
-        filter.destroy();
-    }
 }
