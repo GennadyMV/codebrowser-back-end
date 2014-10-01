@@ -20,7 +20,7 @@ import static org.junit.Assert.assertNull;
 @SpringApplicationConfiguration(classes = App.class)
 @ActiveProfiles("test")
 @WebAppConfiguration
-public class DefaultUserServiceTest {
+public final class DefaultUserServiceTest {
 
     @Autowired
     private UserService userService;
