@@ -5,7 +5,7 @@ import fi.helsinki.cs.codebrowser.app.App;
 import fi.helsinki.cs.codebrowser.exception.NotFoundException;
 import fi.helsinki.cs.codebrowser.model.Tag;
 import fi.helsinki.cs.codebrowser.model.User;
-import fi.helsinki.cs.codebrowser.service.AuthorizationService;
+import fi.helsinki.cs.codebrowser.service.AuthenticationService;
 import fi.helsinki.cs.codebrowser.service.TagService;
 
 import java.util.ArrayList;
@@ -60,10 +60,10 @@ public final class TagControllerTest {
     private static final String URL_C = "/hy/students/01111/courses/ohpe/exercises/ex1/tags/1";
 
     @Mock
-    private TagService tagService;
+    private AuthenticationService authenticationService;
 
     @Mock
-    private AuthorizationService authorizationService;
+    private TagService tagService;
 
     @InjectMocks
     private TagController tagController;
@@ -105,7 +105,7 @@ public final class TagControllerTest {
         tags.add(createTag("tag2"));
 
 
-        when(authorizationService.currentUser()).thenReturn(user);
+        when(authenticationService.currentUser()).thenReturn(user);
         when(tagService.findAllBy(user, INSTANCE, STUDENT, COURSE, EXERCISE)).thenReturn(tags);
 
         mockMvc.perform(get(URL_A))
@@ -115,9 +115,9 @@ public final class TagControllerTest {
                .andExpect(jsonPath("$[0].name", is(TAG_NAME)))
                .andExpect(jsonPath("$[1].name", is("tag2")));
 
-        verify(authorizationService).currentUser();
+        verify(authenticationService).currentUser();
         verify(tagService).findAllBy(user, INSTANCE, STUDENT, COURSE, EXERCISE);
-        verifyNoMoreInteractions(tagService, authorizationService);
+        verifyNoMoreInteractions(tagService, authenticationService);
     }
 
     @Test
@@ -127,7 +127,7 @@ public final class TagControllerTest {
         tags.add(createTag("tag1"));
         tags.add(createTag("tag2"));
 
-        when(authorizationService.currentUser()).thenReturn(user);
+        when(authenticationService.currentUser()).thenReturn(user);
         when(tagService.findAllBy(user, INSTANCE, STUDENT, COURSE, EXERCISE)).thenReturn(tags);
 
         mockMvc.perform(get(URL_B))
@@ -137,7 +137,7 @@ public final class TagControllerTest {
                .andExpect(jsonPath("$[0].name", is(TAG_NAME)))
                .andExpect(jsonPath("$[1].name", is("tag2")));
 
-        verify(authorizationService).currentUser();
+        verify(authenticationService).currentUser();
         verify(tagService).findAllBy(user, INSTANCE, STUDENT, COURSE, EXERCISE);
         verifyNoMoreInteractions(tagService);
     }
@@ -145,15 +145,15 @@ public final class TagControllerTest {
     @Test
     public void listHandlesNotFoundException() throws Exception {
 
-        when(authorizationService.currentUser()).thenReturn(user);
+        when(authenticationService.currentUser()).thenReturn(user);
         when(tagService.findAllBy(user, INSTANCE, STUDENT, COURSE, EXERCISE)).thenThrow(new NotFoundException());
 
         mockMvc.perform(get(URL_A))
                .andExpect(status().isNotFound());
 
-        verify(authorizationService).currentUser();
+        verify(authenticationService).currentUser();
         verify(tagService).findAllBy(user, INSTANCE, STUDENT, COURSE, EXERCISE);
-        verifyNoMoreInteractions(tagService, authorizationService);
+        verifyNoMoreInteractions(tagService, authenticationService);
     }
 
     @Test
@@ -161,7 +161,7 @@ public final class TagControllerTest {
 
         final Tag tag = createTag("tag3");
 
-        when(authorizationService.currentUser()).thenReturn(user);
+        when(authenticationService.currentUser()).thenReturn(user);
         when(tagService.create(eq(user), eq(INSTANCE), eq(STUDENT), eq(COURSE), eq(EXERCISE), any(Tag.class))).thenReturn(tag);
 
         mockMvc.perform(post(URL_A).contentType(MediaType.APPLICATION_JSON)
@@ -169,9 +169,9 @@ public final class TagControllerTest {
                .andExpect(status().isOk())
                .andExpect(jsonPath("$.name", is("tag3")));
 
-        verify(authorizationService).currentUser();
+        verify(authenticationService).currentUser();
         verify(tagService).create(eq(user), eq(INSTANCE), eq(STUDENT), eq(COURSE), eq(EXERCISE), any(Tag.class));
-        verifyNoMoreInteractions(tagService, authorizationService);
+        verifyNoMoreInteractions(tagService, authenticationService);
     }
 
     @Test
@@ -179,7 +179,7 @@ public final class TagControllerTest {
 
         final Tag tag = createTag("tag3");
 
-        when(authorizationService.currentUser()).thenReturn(user);
+        when(authenticationService.currentUser()).thenReturn(user);
         when(tagService.create(eq(user), eq(INSTANCE), eq(STUDENT), eq(COURSE), eq(EXERCISE), any(Tag.class))).thenReturn(tag);
 
         mockMvc.perform(post(URL_B).contentType(MediaType.APPLICATION_JSON)
@@ -187,9 +187,9 @@ public final class TagControllerTest {
                .andExpect(status().isOk())
                .andExpect(jsonPath("$.name", is("tag3")));
 
-        verify(authorizationService).currentUser();
+        verify(authenticationService).currentUser();
         verify(tagService).create(eq(user), eq(INSTANCE), eq(STUDENT), eq(COURSE), eq(EXERCISE), any(Tag.class));
-        verifyNoMoreInteractions(tagService, authorizationService);
+        verifyNoMoreInteractions(tagService, authenticationService);
     }
 
     @Test
@@ -219,7 +219,7 @@ public final class TagControllerTest {
         tags.add(createTag("tag1"));
         tags.add(createTag("tag2"));
 
-        when(authorizationService.currentUser()).thenReturn(user);
+        when(authenticationService.currentUser()).thenReturn(user);
         when(tagService.delete(user, INSTANCE, STUDENT, COURSE, EXERCISE, TAG)).thenReturn(tags.get(0));
 
         mockMvc.perform(delete(URL_C))
@@ -227,8 +227,8 @@ public final class TagControllerTest {
                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                .andExpect(jsonPath("$.name", is(TAG_NAME)));
 
-        verify(authorizationService).currentUser();
+        verify(authenticationService).currentUser();
         verify(tagService).delete(user, INSTANCE, STUDENT, COURSE, EXERCISE, TAG);
-        verifyNoMoreInteractions(tagService, authorizationService);
+        verifyNoMoreInteractions(tagService, authenticationService);
     }
 }

@@ -37,16 +37,6 @@ public class Tag extends AbstractPersistable<Long> {
     @JsonIgnore
     private User user;
 
-    public void setUser(final User user) {
-
-        this.user = user;
-    }
-
-    public User getUser() {
-
-        return this.user;
-    }
-
     public void setInstanceId(final String instanceId) {
 
         this.instanceId = instanceId;
@@ -95,5 +85,15 @@ public class Tag extends AbstractPersistable<Long> {
     public String getName() {
 
         return name;
+    }
+
+    public void setUser(final User user) {
+
+        this.user = user;
+    }
+
+    public User getUser() {
+
+        return this.user;
     }
 }

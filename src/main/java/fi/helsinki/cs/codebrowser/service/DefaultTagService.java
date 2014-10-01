@@ -31,12 +31,12 @@ public final class DefaultTagService implements TagService {
                        final String exerciseId,
                        final Long tagId) {
 
-        final Tag tag = tagRepository.findByUserIdAndInstanceIdAndStudentIdAndCourseIdAndExerciseIdAndId(user.getId(),
-                                                                                                         instanceId,
-                                                                                                         studentId,
-                                                                                                         courseId,
-                                                                                                         exerciseId,
-                                                                                                         tagId);
+        final Tag tag = tagRepository.findByUserAndInstanceIdAndStudentIdAndCourseIdAndExerciseIdAndId(user,
+                                                                                                       instanceId,
+                                                                                                       studentId,
+                                                                                                       courseId,
+                                                                                                       exerciseId,
+                                                                                                       tagId);
 
         if (tag == null) {
             throw new NotFoundException();
@@ -52,12 +52,11 @@ public final class DefaultTagService implements TagService {
                                      final String courseId,
                                      final String exerciseId) {
 
-        return tagRepository.findAllByUserIdAndInstanceIdAndStudentIdAndCourseIdAndExerciseId(user.getId(),
-                                                                                              instanceId,
-                                                                                              studentId,
-                                                                                              courseId,
-                                                                                              exerciseId);
-
+        return tagRepository.findAllByUserAndInstanceIdAndStudentIdAndCourseIdAndExerciseId(user,
+                                                                                            instanceId,
+                                                                                            studentId,
+                                                                                            courseId,
+                                                                                            exerciseId);
     }
 
     @Override
@@ -77,11 +76,11 @@ public final class DefaultTagService implements TagService {
             throw new BadRequestException();
         }
 
+        tag.setUser(user);
         tag.setInstanceId(instanceId);
         tag.setStudentId(studentId);
         tag.setCourseId(courseId);
         tag.setExerciseId(exerciseId);
-        tag.setUser(user);
 
         return tagRepository.save(tag);
     }

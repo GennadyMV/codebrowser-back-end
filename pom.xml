@@ -151,7 +151,7 @@
                             <exclude>fi/helsinki/cs/codebrowser/model/Course$WithExercises.class</exclude>
                             <exclude>fi/helsinki/cs/codebrowser/repository/TagRepository.class</exclude>
                             <exclude>fi/helsinki/cs/codebrowser/repository/UserRepository.class</exclude>
-                            <exclude>fi/helsinki/cs/codebrowser/service/AuthorizationService.class</exclude>
+                            <exclude>fi/helsinki/cs/codebrowser/service/AuthenticationService.class</exclude>
                             <exclude>fi/helsinki/cs/codebrowser/service/CourseService.class</exclude>
                             <exclude>fi/helsinki/cs/codebrowser/service/ExerciseService.class</exclude>
                             <exclude>fi/helsinki/cs/codebrowser/service/InstanceService.class</exclude>
@@ -160,6 +160,7 @@
                             <exclude>fi/helsinki/cs/codebrowser/service/StudentService.class</exclude>
                             <exclude>fi/helsinki/cs/codebrowser/service/TagService.class</exclude>
                             <exclude>fi/helsinki/cs/codebrowser/service/TokenService.class</exclude>
+                            <exclude>fi/helsinki/cs/codebrowser/service/UserService.class</exclude>
                         </excludes>
                     </instrumentation>
                     <formats>

@@ -3,7 +3,7 @@ package fi.helsinki.cs.codebrowser.controller;
 import fi.helsinki.cs.codebrowser.exception.BadRequestException;
 import fi.helsinki.cs.codebrowser.model.Tag;
 import fi.helsinki.cs.codebrowser.model.User;
-import fi.helsinki.cs.codebrowser.service.AuthorizationService;
+import fi.helsinki.cs.codebrowser.service.AuthenticationService;
 import fi.helsinki.cs.codebrowser.service.TagService;
 
 import java.io.IOException;
@@ -26,10 +26,10 @@ import org.springframework.web.bind.annotation.RestController;
 public final class TagController {
 
     @Autowired
-    private TagService tagService;
+    private AuthenticationService authenticationService;
 
     @Autowired
-    private AuthorizationService authorizationService;
+    private TagService tagService;
 
     @RequestMapping(method = RequestMethod.GET)
     public Collection<Tag> list(@PathVariable final String instanceId,
@@ -37,9 +37,7 @@ public final class TagController {
                                 @PathVariable final String courseId,
                                 @PathVariable final String exerciseId) throws IOException {
 
-        final User user = authorizationService.currentUser();
-
-        System.out.println("USER: " + user.getUsername());
+        final User user = authenticationService.currentUser();
 
         return tagService.findAllBy(user, instanceId, studentId, courseId, exerciseId);
     }
@@ -56,7 +54,7 @@ public final class TagController {
             throw new BadRequestException();
         }
 
-        final User user = authorizationService.currentUser();
+        final User user = authenticationService.currentUser();
 
         return tagService.create(user, instanceId, studentId, courseId, exerciseId, tag);
     }
@@ -68,7 +66,7 @@ public final class TagController {
                       @PathVariable final String exerciseId,
                       @PathVariable final Long tagId) throws IOException {
 
-        final User user = authorizationService.currentUser();
+        final User user = authenticationService.currentUser();
 
         return tagService.delete(user, instanceId, studentId, courseId, exerciseId, tagId);
     }

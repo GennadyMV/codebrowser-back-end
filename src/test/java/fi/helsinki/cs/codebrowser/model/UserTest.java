@@ -2,12 +2,13 @@ package fi.helsinki.cs.codebrowser.model;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 
-public class UserTest {
+public final  class UserTest {
 
     private User user;
 
