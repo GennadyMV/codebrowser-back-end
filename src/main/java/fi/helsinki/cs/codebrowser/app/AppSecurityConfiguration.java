@@ -18,9 +18,6 @@ import org.springframework.security.web.authentication.www.BasicAuthenticationFi
 @EnableGlobalMethodSecurity
 public class AppSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
-    @Value("${security.basic.realm}")
-    private String basicRealm;
-
     @Value("${security.basic.path}")
     private String basicPath;
 
@@ -38,7 +35,7 @@ public class AppSecurityConfiguration extends WebSecurityConfigurerAdapter {
                     .anyRequest().authenticated()
                     .and()
                 .httpBasic()
-                    .realmName(basicRealm)
+                    .authenticationEntryPoint(new TokenBasedBasicAuthenticationEntryPoint())
                     .and()
                 .addFilterAfter(tokenBasedBasicAuthenticationFilter, BasicAuthenticationFilter.class);
     }
