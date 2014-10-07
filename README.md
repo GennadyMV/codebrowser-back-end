@@ -20,7 +20,7 @@ Build the project with `mvn package`.
 
 ## Configuration
 
-You need to configure a few properties to get the API running — mainly setting the credentials for the [TMC Snapshot API](https://github.com/rage-research/tmc-snapshot-api/), [Test My Code API](https://github.com/testmycode/tmc-server/) user credentials and the credentials for the service itself.
+You need to configure a few properties to get the API running — mainly setting the credentials for the [TMC Snapshot API](https://github.com/rage/tmc-snapshot-api/), [Test My Code API](https://github.com/testmycode/tmc-server/) user credentials and the credentials for the service itself.
 
 ### Development
 
