@@ -37,6 +37,8 @@ You can also set additional properties as declared in the `.properties`-files.
 
 ## REST API
 
+The REST API provides mostly JSON-responses as `application/json`. Files are returned as `text/plain` or `application/zip`. The API uses basic access for authentication. A successfully authenticated request returns a token in the `X-Authentication-Token`-header. This token can be used as an access token, eliminating the need to pass a username and password on all requests. An access token behaves as a password for an empty username with Basic authentication.
+
 ### IDs
 
 All IDs in the API are specified as strings. The ID for an instance is its name. The ID for a student is a URL-safe Base64-encoded string from a username, which matches to the username specified in TMC. The ID for a course and exercise is a URL-safe Base64-encoded string from a course and exercise name, which also match to their corresponding names in TMC. The ID for a snapshot is a string concatenated from the timestamp and nanotime for the snapshot. The ID for a file is a URL-safe Base64-encoded string concatenated from a file path, snapshot timestamp and nanotime.
