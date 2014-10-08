@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.GenericFilterBean;
 
 @Component
-public final class SimpleCORSFilter extends GenericFilterBean {
+public final class SimpleCorsFilter extends GenericFilterBean {
 
     @Override
     public void doFilter(final ServletRequest request,

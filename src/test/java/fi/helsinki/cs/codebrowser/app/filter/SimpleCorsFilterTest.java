@@ -13,13 +13,13 @@ import org.junit.Test;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
-public final class SimpleCORSFilterTest {
+public final class SimpleCorsFilterTest {
 
     private ServletRequest servletRequest;
     private HttpServletResponse servletResponse;
     private FilterChain filterChain;
 
-    private SimpleCORSFilter filter;
+    private SimpleCorsFilter filter;
 
     @Before
     public void setUp() {
@@ -28,7 +28,7 @@ public final class SimpleCORSFilterTest {
         servletResponse = mock(HttpServletResponse.class);
         filterChain = mock(FilterChain.class);
 
-        filter = new SimpleCORSFilter();
+        filter = new SimpleCorsFilter();
     }
 
     @Test
