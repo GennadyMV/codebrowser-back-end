@@ -16,10 +16,10 @@ public class DefaultEventService implements EventService {
     private SnapshotApiRestTemplate snapshotRestTemplate;
 
     @Override
-    public List<Event> findAll(final String instanceId,
-                                final String studentId,
-                                final String courseId,
-                                final String exerciseId) {
+    public List<Event> findAllBy(final String instanceId,
+                                 final String studentId,
+                                 final String courseId,
+                                 final String exerciseId) {
 
         return Arrays.asList(snapshotRestTemplate.getForObject("{instanceId}/participants/{studentId}/courses/{courseId}/exercises/{exerciseId}/events",
                                                                Event[].class,
@@ -30,11 +30,11 @@ public class DefaultEventService implements EventService {
     }
 
     @Override
-    public Event find(final String instanceId,
-                      final String studentId,
-                      final String courseId,
-                      final String exerciseId,
-                      final String eventId) {
+    public Event findBy(final String instanceId,
+                        final String studentId,
+                        final String courseId,
+                        final String exerciseId,
+                        final String eventId) {
 
         return snapshotRestTemplate.getForObject("{instanceId}/participants/{studentId}/courses/{courseId}/exercises/{exerciseId}/events/{eventId}",
                                                  Event.class,

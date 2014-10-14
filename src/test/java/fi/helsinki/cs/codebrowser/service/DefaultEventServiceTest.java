@@ -49,7 +49,7 @@ public final class DefaultEventServiceTest {
     @Test
     public void findAllRetrievesJsonAndParsesItToEvents() throws IOException {
 
-        final List<Event> events = eventService.findAll(INSTANCE_ID, STUDENT_ID, COURSE_ID, EXERCISE_ID);
+        final List<Event> events = eventService.findAllBy(INSTANCE_ID, STUDENT_ID, COURSE_ID, EXERCISE_ID);
 
         assertEquals(3, events.size());
         assertEquals(EVENT_ID, events.get(2).getId());
@@ -58,7 +58,7 @@ public final class DefaultEventServiceTest {
     @Test
     public void findRetrievesJsonAndParsesItToCourse() throws IOException {
 
-        final Event event = eventService.find(INSTANCE_ID, STUDENT_ID, COURSE_ID, EXERCISE_ID, EVENT_ID);
+        final Event event = eventService.findBy(INSTANCE_ID, STUDENT_ID, COURSE_ID, EXERCISE_ID, EVENT_ID);
 
         assertEquals(EVENT_ID, event.getId());
         assertEquals(new Date(Long.parseLong(EVENT_TIMESTAMP)), event.getTimestamp());

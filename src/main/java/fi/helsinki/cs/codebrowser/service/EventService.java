@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface EventService {
 
-    List<Event> findAll(String instanceId, String studentId, String courseId, String exerciseId);
-    Event find(String instanceId, String studentId, String courseId, String exerciseId, String eventId);
+    List<Event> findAllBy(String instanceId, String studentId, String courseId, String exerciseId);
+    Event findBy(String instanceId, String studentId, String courseId, String exerciseId, String eventId);
 
 }

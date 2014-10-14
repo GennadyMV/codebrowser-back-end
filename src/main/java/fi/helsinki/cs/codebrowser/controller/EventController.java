@@ -27,7 +27,7 @@ public final class EventController {
                             @PathVariable final String courseId,
                             @PathVariable final String exerciseId) throws IOException {
 
-        return eventService.findAll(instanceId, studentId, courseId, exerciseId);
+        return eventService.findAllBy(instanceId, studentId, courseId, exerciseId);
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "{eventId}")
@@ -37,6 +37,6 @@ public final class EventController {
                       @PathVariable final String exerciseId,
                       @PathVariable final String eventId) throws IOException {
 
-        return eventService.find(instanceId, studentId, courseId, exerciseId, eventId);
+        return eventService.findBy(instanceId, studentId, courseId, exerciseId, eventId);
     }
 }
