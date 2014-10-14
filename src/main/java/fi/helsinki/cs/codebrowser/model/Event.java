@@ -29,4 +29,24 @@ public final class Event {
 
         return metadata;
     }
+
+    public void setId(final String id) {
+
+        this.id = id;
+    }
+
+    public void setEventType(final String eventType) {
+
+        this.eventType = eventType;
+    }
+
+    public void setMetadata(final Map<String, Object> metadata) {
+
+        this.metadata = metadata;
+    }
+
+    public void setTimestamp(final Date timestamp) {
+
+        this.timestamp = timestamp;
+    }
 }
