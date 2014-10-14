@@ -2,13 +2,11 @@ package fi.helsinki.cs.codebrowser.service;
 
 import fi.helsinki.cs.codebrowser.model.Role;
 import fi.helsinki.cs.codebrowser.model.User;
-import fi.helsinki.cs.codebrowser.repository.UserRepository;
 
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,22 +32,6 @@ public final class DefaultUserDetailsService implements UserDetailsService {
 
     @Autowired
     private UserService userService;
-
-    // TODO: Remove this
-    @Autowired
-    private UserRepository userRepository;
-
-    @PostConstruct
-    private void initialise() {
-
-        final User user = new User();
-
-        user.setUsername("username");
-        user.setPassword("passwordpasswordpassword");
-
-        userRepository.save(user);
-    }
-    // TODO: Remove this
 
     private String getToken() {
 
