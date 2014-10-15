@@ -10,29 +10,14 @@ public final class Event {
     private Date timestamp;
     private Map<String, Object> metadata;
 
-    public String getId() {
-
-        return id;
-    }
-
-    public String getEventType() {
-
-        return eventType;
-    }
-
-    public Date getTimestamp() {
-
-        return timestamp;
-    }
-
-    public Map<String, Object> getMetadata() {
-
-        return metadata;
-    }
-
     public void setId(final String id) {
 
         this.id = id;
+    }
+
+    public String getId() {
+
+        return id;
     }
 
     public void setEventType(final String eventType) {
@@ -40,13 +25,28 @@ public final class Event {
         this.eventType = eventType;
     }
 
-    public void setMetadata(final Map<String, Object> metadata) {
+    public String getEventType() {
 
-        this.metadata = metadata;
+        return eventType;
     }
 
     public void setTimestamp(final Date timestamp) {
 
         this.timestamp = timestamp;
+    }
+
+    public Date getTimestamp() {
+
+        return timestamp;
+    }
+
+    public void setMetadata(final Map<String, Object> metadata) {
+
+        this.metadata = metadata;
+    }
+
+    public Map<String, Object> getMetadata() {
+
+        return metadata;
     }
 }

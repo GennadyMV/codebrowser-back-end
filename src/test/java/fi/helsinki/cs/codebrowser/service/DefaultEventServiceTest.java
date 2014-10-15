@@ -23,7 +23,6 @@ import org.springframework.test.context.web.WebAppConfiguration;
 
 import static fi.helsinki.cs.codebrowser.testutil.BackendServerStub.*;
 
-
 import static org.junit.Assert.assertEquals;
 
 @RunWith(SpringJUnit4ClassRunner.class)

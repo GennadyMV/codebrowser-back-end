@@ -10,7 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class DefaultEventService implements EventService {
+public final class DefaultEventService implements EventService {
 
     @Autowired
     private SnapshotApiRestTemplate snapshotRestTemplate;
