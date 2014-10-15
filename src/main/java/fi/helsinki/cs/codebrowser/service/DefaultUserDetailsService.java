@@ -16,6 +16,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.codec.Base64;
 import org.springframework.stereotype.Service;
 
@@ -23,6 +24,8 @@ import org.springframework.stereotype.Service;
 public final class DefaultUserDetailsService implements UserDetailsService {
 
     private static final String AUTHORISATION_HEADER = "Authorization";
+
+    private final BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
     @Autowired
     private HttpServletRequest request;
@@ -79,7 +82,7 @@ public final class DefaultUserDetailsService implements UserDetailsService {
             throw new BadCredentialsException("Invalid token.");
         }
 
-        return getUserDetails(user, token);
+        return getUserDetails(user, encoder.encode(token));
     }
 
     @Override
