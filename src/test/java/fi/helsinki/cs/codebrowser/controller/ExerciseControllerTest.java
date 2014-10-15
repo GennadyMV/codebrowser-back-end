@@ -67,7 +67,7 @@ public final class ExerciseControllerTest {
         mockMvc = MockMvcBuilders.standaloneSetup(exerciseController).build();
     }
 
-    private List<Exercise> buildExeciseList() {
+    private List<Exercise> buildExerciseList() {
 
         final List<Exercise> exercises = new ArrayList<>();
 
@@ -85,7 +85,7 @@ public final class ExerciseControllerTest {
     @Test
     public void listShouldReturnExercises() throws Exception {
 
-        final List<Exercise> exercises = buildExeciseList();
+        final List<Exercise> exercises = buildExerciseList();
 
         when(exerciseService.findAllBy(INSTANCE, COURSE)).thenReturn(exercises);
 
@@ -103,7 +103,7 @@ public final class ExerciseControllerTest {
     @Test
     public void listForStudentShouldReturnExercises() throws Exception {
 
-        final List<Exercise> exercises = buildExeciseList();
+        final List<Exercise> exercises = buildExerciseList();
 
         when(exerciseService.findAllBy(INSTANCE, STUDENT, COURSE)).thenReturn(exercises);
 
