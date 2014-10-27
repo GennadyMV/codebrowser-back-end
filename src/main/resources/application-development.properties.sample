@@ -11,3 +11,4 @@ tmc.api.password = password
 
 # Database
 spring.jpa.show-sql = true
+spring.datasource.data = classpath:data-development.sql
