@@ -38,7 +38,9 @@ public class AppSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .httpBasic()
                     .authenticationEntryPoint(new TokenBasedBasicAuthenticationEntryPoint())
                     .and()
-                .addFilterAfter(tokenBasedBasicAuthenticationFilter, BasicAuthenticationFilter.class);
+                .addFilterAfter(tokenBasedBasicAuthenticationFilter, BasicAuthenticationFilter.class)
+                .csrf()
+                    .disable();
     }
 
     @Override
