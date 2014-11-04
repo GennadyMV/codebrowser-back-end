@@ -3,44 +3,44 @@ package fi.helsinki.cs.codebrowser.model;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 
-public final  class UserTest {
-
-    private User user;
-
-    @Before
-    public void setUp() {
-
-        user = new User();
-    }
+public final class UserTest {
 
     @Test
-    public void canSetUsername() {
+    public void casSetUsername() {
 
-        user.setUsername("asd123");
+        final User user = new User();
+        user.setUsername("username");
 
-        assertEquals("asd123", user.getUsername());
+        assertEquals(user.getUsername(), "username");
     }
 
     @Test
     public void canSetPassword() {
 
-        user.setPassword("fgh456");
+        final User user = new User();
+        user.setPassword("password");
 
-        assertEquals("fgh456", user.getPassword());
+        assertEquals(user.getPassword(), "password");
     }
 
     @Test
     public void canSetRoles() {
 
+        final User user = new User();
+
+        final Role role = new Role();
+        role.setRolename("user");
+
         final List<Role> roles = new ArrayList<>();
+        roles.add(role);
 
         user.setRoles(roles);
 
-        assertEquals(roles, user.getRoles());
+        assertEquals(1, user.getRoles().size());
+        assertEquals(user.getRoles().get(0).getRolename(), "user");
     }
 }
