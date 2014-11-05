@@ -69,8 +69,8 @@ public final class TokenBasedBasicAuthenticationFilterTest {
 
         filter.doFilter(new MockHttpServletRequest(), response, new MockFilterChain());
 
-        userRepository.delete(user);
-
         assertEquals(response.getHeader(AUTHENTICATION_TOKEN_HEADER), tokenService.token(user));
+
+        userRepository.delete(user);
     }
 }
