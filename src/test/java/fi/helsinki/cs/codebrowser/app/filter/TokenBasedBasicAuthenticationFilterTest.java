@@ -1,15 +1,11 @@
 package fi.helsinki.cs.codebrowser.app.filter;
 
 import fi.helsinki.cs.codebrowser.app.App;
-import fi.helsinki.cs.codebrowser.model.Role;
 import fi.helsinki.cs.codebrowser.model.User;
 import fi.helsinki.cs.codebrowser.repository.UserRepository;
 import fi.helsinki.cs.codebrowser.service.TokenService;
 
 import java.io.IOException;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.servlet.ServletException;
 
@@ -63,14 +59,6 @@ public final class TokenBasedBasicAuthenticationFilterTest {
         User user = new User();
         user.setUsername("username");
         user.setPassword("passwordpassword");
-
-        final Role role = new Role();
-        role.setRolename("user");
-
-        final List<Role> roles = new ArrayList<>();
-        roles.add(role);
-
-        user.setRoles(roles);
 
         user = userRepository.save(user);
 
