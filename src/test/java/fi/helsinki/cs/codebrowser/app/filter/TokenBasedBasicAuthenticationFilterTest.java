@@ -22,6 +22,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
+import org.springframework.transaction.annotation.Transactional;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
@@ -30,7 +31,7 @@ import static org.junit.Assert.assertNull;
 @SpringApplicationConfiguration(classes = App.class)
 @WebAppConfiguration
 @ActiveProfiles("test")
-public final class TokenBasedBasicAuthenticationFilterTest {
+public class TokenBasedBasicAuthenticationFilterTest {
 
     private static final String AUTHENTICATION_TOKEN_HEADER = "X-Authentication-Token";
 
@@ -54,6 +55,7 @@ public final class TokenBasedBasicAuthenticationFilterTest {
     }
 
     @Test
+    @Transactional
     public void shouldReturnTokenIfAuthorized() throws IOException, ServletException {
 
         User user = new User();
