@@ -33,8 +33,8 @@ import static org.junit.Assert.assertEquals;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = App.class)
-@ActiveProfiles("test")
 @WebAppConfiguration
+@ActiveProfiles("test")
 public final class DefaultTagServiceTest {
 
     @ClassRule

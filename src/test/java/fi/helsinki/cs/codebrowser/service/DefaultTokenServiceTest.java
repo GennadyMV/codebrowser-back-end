@@ -19,8 +19,8 @@ import static org.junit.Assert.assertTrue;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = App.class)
-@ActiveProfiles("test")
 @WebAppConfiguration
+@ActiveProfiles("test")
 public final class DefaultTokenServiceTest {
 
     @Autowired

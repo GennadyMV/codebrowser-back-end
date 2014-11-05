@@ -18,8 +18,8 @@ import static org.junit.Assert.assertNull;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = App.class)
-@ActiveProfiles("test")
 @WebAppConfiguration
+@ActiveProfiles("test")
 public final class DefaultUserServiceTest {
 
     @Autowired
