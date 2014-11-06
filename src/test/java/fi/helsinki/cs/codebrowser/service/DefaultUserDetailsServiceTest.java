@@ -5,6 +5,7 @@ import fi.helsinki.cs.codebrowser.model.Role;
 import fi.helsinki.cs.codebrowser.model.User;
 import fi.helsinki.cs.codebrowser.repository.UserRepository;
 
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -19,6 +20,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.mock.web.MockHttpServletRequest;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -90,6 +92,21 @@ public final class DefaultUserDetailsServiceTest {
                                 .iterator()
                                 .next()
                                 .getAuthority(), "user");
+    }
+
+    @Test(expected = BadCredentialsException.class)
+    public void shouldThrowExceptionOnInvalidToken() throws UnsupportedEncodingException {
+
+        final MockHttpServletRequest request = new MockHttpServletRequest();
+
+        final String token = ":invalid-token";
+        final String base64Token = Base64.encodeBase64String(token.getBytes());
+
+        request.addHeader(AUTHORISATION_HEADER, "Basic " + base64Token);
+
+        RequestContextHolder.setRequestAttributes(new ServletRequestAttributes(request));
+
+        userDetailsService.loadUserByUsername("");
     }
 
     @Test
