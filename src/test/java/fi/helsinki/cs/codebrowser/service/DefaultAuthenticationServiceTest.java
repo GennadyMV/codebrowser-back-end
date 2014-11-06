@@ -5,6 +5,7 @@ import fi.helsinki.cs.codebrowser.model.User;
 import fi.helsinki.cs.codebrowser.repository.UserRepository;
 
 import java.io.IOException;
+import java.util.UUID;
 
 import javax.servlet.ServletException;
 
@@ -18,7 +19,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
-import org.springframework.transaction.annotation.Transactional;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
@@ -42,19 +42,18 @@ public class DefaultAuthenticationServiceTest {
     }
 
     @Test
-    @Transactional
     public void shouldReturnCurrentUserIfAuthorized() throws IOException, ServletException {
 
         User user = new User();
-        user.setUsername("username");
+        user.setUsername(UUID.randomUUID().toString());
         user.setPassword("passwordpassword");
 
         user = userRepository.save(user);
 
         SecurityContextHolder.getContext()
-                             .setAuthentication(new UsernamePasswordAuthenticationToken("username", "passwordpassword"));
+                             .setAuthentication(new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword()));
 
-        assertEquals(authenticationService.currentUser().getUsername(), "username");
+        assertEquals(authenticationService.currentUser().getUsername(), user.getUsername());
 
         userRepository.delete(user);
     }

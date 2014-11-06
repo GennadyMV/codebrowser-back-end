@@ -7,6 +7,7 @@ import fi.helsinki.cs.codebrowser.repository.UserRepository;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import org.apache.commons.codec.binary.Base64;
 
@@ -52,7 +53,7 @@ public final class DefaultUserDetailsServiceTest {
     public void setUp() {
 
         user = new User();
-        user.setUsername("username");
+        user.setUsername(UUID.randomUUID().toString());
         user.setPassword("passwordpassword");
 
         final Role role = new Role();
@@ -76,15 +77,15 @@ public final class DefaultUserDetailsServiceTest {
     public void shouldThrowExceptionOnNonExistentUsername() {
 
         userRepository.delete(user);
-        userDetailsService.loadUserByUsername("username");
+        userDetailsService.loadUserByUsername(user.getUsername());
     }
 
     @Test
     public void shouldLoadUserByUsername() {
 
-        final UserDetails userDetails = userDetailsService.loadUserByUsername("username");
+        final UserDetails userDetails = userDetailsService.loadUserByUsername(user.getUsername());
 
-        assertEquals(userDetails.getUsername(), "username");
+        assertEquals(userDetails.getUsername(), user.getUsername());
         assertEquals(userDetails.getAuthorities()
                                 .iterator()
                                 .next()
@@ -105,7 +106,7 @@ public final class DefaultUserDetailsServiceTest {
 
         final UserDetails userDetails = userDetailsService.loadUserByUsername("");
 
-        assertEquals(userDetails.getUsername(), "username");
+        assertEquals(userDetails.getUsername(), user.getUsername());
         assertEquals(userDetails.getAuthorities()
                                 .iterator()
                                 .next()
