@@ -5,5 +5,6 @@ import fi.helsinki.cs.codebrowser.model.User;
 public interface AuthenticationService {
 
     User currentUser();
+    void invalidate();
 
 }

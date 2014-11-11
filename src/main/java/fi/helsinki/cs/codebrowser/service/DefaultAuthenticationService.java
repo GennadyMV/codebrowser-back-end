@@ -25,4 +25,9 @@ public final class DefaultAuthenticationService implements AuthenticationService
 
         return userService.findByUsername(authentication.getName());
     }
+
+    @Override
+    public void invalidate() {
+        SecurityContextHolder.clearContext();
+    }
 }

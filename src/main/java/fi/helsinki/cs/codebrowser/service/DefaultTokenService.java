@@ -35,4 +35,17 @@ public final class DefaultTokenService implements TokenService {
 
         return tokensToUsers.get(token);
     }
+
+    @Override
+    public void invalidate(final User user) {
+
+        if (!usersToTokens.containsKey(user)) {
+            return;
+        }
+
+        final String token = usersToTokens.get(user);
+
+        tokensToUsers.remove(token);
+        usersToTokens.remove(user);
+    }
 }

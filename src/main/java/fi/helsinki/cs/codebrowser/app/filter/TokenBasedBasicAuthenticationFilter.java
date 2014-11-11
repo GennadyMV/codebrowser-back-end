@@ -10,6 +10,7 @@ import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
+import javax.servlet.http.HttpServletRequest;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -34,8 +35,18 @@ public class TokenBasedBasicAuthenticationFilter extends GenericFilterBean {
                          final FilterChain chain) throws IOException,
                                                          ServletException {
 
+        final HttpServletRequest httpRequest = (HttpServletRequest) request;
         final HttpServletResponse httpResponse = (HttpServletResponse) response;
-        final User user = authenticationService.currentUser();
+
+        User user = authenticationService.currentUser();
+
+        if (httpRequest.getHeader(AUTHENTICATION_TOKEN_HEADER) != null &&
+            httpRequest.getHeader(AUTHENTICATION_TOKEN_HEADER).equals("invalidate")) {
+
+            tokenService.invalidate(user);
+            authenticationService.invalidate();
+            user = authenticationService.currentUser();
+        }
 
         // Return authentication token for user if authenticated
         if (user != null) {
