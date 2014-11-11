@@ -28,6 +28,7 @@ public final class DefaultAuthenticationService implements AuthenticationService
 
     @Override
     public void invalidate() {
+
         SecurityContextHolder.clearContext();
     }
 }

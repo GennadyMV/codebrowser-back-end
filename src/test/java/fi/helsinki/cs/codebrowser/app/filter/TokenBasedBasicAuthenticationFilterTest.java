@@ -74,4 +74,33 @@ public class TokenBasedBasicAuthenticationFilterTest {
 
         userRepository.delete(user);
     }
+
+    @Test
+    public void shouldInvalidateTokenWhenRequested() throws IOException, ServletException {
+
+        User user = new User();
+        user.setUsername(UUID.randomUUID().toString());
+        user.setPassword("passwordpassword");
+
+        user = userRepository.save(user);
+
+        SecurityContextHolder.getContext()
+                             .setAuthentication(new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword()));
+
+        final MockHttpServletRequest request = new MockHttpServletRequest();
+        final MockHttpServletResponse response = new MockHttpServletResponse();
+
+        filter.doFilter(request, response, new MockFilterChain());
+
+        assertEquals(response.getHeader(AUTHENTICATION_TOKEN_HEADER), tokenService.token(user));
+
+        response.reset();
+        request.addHeader(AUTHENTICATION_TOKEN_HEADER, "invalidate");
+
+        filter.doFilter(request, response, new MockFilterChain());
+
+        assertNull(response.getHeader(AUTHENTICATION_TOKEN_HEADER));
+
+        userRepository.delete(user);
+    }
 }

@@ -39,10 +39,6 @@ public final class DefaultTokenService implements TokenService {
     @Override
     public void invalidate(final User user) {
 
-        if (!usersToTokens.containsKey(user)) {
-            return;
-        }
-
         final String token = usersToTokens.get(user);
 
         tokensToUsers.remove(token);
