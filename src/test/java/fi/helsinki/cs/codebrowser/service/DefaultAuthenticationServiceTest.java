@@ -57,4 +57,25 @@ public class DefaultAuthenticationServiceTest {
 
         userRepository.delete(user);
     }
+
+    @Test
+    public void shouldReturnNothingAfterInvalidation() {
+
+        User user = new User();
+        user.setUsername(UUID.randomUUID().toString());
+        user.setPassword("passwordpassword");
+
+        user = userRepository.save(user);
+
+        SecurityContextHolder.getContext()
+                             .setAuthentication(new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword()));
+
+        assertEquals(authenticationService.currentUser(), user);
+
+        authenticationService.invalidate();
+
+        assertNull(authenticationService.currentUser());
+
+        userRepository.delete(user);
+    }
 }
