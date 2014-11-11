@@ -14,7 +14,9 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -73,5 +75,18 @@ public final class DefaultTokenServiceTest {
         final User returnedUser = tokenService.authenticate(token);
 
         assertEquals(user, returnedUser);
+    }
+
+    @Test
+    public void tokenIsInvalidated() {
+
+        final String token = tokenService.token(user);
+        tokenService.invalidate(user);
+
+        final User returnedUser = tokenService.authenticate(token);
+        final String returnedToken = tokenService.token(user);
+
+        assertNull(returnedUser);
+        assertFalse(token.equals(returnedToken));
     }
 }

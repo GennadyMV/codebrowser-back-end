@@ -23,7 +23,7 @@ public final class SimpleCorsFilter extends GenericFilterBean {
         final HttpServletResponse httpResponse = (HttpServletResponse) response;
 
         httpResponse.setHeader("Access-Control-Allow-Origin", "*");
-        httpResponse.setHeader("Access-Control-Allow-Headers", "Authorization, Content-Type");
+        httpResponse.setHeader("Access-Control-Allow-Headers", "Authorization, Content-Type, X-Authentication-Token");
         httpResponse.setHeader("Access-Control-Allow-Methods", "OPTIONS, DELETE");
         httpResponse.setHeader("Access-Control-Expose-Headers", "X-Authentication-Token");
 
